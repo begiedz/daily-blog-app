@@ -1,0 +1,17 @@
+﻿# Pliki Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+*.log
+*.tlog
+*.pdb
+*.ilk
+
+# Foldery kompilacji
+bin/
+obj/
+TestResults/
+
+# Konfiguracja aplikacji (opcjonalnie)
+appsettings.Development.json
