@@ -28,13 +28,12 @@ export default function Layout(props: LayoutProps) {
     <div className="drawer lg:drawer-open">
 
       <input id="drawer" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content flex flex-col items-center ">
-        <Header />
 
-        <main>
+      <div className="drawer-content">
+        <Header />
+        <main className="p-8 lg:p-4">
           {props.children}
         </main>
-
       </div>
 
       <nav className="drawer-side">
@@ -50,6 +49,7 @@ export default function Layout(props: LayoutProps) {
           <Footer />
         </div>
       </nav>
+
     </div>
   )
 }
