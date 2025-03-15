@@ -31,7 +31,7 @@ export default function Layout(props: LayoutProps) {
 
       <div className="drawer-content">
         <Header />
-        <main className="p-8 lg:p-4">
+        <main className="flex flex-col items-center lg:justify-center lg:h-full p-8 lg:p-4">
           {props.children}
         </main>
       </div>
