@@ -1,11 +1,11 @@
 import About from './pages/About'
-import Start from './pages/Start'
+import Home from './pages/Home'
 
 const appRoutes = [
   {
-    name: 'Start',
-    path: '/start',
-    pageElement: <Start />
+    name: 'Home',
+    path: '/',
+    pageElement: <Home />
   },
   {
     name: 'About',
