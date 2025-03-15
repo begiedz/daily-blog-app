@@ -3,12 +3,12 @@ import Home from './pages/Home'
 
 const appRoutes = [
   {
-    name: 'Home',
+    value: 'Home',
     path: '/',
     pageElement: <Home />
   },
   {
-    name: 'About',
+    value: 'About',
     path: '/about',
     pageElement: <About />
   }
