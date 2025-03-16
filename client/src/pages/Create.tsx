@@ -2,7 +2,7 @@ const Create = () => {
   return (
     <>
       <h2 className="text-3xl font-bold mb-4">Create New Post</h2>
-      <form className="fieldset w-md bg-base-200 border border-base-300 p-8 rounded-box">
+      <form className="fieldset w-md max-w-full bg-base-200 border border-base-300 p-8 rounded-box">
 
         <label className="fieldset-label">Title</label>
         <input type="text" className="input" placeholder="My post" />
