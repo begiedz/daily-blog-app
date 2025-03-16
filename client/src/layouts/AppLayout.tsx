@@ -3,8 +3,9 @@ import AppRoutes from "../AppRoutes"
 import Logo from "../components/Logo"
 import Header from "../components/layout/Header";
 import Footer from "../components/layout/Footer";
+import { useState } from "react";
 
-export type LayoutProps = {
+export type TLayoutProps = {
   children: React.ReactNode;
 }
 
@@ -12,22 +13,32 @@ interface IRouteLink {
   to: string
   value: string
   className?: string
+  onClick?: () => void
 }
 
-const RouteLink = ({ to, value, className }: IRouteLink) => {
+
+const RouteLink = ({ to, value, className, onClick }: IRouteLink) => {
   const resolvedPath = useResolvedPath(to);
   const isCurrentUrl = useMatch({ path: resolvedPath.pathname, end: true })
 
   return (
-    <Link to={to} className={` ${className} ${isCurrentUrl && `bg-base-300`}`}>{value}</Link>
+    <Link to={to} className={[className, isCurrentUrl && "bg-base-300"].filter(Boolean).join(" ")} onClick={() => onClick && onClick()}>{value}</Link>
   )
 }
 
-export default function Layout(props: LayoutProps) {
-  return (
-    <div className="drawer lg:drawer-open">
+export default function Layout(props: TLayoutProps) {
+  const [isChecked, setIsChecked] = useState(false);
 
-      <input id="drawer" type="checkbox" className="drawer-toggle" />
+  return (
+    <aside className="drawer lg:drawer-open">
+
+      <input
+        id="drawer"
+        type="checkbox"
+        className="drawer-toggle"
+        onChange={(event) => setIsChecked(event.currentTarget.checked)}
+        checked={isChecked}
+      />
 
       <div className="drawer-content">
         <Header />
@@ -43,13 +54,13 @@ export default function Layout(props: LayoutProps) {
           <ul className="flex flex-col gap-1 flex-1">
             {AppRoutes.map((item, index) => (
               <li key={index}>
-                <RouteLink to={item.path} value={item.value} />
+                <RouteLink to={item.path} value={item.value} onClick={() => setIsChecked(false)} />
               </li>))}
           </ul>
           <Footer />
         </div>
       </nav>
 
-    </div>
+    </aside>
   )
 }
