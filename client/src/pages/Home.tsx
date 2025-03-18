@@ -21,6 +21,8 @@ const Home = () => {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    const date = new Date()
+    console.log(date.toISOString());
     fetchData().then(() => setLoading(false))
   }, [])
 
@@ -40,6 +42,7 @@ const Home = () => {
                   <div className="text-xs uppercase font-semibold opacity-60">{post.subject}</div>
                 </div>
                 <p className="list-col-wrap text-xs line-clamp-2">{post.snippet}</p>
+                <p className="text-xs opacity-60">{new Date(post.date).toLocaleDateString()}</p>
               </Link>
             </li>
           ))}
