@@ -6,6 +6,8 @@ import { postsStore } from "../store"
 
 import axios from "axios"
 
+import FadeLoader from "react-spinners/FadeLoader";
+
 const fetchData = async () => {
   try {
     const response = await axios.get('/test-api/posts.json')
@@ -30,7 +32,7 @@ const Home = () => {
     <>
       <h2 className="text-3xl font-bold mb-4">Latest Posts:</h2>
       {loading ? (
-        <p>Loading...</p>
+        <FadeLoader />
       ) : posts.length > 0 ? (
         <ul className="list bg-base-100 rounded-box shadow-md max-w-4xl">
           {posts.map((post) => (
