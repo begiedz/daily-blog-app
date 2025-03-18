@@ -3,6 +3,6 @@ export interface IPost {
   title: string
   subject: string
   snippet: string
-  date: number
-  img: string
+  date: Date
+  img?: string
 }
