@@ -1,32 +1,16 @@
-import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 import { useStore } from "@tanstack/react-store"
-import { postsStore } from "../store"
-
-import axios from "axios"
+import { loadingPostsStore, postsStore } from "../store"
 
 import FadeLoader from "react-spinners/FadeLoader";
 
-const fetchData = async () => {
-  try {
-    const response = await axios.get('/test-api/posts.json')
-    postsStore.setState(() => response.data)
-    console.log(response.data);
-  } catch (error) {
-    console.error("Error fetching posts:", error instanceof Error ? error.message : "Unknown error")
-  }
-}
+
+
 
 const Home = () => {
   const posts = useStore(postsStore)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const date = new Date()
-    console.log(date.toISOString());
-    fetchData().then(() => setLoading(false))
-  }, [])
+  const loading = useStore(loadingPostsStore)
 
   return (
     <>
