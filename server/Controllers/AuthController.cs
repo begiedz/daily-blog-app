@@ -20,7 +20,7 @@ namespace daily_blog_app.Controllers
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginRequest request)
         {
-            if (request.Username == "admin" && request.Password == "password") // Zmień na bazę danych
+            if (request.Username == "admin" && request.Password == "password") // Zmienic na baze danych
             {
                 var token = GenerateJwtToken(request.Username);
                 return Ok(new { token });
