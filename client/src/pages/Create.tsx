@@ -17,7 +17,7 @@ const Create = () => {
         <label className="fieldset-label">Text</label>
         <textarea className="input text-wrap w-full h-40 p-2" placeholder="Today I wanted to tell you how awesome my new post is..."></textarea>
 
-        <input className="btn bg-base-content dark:bg-base-content/80 text-base-100" type="submit" value="Send" />
+        <input className="btn btn-primary" type="submit" value="Send" />
       </form>
     </>
   )

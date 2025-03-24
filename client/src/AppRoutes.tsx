@@ -1,8 +1,18 @@
 import About from './pages/About'
 import Home from './pages/Home'
 import Create from './pages/Create'
+import Login from './pages/Login';
+import { JSX } from 'react';
 
-const appRoutes = [
+interface IAppRoutes {
+  value: string
+  path: string
+  pageElement: JSX.Element
+  private: boolean
+  includeInMenu?: boolean
+}
+
+const appRoutes: IAppRoutes[] = [
   {
     value: 'Home',
     path: '/',
@@ -20,6 +30,13 @@ const appRoutes = [
     path: '/create',
     pageElement: <Create />,
     private: true
+  },
+  {
+    value: 'Login',
+    path: '/login',
+    pageElement: <Login />,
+    private: false,
+    includeInMenu: false
   },
 ]
 export default appRoutes;
