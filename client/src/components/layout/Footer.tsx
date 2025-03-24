@@ -7,7 +7,7 @@ interface IFooterProps {
 const Footer: FC<IFooterProps> = ({ className }) => {
   return (
     <footer className={`footer sm:footer-horizontal items-center p-4 ${className}`}>
-      <aside className="grid-flow-col items-center">
+      <aside className="grid-flow-col items-center opacity-50">
         <svg
           width="36"
           height="36"
