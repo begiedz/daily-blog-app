@@ -57,6 +57,8 @@ export default function Layout(props: TLayoutProps) {
                 <RouteLink to={item.path} value={item.value} onClick={() => setIsChecked(false)} />
               </li>))}
           </ul>
+          <div>Not logged in</div>
+          <RouteLink to={'/login'} value="Login" className="btn btn-primary" />
           <Footer />
         </div>
       </nav>
