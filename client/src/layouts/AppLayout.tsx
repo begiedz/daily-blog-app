@@ -53,6 +53,7 @@ export default function Layout(props: TLayoutProps) {
           <Logo />
           <ul className="flex flex-col gap-1 flex-1">
             {AppRoutes.map((item, index) => (
+              item.includeInMenu !== false &&
               <li key={index}>
                 <RouteLink to={item.path} value={item.value} onClick={() => setIsChecked(false)} />
               </li>))}
