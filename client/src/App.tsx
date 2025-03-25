@@ -1,21 +1,16 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-import { loadingPostsStore } from "./store/postStore"
+import { loadingPostsStore } from './store/postStore'
 
-import AppLayout from "./layouts/AppLayout";
-import appRoutes from "./AppRoutes";
-import { useEffect } from "react";
-import { getPosts } from "./api/postApi";
+import AppLayout from './layouts/AppLayout'
+import appRoutes from './AppRoutes'
+import { useEffect } from 'react'
+import { getPosts } from './api/postApi'
 
 export default function App() {
-
   useEffect(() => {
     const date = new Date()
-    console.log(date.toISOString());
+    console.log(date.toISOString())
     loadingPostsStore.setState(() => true)
     getPosts().then(() => loadingPostsStore.setState(() => false))
   }, [])
@@ -25,7 +20,11 @@ export default function App() {
       <AppLayout>
         <Routes>
           {appRoutes.map((route, index) => (
-            <Route key={index} path={route.path} element={route.pageElement} />
+            <Route
+              key={index}
+              path={route.path}
+              element={route.pageElement}
+            />
           ))}
         </Routes>
       </AppLayout>

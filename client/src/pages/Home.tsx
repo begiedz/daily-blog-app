@@ -1,12 +1,9 @@
-import { Link } from "react-router-dom"
+import { Link } from 'react-router-dom'
 
-import { useStore } from "@tanstack/react-store"
-import { loadingPostsStore, postsStore } from "../store/postStore"
+import { useStore } from '@tanstack/react-store'
+import { loadingPostsStore, postsStore } from '../store/postStore'
 
-import FadeLoader from "react-spinners/FadeLoader";
-
-
-
+import FadeLoader from 'react-spinners/FadeLoader'
 
 const Home = () => {
   const posts = useStore(postsStore)
@@ -19,10 +16,18 @@ const Home = () => {
         <FadeLoader />
       ) : posts.length > 0 ? (
         <ul className="list bg-base-100 rounded-box shadow-md max-w-4xl">
-          {posts.map((post) => (
+          {posts.map(post => (
             <li key={post.id}>
-              <Link to="/post" className="list-row">
-                <img className="size-10 rounded-box" loading="lazy" src={post.img} alt={post.title} />
+              <Link
+                to="/post"
+                className="list-row"
+              >
+                <img
+                  className="size-10 rounded-box"
+                  loading="lazy"
+                  src={post.img}
+                  alt={post.title}
+                />
                 <div>
                   <h3 className="text-xl">{post.title}</h3>
                   <div className="text-xs uppercase font-semibold opacity-60">{post.subject}</div>
