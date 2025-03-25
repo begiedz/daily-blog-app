@@ -6,7 +6,7 @@ import {
 
 import axios from "axios"
 
-import { loadingPostsStore, postsStore } from "./store"
+import { loadingPostsStore, postsStore } from "./store/postStore"
 
 import AppLayout from "./layouts/AppLayout";
 import appRoutes from "./AppRoutes";

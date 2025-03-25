@@ -11,18 +11,23 @@ export type TLayoutProps = {
 
 interface IRouteLink {
   to: string
-  value: string
+  children: React.ReactNode;
   className?: string
   onClick?: () => void
 }
 
+const RouteLink = ({ to, children, className, onClick }: IRouteLink) => {
+  return (
+    <Link to={to} className={className} onClick={() => onClick && onClick()}>{children}</Link>
+  )
+}
 
-const RouteLink = ({ to, value, className, onClick }: IRouteLink) => {
+const NavLink = ({ to, children, className, onClick }: IRouteLink) => {
   const resolvedPath = useResolvedPath(to);
   const isCurrentUrl = useMatch({ path: resolvedPath.pathname, end: true })
 
   return (
-    <Link to={to} className={[className, isCurrentUrl && "bg-base-300"].filter(Boolean).join(" ")} onClick={() => onClick && onClick()}>{value}</Link>
+    <Link to={to} className={[className, isCurrentUrl && "bg-base-300"].filter(Boolean).join(" ")} onClick={() => onClick && onClick()}>{children}</Link>
   )
 }
 
@@ -52,14 +57,14 @@ export default function Layout(props: TLayoutProps) {
         <div className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-6">
           <Logo />
           <ul className="flex flex-col gap-1 flex-1">
-            {AppRoutes.map((item, index) => (
-              item.includeInMenu !== false &&
+            {AppRoutes.map((route, index) => (
+              route.includeInMenu !== false &&
               <li key={index}>
-                <RouteLink to={item.path} value={item.value} onClick={() => setIsChecked(false)} />
+                <NavLink to={route.path} onClick={() => setIsChecked(false)}>{route.value}</NavLink>
               </li>))}
           </ul>
           <div>Not logged in</div>
-          <RouteLink to={'/login'} value="Login" className="btn btn-primary" />
+          <RouteLink to={'/login'} className="btn btn-primary">Login</RouteLink>
           <Footer />
         </div>
       </nav>

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom"
 
 import { useStore } from "@tanstack/react-store"
-import { loadingPostsStore, postsStore } from "../store"
+import { loadingPostsStore, postsStore } from "../store/postStore"
 
 import FadeLoader from "react-spinners/FadeLoader";
 
