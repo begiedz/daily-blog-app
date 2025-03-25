@@ -90,6 +90,7 @@ export default function Layout(props: TLayoutProps) {
           <RouteLink
             to={'/login'}
             className="btn btn-primary"
+            onClick={() => setIsChecked(false)}
           >
             Login
           </RouteLink>

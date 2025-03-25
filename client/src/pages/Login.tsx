@@ -1,15 +1,43 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { loginRequest } from '../api/authApi'
+import { loginUser } from '../store/authStore'
+
 const Login = () => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  const [error, setError] = useState('')
+  const navigate = useNavigate()
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+    try {
+      const { token, user } = await loginRequest(username, password)
+      loginUser(user, token)
+      navigate('/')
+    } catch (error) {
+      setError(`${error instanceof Error ? error.message : 'Unknown error'}`)
+    }
+  }
+
   return (
     <>
       <h2 className="text-3xl font-bold mb-4">Login</h2>
-      <form className="fieldset w-md max-w-full bg-base-200 border border-base-300 p-8 rounded-box">
+      {error && <p className="text-red-500">{error}</p>}
+      <form
+        onSubmit={handleSubmit}
+        className="fieldset w-md max-w-full bg-base-200 border border-base-300 p-8 rounded-box"
+      >
         <div>
           <label className="fieldset-label">Username</label>
           <input
             type="text"
-            className="input validator w-full"
             placeholder="Admin"
             required
+            value={username}
+            onChange={event => setUsername(event.target.value)}
+            className="input validator w-full"
           />
           <div className="validator-hint">Enter valid username</div>
         </div>
@@ -17,18 +45,21 @@ const Login = () => {
           <label className="fieldset-label">Password</label>
           <input
             type="password"
-            className="input validator w-full"
             placeholder="Password"
             required
+            value={username}
+            onChange={event => setPassword(event.target.value)}
+            className="input validator w-full"
           />
           <div className="validator-hint">Enter valid password</div>
         </div>
 
-        <input
-          className="btn btn-primary"
+        <button
           type="submit"
-          value="Login"
-        />
+          className="btn btn-primary"
+        >
+          Login
+        </button>
       </form>
     </>
   )
