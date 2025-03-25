@@ -1,5 +1,13 @@
 import { Store } from '@tanstack/react-store'
-import { IPost } from "../types/index"
+
+interface IPost {
+  id: number
+  title: string
+  subject: string
+  snippet: string
+  date: Date
+  img?: string
+}
 
 export const postsStore = new Store<IPost[] | []>([])
 
