@@ -4,6 +4,7 @@ import Logo from '../components/Logo'
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
 import { useState } from 'react'
+import Profile from '../components/Profile'
 
 export type TLayoutProps = {
   children: React.ReactNode
@@ -14,18 +15,6 @@ interface IRouteLink {
   children: React.ReactNode
   className?: string
   onClick?: () => void
-}
-
-const RouteLink = ({ to, children, className, onClick }: IRouteLink) => {
-  return (
-    <Link
-      to={to}
-      className={className}
-      onClick={() => onClick && onClick()}
-    >
-      {children}
-    </Link>
-  )
 }
 
 const NavLink = ({ to, children, className, onClick }: IRouteLink) => {
@@ -45,7 +34,6 @@ const NavLink = ({ to, children, className, onClick }: IRouteLink) => {
 
 export default function Layout(props: TLayoutProps) {
   const [isChecked, setIsChecked] = useState(false)
-
   return (
     <aside className="drawer lg:drawer-open">
       <input
@@ -72,28 +60,19 @@ export default function Layout(props: TLayoutProps) {
         <div className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-6">
           <Logo />
           <ul className="flex flex-col gap-1 flex-1">
-            {AppRoutes.map(
-              (route, index) =>
-                route.includeInMenu !== false && (
-                  <li key={index}>
-                    <NavLink
-                      to={route.path}
-                      onClick={() => setIsChecked(false)}
-                    >
-                      {route.value}
-                    </NavLink>
-                  </li>
-                )
-            )}
+            {AppRoutes.map((route, index) => (
+              <li key={index}>
+                <NavLink
+                  to={route.path}
+                  onClick={() => setIsChecked(false)}
+                  className={route.path === '/login' ? 'font-bold' : ''}
+                >
+                  {route.value}
+                </NavLink>
+              </li>
+            ))}
           </ul>
-          <div>Not logged in</div>
-          <RouteLink
-            to={'/login'}
-            className="btn btn-primary"
-            onClick={() => setIsChecked(false)}
-          >
-            Login
-          </RouteLink>
+          <Profile />
           <Footer />
         </div>
       </nav>
