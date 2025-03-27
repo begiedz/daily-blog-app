@@ -21,12 +21,6 @@ namespace daily_blog_app.Controllers
             return Ok(_context.Users.ToList());
         }
 
-        [HttpPost]
-        public IActionResult CreateUser(User user)
-        {
-            _context.Users.Add(user);
-            _context.SaveChanges();
-            return CreatedAtAction(nameof(GetUsers), new { id = user.Id }, user);
-        }
+     
     }
 }
