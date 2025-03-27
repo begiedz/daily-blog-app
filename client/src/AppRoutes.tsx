@@ -32,7 +32,7 @@ const appRoutes: IAppRoutes[] = [
     private: true,
   },
   {
-    value: 'Login',
+    value: 'Log in',
     path: '/login',
     pageElement: <Login />,
     private: false,

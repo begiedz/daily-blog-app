@@ -23,7 +23,7 @@ const Login = () => {
 
   return (
     <>
-      <h2 className="text-3xl font-bold mb-4">Login</h2>
+      <h2 className="text-3xl font-bold mb-4">Log in</h2>
       {error && <p className="text-red-500">{error}</p>}
       <form
         onSubmit={handleSubmit}
