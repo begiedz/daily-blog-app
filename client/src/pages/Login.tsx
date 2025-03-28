@@ -1,30 +1,22 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { loginRequest } from '../api/authApi'
-import { loginUser } from '../store/authStore'
+import useLogin from '../hooks/useLogin'
 
 const Login = () => {
   const [isRegister, setIsRegister] = useState(false)
-  const [error, setError] = useState('')
+  const [error, setError] = useState<string>('')
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const navigate = useNavigate()
+  const { handleLogin } = useLogin()
 
-  const handleLogin = async (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    try {
-      const { token, user } = await loginRequest(username, password)
-      loginUser(user, token)
-      navigate('/')
-    } catch (error) {
-      setError(`${error instanceof Error ? error.message : 'Unknown error'}`)
+    if (!isRegister) {
+      await handleLogin({ event, username, password, setError })
+    } else {
+      console.log('Registering user:', { username, email, password })
     }
-  }
-
-  const handleRegister = async (event: React.FormEvent) => {
-    event.preventDefault()
   }
 
   return (
@@ -32,7 +24,7 @@ const Login = () => {
       <h2 className="text-3xl font-bold mb-4">{isRegister ? 'Register' : 'Log in'}</h2>
       {error && <p className="text-red-500">{error}</p>}
       <form
-        onSubmit={isRegister ? handleRegister : handleLogin}
+        onSubmit={handleSubmit}
         className="fieldset w-md max-w-full bg-base-200 border border-base-300 p-8 rounded-box"
       >
         {isRegister && (
@@ -81,7 +73,7 @@ const Login = () => {
         </button>
       </form>
       <p>
-        {(isRegister ? "Don't have an account?" : 'Already have an account?') + ' '}
+        {(isRegister ? 'Already have an account?' : "Don't have an account?") + ' '}
         <button
           onClick={() => setIsRegister(!isRegister)}
           className="link"
