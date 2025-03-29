@@ -1,12 +1,14 @@
 import { jwtDecode } from 'jwt-decode'
 import { loginRequest } from '../api/authApi'
-import { loginUser } from '../store/authStore'
+import { setUserState } from '../store/authStore'
 import { useNavigate } from 'react-router-dom'
+import { Role } from '../store/authStore'
 
 interface ITokenPayload {
-  id: number
   unique_name: string
+  role: Role
 }
+
 interface IUseLoginProps {
   event: React.FormEvent
   username: string
@@ -24,14 +26,21 @@ const useLogin = () => {
       const { token } = await loginRequest(username, password)
 
       const decoded = jwtDecode<ITokenPayload>(token)
+
+      const role = Object.values(Role).find(r => r === decoded.role) as Role
+      if (!role) {
+        throw new Error(`Invalid role received from token: ${decoded.role}`)
+      }
+
       console.log('decoded token', decoded)
 
-      const user = {
-        id: decoded.id,
+      const newUser = {
         username: decoded.unique_name,
+        role: decoded.role,
       }
-      console.log(user)
-      loginUser(user, token)
+      console.log(newUser)
+      setUserState(newUser)
+
       navigate('/')
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Unknown error')
