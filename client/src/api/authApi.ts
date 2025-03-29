@@ -12,7 +12,8 @@ export const loginRequest = async (username: string, password: string) => {
     throw new Error(`Error logging in: ${error instanceof Error ? error.message : 'Unknown error'}`)
   }
 }
-export const registerRequest = async (email: string, username: string, password: string) => {
+
+export const registerRequest = async (username: string, email: string, password: string) => {
   try {
     const response = await axios.post('http://localhost:5017/api/Auth/register', {
       username,
