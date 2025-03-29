@@ -6,9 +6,12 @@ const Profile = () => {
   return (
     <div>
       {user ? (
-        <p>
-          Logged in as <span className="font-bold">{user.username}</span>
-        </p>
+        <div>
+          <p>
+            Logged in as <span className="font-bold">{user.username}</span>
+          </p>
+          <button className="btn"></button>
+        </div>
       ) : (
         <p>Not logged in</p>
       )}
