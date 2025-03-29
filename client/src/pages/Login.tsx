@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import useLogin from '../hooks/useLogin'
+import { registerRequest } from '../api/authApi'
 
 const Login = () => {
   const [isRegister, setIsRegister] = useState(false)
@@ -15,7 +16,7 @@ const Login = () => {
     if (!isRegister) {
       await handleLogin({ event, username, password, setError })
     } else {
-      console.log('Registering user:', { username, email, password })
+      await registerRequest(username, email, password)
     }
   }
 
