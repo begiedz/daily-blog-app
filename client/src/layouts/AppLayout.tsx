@@ -60,19 +60,18 @@ export default function Layout(props: TLayoutProps) {
         <div className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-6">
           <Logo />
           <ul className="flex flex-col gap-1 flex-1">
-            {AppRoutes.map((route, index) => (
+            {AppRoutes.filter(route => route.includeInMenu !== false).map((route, index) => (
               <li key={index}>
                 <NavLink
                   to={route.path}
                   onClick={() => setIsChecked(false)}
-                  className={route.path === '/login' ? 'font-bold' : ''}
                 >
                   {route.value}
                 </NavLink>
               </li>
             ))}
           </ul>
-          <Profile />
+          <Profile setIsChecked={() => setIsChecked(false)} />
           <Footer />
         </div>
       </nav>

@@ -1,6 +1,11 @@
+import { Link } from 'react-router-dom'
 import { authStore } from '../store/authStore'
 
-const Profile = () => {
+interface IProfileProps {
+  setIsChecked: (isChecked: boolean) => void
+}
+
+const Profile = ({ setIsChecked }: IProfileProps) => {
   const { user } = authStore.state
 
   const handleLogout = () => {
@@ -28,7 +33,16 @@ const Profile = () => {
           </button>
         </div>
       ) : (
-        <p>Not logged in</p>
+        <div className="flex items-center justify-between gap-4">
+          <p>Not logged in</p>
+          <Link
+            to={'/login'}
+            onClick={() => setIsChecked(false)}
+            className="btn bg-base-content text-base-100"
+          >
+            Log in
+          </Link>
+        </div>
       )}
     </div>
   )
