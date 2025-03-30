@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode'
-import { loginRequest } from '../api/authApi'
+import { loginRequest, registerRequest } from '../api/authApi'
 import { authStore, setUserState } from '../store/authStore'
 import { Role } from '../store/authStore'
 
@@ -8,27 +8,44 @@ interface ITokenPayload {
   role: Role
 }
 
-interface IUseLoginProps {
-  event: React.FormEvent
+interface IHandleLoginProps {
   username: string
   password: string
   setError: (error: string) => void
 }
 
-export const handleLogin = async ({ username, password, setError }: IUseLoginProps) => {
+interface IHandleRegisterProps extends IHandleLoginProps {
+  email: string
+}
+
+export const handleLogin = async ({ username, password, setError }: IHandleLoginProps) => {
   try {
     const { token } = await loginRequest(username, password)
     const decoded = jwtDecode<ITokenPayload>(token)
-
     console.log('decoded token', decoded)
 
     const newUser = {
       username: decoded.unique_name,
       role: decoded.role,
     }
-    console.log(newUser)
+
     setUserState(newUser)
+    console.log(newUser)
+
     localStorage.setItem('token', token)
+  } catch (error) {
+    setError(error instanceof Error ? error.message : 'Unknown error')
+  }
+}
+
+export const handleRegister = async ({
+  username,
+  email,
+  password,
+  setError,
+}: IHandleRegisterProps) => {
+  try {
+    await registerRequest(username, email, password)
   } catch (error) {
     setError(error instanceof Error ? error.message : 'Unknown error')
   }
