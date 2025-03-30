@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { authStore } from '../store/authStore'
+import { handleLogout } from '../auth'
 
 interface IProfileProps {
   setIsChecked: (isChecked: boolean) => void
@@ -7,16 +8,6 @@ interface IProfileProps {
 
 const Profile = ({ setIsChecked }: IProfileProps) => {
   const { user } = authStore.state
-
-  const handleLogout = () => {
-    authStore.setState(prevState => ({
-      ...prevState,
-      user: null,
-      isAuthenticated: false,
-    }))
-    localStorage.removeItem('token')
-    window.location.reload()
-  }
 
   return (
     <div>
