@@ -1,10 +1,13 @@
-import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 import AppRoutes from '../AppRoutes'
+import { Link, useMatch, useResolvedPath } from 'react-router-dom'
+
 import Logo from '../components/Logo'
 import Header from '../components/layout/Header'
 import Footer from '../components/layout/Footer'
-import { useState } from 'react'
 import Profile from '../components/Profile'
+
+import { useState } from 'react'
+import clsx from 'clsx'
 
 export type TLayoutProps = {
   children: React.ReactNode
@@ -24,8 +27,8 @@ const NavLink = ({ to, children, className, onClick }: IRouteLink) => {
   return (
     <Link
       to={to}
-      className={[className, isCurrentUrl && 'bg-base-300'].filter(Boolean).join(' ')}
       onClick={() => onClick && onClick()}
+      className={clsx(className, { 'bg-base-300': isCurrentUrl })}
     >
       {children}
     </Link>
