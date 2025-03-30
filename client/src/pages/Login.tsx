@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { registerRequest } from '../api/authApi'
-import { handleLogin } from '../auth'
+import { handleLogin, handleRegister } from '../auth'
 import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
@@ -15,11 +14,13 @@ const Login = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
     if (!isRegister) {
-      await handleLogin({ event, username, password, setError })
+      setError('')
+      await handleLogin({ username, password, setError })
       navigate('/')
     } else {
-      await registerRequest(username, email, password)
-      navigate('/login')
+      setError('')
+      await handleRegister({ username, email, password, setError })
+      if (!error) window.location.reload()
     }
   }
 
@@ -31,12 +32,24 @@ const Login = () => {
         onSubmit={handleSubmit}
         className="fieldset w-md max-w-full bg-base-200 border border-base-300 p-8 rounded-box"
       >
+        <div>
+          <label className="fieldset-label">Username</label>
+          <input
+            type="text"
+            placeholder="John"
+            required
+            value={username}
+            onChange={event => setUsername(event.target.value)}
+            className="input validator w-full"
+          />
+          <div className="validator-hint">Enter valid username</div>
+        </div>
         {isRegister && (
           <div>
             <label className="fieldset-label">E-mail</label>
             <input
               type="email"
-              placeholder="admin@admin.blog"
+              placeholder="john.doe@blog.pl"
               required
               value={email}
               onChange={event => setEmail(event.target.value)}
@@ -46,22 +59,10 @@ const Login = () => {
           </div>
         )}
         <div>
-          <label className="fieldset-label">Username</label>
-          <input
-            type="text"
-            placeholder="Admin"
-            required
-            value={username}
-            onChange={event => setUsername(event.target.value)}
-            className="input validator w-full"
-          />
-          <div className="validator-hint">Enter valid username</div>
-        </div>
-        <div>
           <label className="fieldset-label">Password</label>
           <input
             type="password"
-            placeholder="Password"
+            placeholder="•••••••"
             required
             value={password}
             onChange={event => setPassword(event.target.value)}
