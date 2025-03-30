@@ -9,7 +9,7 @@ import Profile from '../components/Profile'
 import { useState } from 'react'
 import clsx from 'clsx'
 
-export type TLayoutProps = {
+type TLayoutProps = {
   children: React.ReactNode
 }
 

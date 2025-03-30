@@ -3,7 +3,7 @@ import { loginRequest } from '../api/authApi'
 import { authStore, setUserState } from '../store/authStore'
 import { Role } from '../store/authStore'
 
-export interface ITokenPayload {
+interface ITokenPayload {
   unique_name: string
   role: Role
 }
