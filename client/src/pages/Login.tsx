@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import useLogin from '../hooks/useLogin'
 import { registerRequest } from '../api/authApi'
+import { handleLogin } from '../auth'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
   const [isRegister, setIsRegister] = useState(false)
@@ -9,14 +10,16 @@ const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
-  const { handleLogin } = useLogin()
+  const navigate = useNavigate()
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
     if (!isRegister) {
       await handleLogin({ event, username, password, setError })
+      navigate('/')
     } else {
       await registerRequest(username, email, password)
+      navigate('/login')
     }
   }
 
