@@ -4,7 +4,7 @@ import { setUserState } from '../store/authStore'
 import { useNavigate } from 'react-router-dom'
 import { Role } from '../store/authStore'
 
-interface ITokenPayload {
+export interface ITokenPayload {
   unique_name: string
   role: Role
 }
@@ -40,6 +40,7 @@ const useLogin = () => {
       }
       console.log(newUser)
       setUserState(newUser)
+      localStorage.setItem('token', token)
 
       navigate('/')
     } catch (error) {
