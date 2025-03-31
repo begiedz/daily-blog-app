@@ -2,6 +2,7 @@ import About from './pages/About'
 import Home from './pages/Home'
 import Create from './pages/Create'
 import Login from './pages/Login'
+
 import { JSX } from 'react'
 
 interface IAppRoutes {
@@ -12,7 +13,7 @@ interface IAppRoutes {
   includeInMenu?: boolean
 }
 
-const appRoutes: IAppRoutes[] = [
+const AppRoutes: IAppRoutes[] = [
   {
     value: 'Home',
     path: '/',
@@ -39,4 +40,4 @@ const appRoutes: IAppRoutes[] = [
     includeInMenu: false,
   },
 ]
-export default appRoutes
+export default AppRoutes

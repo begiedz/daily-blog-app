@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { loadingPostsStore } from './store/postStore'
 
 import AppLayout from './layouts/AppLayout'
-import appRoutes from './AppRoutes'
+import AppRoutes from './AppRoutes'
 import { useEffect } from 'react'
 import { getPosts } from './api/postsApi'
 import { authOnEntry } from './auth'
@@ -19,7 +19,7 @@ export default function App() {
     <Router>
       <AppLayout>
         <Routes>
-          {appRoutes.map((route, index) => (
+          {AppRoutes.map((route, index) => (
             <Route
               key={index}
               path={route.path}
