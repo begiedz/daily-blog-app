@@ -1,13 +1,13 @@
-export type TRole = 'user' | 'author' | 'admin'
+export type TRole = 'user' | 'author' | 'admin';
 
 export interface IUser {
-  username: string
-  role: TRole
+  username: string;
+  role: TRole;
 }
 
-export type TUser = IUser | null
+export type TUser = IUser | null;
 
 export interface IAuthState {
-  user: IUser | null
-  isAuthenticated: boolean
+  user: IUser | null;
+  isAuthenticated: boolean;
 }

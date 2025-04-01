@@ -1,32 +1,34 @@
-import { useState } from 'react'
-import { handleLogin, handleRegister } from '../auth'
-import { useNavigate } from 'react-router-dom'
+import { useState } from 'react';
+import { handleLogin, handleRegister } from '../auth';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const [isRegister, setIsRegister] = useState(false)
-  const [error, setError] = useState<string>('')
-  const [username, setUsername] = useState('')
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [isRegister, setIsRegister] = useState(false);
+  const [error, setError] = useState<string>('');
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault()
+    event.preventDefault();
     if (!isRegister) {
-      setError('')
-      await handleLogin({ username, password, setError })
-      navigate('/')
+      setError('');
+      await handleLogin({ username, password, setError });
+      navigate('/');
     } else {
-      setError('')
-      await handleRegister({ username, email, password, setError })
-      if (!error) window.location.reload()
+      setError('');
+      await handleRegister({ username, email, password, setError });
+      if (!error) window.location.reload();
     }
-  }
+  };
 
   return (
     <>
-      <h2 className="text-3xl font-bold mb-4">{isRegister ? 'Register' : 'Log in'}</h2>
+      <h2 className="text-3xl font-bold mb-4">
+        {isRegister ? 'Register' : 'Log in'}
+      </h2>
       {error && <p className="text-red-500">{error}</p>}
       <form
         onSubmit={handleSubmit}
@@ -78,7 +80,8 @@ const Login = () => {
         </button>
       </form>
       <p>
-        {(isRegister ? 'Already have an account?' : "Don't have an account?") + ' '}
+        {(isRegister ? 'Already have an account?' : "Don't have an account?") +
+          ' '}
         <button
           onClick={() => setIsRegister(!isRegister)}
           className="link"
@@ -87,7 +90,7 @@ const Login = () => {
         </button>
       </p>
     </>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;

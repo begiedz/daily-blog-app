@@ -37,7 +37,7 @@ const Create = () => {
         />
       </form>
     </>
-  )
-}
+  );
+};
 
-export default Create
+export default Create;

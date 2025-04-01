@@ -1,31 +1,31 @@
-import AppRoutes from '../routes/AppRoutes'
-import { filteredRoutes } from '../routes/utils'
-import { authStore } from '../store/authStore'
-import { Link, useMatch, useResolvedPath } from 'react-router-dom'
+import AppRoutes from '../routes/AppRoutes';
+import { filteredRoutes } from '../routes/utils';
+import { authStore } from '../store/authStore';
+import { Link, useMatch, useResolvedPath } from 'react-router-dom';
 
-import Logo from '../components/Logo'
-import Header from '../components/layout/Header'
-import Footer from '../components/layout/Footer'
-import Profile from '../components/Profile'
+import Logo from '../components/Logo';
+import Header from '../components/layout/Header';
+import Footer from '../components/layout/Footer';
+import Profile from '../components/Profile';
 
-import { useState } from 'react'
-import clsx from 'clsx'
-import { useStore } from '@tanstack/react-store'
+import { useState } from 'react';
+import clsx from 'clsx';
+import { useStore } from '@tanstack/react-store';
 
 type TLayoutProps = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
 interface IRouteLink {
-  to: string
-  children: React.ReactNode
-  className?: string
-  onClick?: () => void
+  to: string;
+  children: React.ReactNode;
+  className?: string;
+  onClick?: () => void;
 }
 
 const NavLink = ({ to, children, className, onClick }: IRouteLink) => {
-  const resolvedPath = useResolvedPath(to)
-  const isCurrentUrl = useMatch({ path: resolvedPath.pathname, end: true })
+  const resolvedPath = useResolvedPath(to);
+  const isCurrentUrl = useMatch({ path: resolvedPath.pathname, end: true });
 
   return (
     <Link
@@ -35,12 +35,12 @@ const NavLink = ({ to, children, className, onClick }: IRouteLink) => {
     >
       {children}
     </Link>
-  )
-}
+  );
+};
 
 export default function Layout(props: TLayoutProps) {
-  const [isChecked, setIsChecked] = useState(false)
-  const user = useStore(authStore, state => state.user)
+  const [isChecked, setIsChecked] = useState(false);
+  const user = useStore(authStore, state => state.user);
   return (
     <aside className="drawer lg:drawer-open">
       <input
@@ -87,5 +87,5 @@ export default function Layout(props: TLayoutProps) {
         </div>
       </nav>
     </aside>
-  )
+  );
 }
