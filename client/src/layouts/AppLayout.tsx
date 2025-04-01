@@ -1,4 +1,6 @@
 import AppRoutes from '../routes/AppRoutes'
+import { visibleRoutes } from '../routes/utils'
+import { authStore } from '../store/authStore'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 
 import Logo from '../components/Logo'
@@ -8,6 +10,7 @@ import Profile from '../components/Profile'
 
 import { useState } from 'react'
 import clsx from 'clsx'
+import { useStore } from '@tanstack/react-store'
 
 type TLayoutProps = {
   children: React.ReactNode
@@ -37,6 +40,7 @@ const NavLink = ({ to, children, className, onClick }: IRouteLink) => {
 
 export default function Layout(props: TLayoutProps) {
   const [isChecked, setIsChecked] = useState(false)
+  const user = useStore(authStore, state => state.user)
   return (
     <aside className="drawer lg:drawer-open">
       <input
@@ -63,7 +67,7 @@ export default function Layout(props: TLayoutProps) {
         <div className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-6">
           <Logo />
           <ul className="flex flex-col gap-1 flex-1">
-            {AppRoutes.filter(route => route.includeInMenu !== false).map((route, index) => (
+            {visibleRoutes(AppRoutes, user).map((route, index) => (
               <li key={index}>
                 <NavLink
                   to={route.path}
