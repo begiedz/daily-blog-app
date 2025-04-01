@@ -1,8 +1,8 @@
-import About from '../pages/About'
-import Home from '../pages/Home'
-import Create from '../pages/Create'
-import Login from '../pages/Login'
-import { IAppRoute } from './types'
+import About from '../pages/About';
+import Home from '../pages/Home';
+import Create from '../pages/Create';
+import Login from '../pages/Login';
+import { IAppRoute } from './types';
 
 const AppRoutes: IAppRoute[] = [
   {
@@ -30,6 +30,6 @@ const AppRoutes: IAppRoute[] = [
     private: false,
     includeInMenu: false,
   },
-]
+];
 
-export default AppRoutes
+export default AppRoutes;

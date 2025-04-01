@@ -1,14 +1,14 @@
-import { IAppRoute } from './types'
-import { TUser } from '../store/types'
+import { IAppRoute } from './types';
+import { TUser } from '../store/types';
 
 interface IFilterOptions {
-  onlyVisible?: boolean
+  onlyVisible?: boolean;
 }
 
 interface IFilteredRoutesProps {
-  routes: IAppRoute[]
-  user: TUser
-  options?: IFilterOptions
+  routes: IAppRoute[];
+  user: TUser;
+  options?: IFilterOptions;
 }
 
 export const filteredRoutes = ({
@@ -17,7 +17,7 @@ export const filteredRoutes = ({
   options = {},
 }: IFilteredRoutesProps): IAppRoute[] =>
   routes.filter(route => {
-    if (options.onlyVisible && route.includeInMenu === false) return false
-    if (route.private && !user) return false
-    return true
-  })
+    if (options.onlyVisible && route.includeInMenu === false) return false;
+    if (route.private && !user) return false;
+    return true;
+  });
