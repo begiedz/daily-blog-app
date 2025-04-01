@@ -1,4 +1,4 @@
-import AppRoutes from '../AppRoutes'
+import AppRoutes from '../routes/AppRoutes'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 
 import Logo from '../components/Logo'

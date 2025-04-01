@@ -1,11 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { loadingPostsStore } from './store/postStore'
 
-import AppLayout from './layouts/AppLayout'
-import AppRoutes from './AppRoutes'
 import { useEffect } from 'react'
-import { getPosts } from './api/postsApi'
+
 import { authOnEntry } from './auth'
+import { getPosts } from './api/postsApi'
+import AppRoutes from './routes/AppRoutes'
+import AppLayout from './layouts/AppLayout'
+import { filteredRoutes } from './routes/utils'
+import { authStore } from './store/authStore'
 
 export default function App() {
   useEffect(() => {
@@ -15,11 +18,13 @@ export default function App() {
     getPosts().then(() => loadingPostsStore.setState(() => false))
   }, [])
 
+  const { user } = authStore.state
+
   return (
     <Router>
       <AppLayout>
         <Routes>
-          {AppRoutes.map((route, index) => (
+          {filteredRoutes(AppRoutes, user).map((route, index) => (
             <Route
               key={index}
               path={route.path}

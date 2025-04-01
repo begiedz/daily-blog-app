@@ -1,19 +1,10 @@
-import About from './pages/About'
-import Home from './pages/Home'
-import Create from './pages/Create'
-import Login from './pages/Login'
+import About from '../pages/About'
+import Home from '../pages/Home'
+import Create from '../pages/Create'
+import Login from '../pages/Login'
+import { IAppRoute } from './types'
 
-import { JSX } from 'react'
-
-interface IAppRoutes {
-  value: string
-  path: string
-  pageElement: JSX.Element
-  private: boolean
-  includeInMenu?: boolean
-}
-
-const AppRoutes: IAppRoutes[] = [
+const AppRoutes: IAppRoute[] = [
   {
     value: 'Home',
     path: '/',
@@ -40,4 +31,5 @@ const AppRoutes: IAppRoutes[] = [
     includeInMenu: false,
   },
 ]
+
 export default AppRoutes
