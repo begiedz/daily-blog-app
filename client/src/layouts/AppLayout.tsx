@@ -40,20 +40,20 @@ const NavLink = ({ to, children, className, onClick }: IRouteLink) => {
 
 export default function Layout(props: TLayoutProps) {
   const [isChecked, setIsChecked] = useState(false);
-  const user = useStore(authStore, state => state.user);
+  const user = useStore(authStore, (state) => state.user);
   return (
     <aside className="drawer lg:drawer-open">
       <input
         id="drawer"
         type="checkbox"
         className="drawer-toggle"
-        onChange={event => setIsChecked(event.currentTarget.checked)}
+        onChange={(event) => setIsChecked(event.currentTarget.checked)}
         checked={isChecked}
       />
 
       <div className="drawer-content">
         <Header />
-        <main className="flex flex-col items-center lg:justify-center lg:h-full p-8 lg:p-4">
+        <main className="flex flex-col items-center p-8 lg:h-full lg:justify-center lg:p-4">
           {props.children}
         </main>
       </div>
@@ -64,19 +64,16 @@ export default function Layout(props: TLayoutProps) {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <div className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-6">
+        <div className="menu bg-base-200 text-base-content min-h-full w-80 gap-6 p-4">
           <Logo />
-          <ul className="flex flex-col gap-1 flex-1">
+          <ul className="flex flex-1 flex-col gap-1">
             {filteredRoutes({
               routes: AppRoutes,
               user,
               options: { onlyVisible: true },
             }).map((route, index) => (
               <li key={index}>
-                <NavLink
-                  to={route.path}
-                  onClick={() => setIsChecked(false)}
-                >
+                <NavLink to={route.path} onClick={() => setIsChecked(false)}>
                   {route.value}
                 </NavLink>
               </li>
