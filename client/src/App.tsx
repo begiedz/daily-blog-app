@@ -23,7 +23,7 @@ export default function App() {
     <Router>
       <AppLayout>
         <Routes>
-          {filteredRoutes(AppRoutes, user).map((route, index) => (
+          {filteredRoutes({ routes: AppRoutes, user }).map((route, index) => (
             <Route
               key={index}
               path={route.path}
