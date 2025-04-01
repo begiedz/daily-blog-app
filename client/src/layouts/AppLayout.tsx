@@ -1,5 +1,5 @@
 import AppRoutes from '../routes/AppRoutes'
-import { visibleRoutes } from '../routes/utils'
+import { filteredRoutes } from '../routes/utils'
 import { authStore } from '../store/authStore'
 import { Link, useMatch, useResolvedPath } from 'react-router-dom'
 
@@ -67,7 +67,11 @@ export default function Layout(props: TLayoutProps) {
         <div className="menu bg-base-200 text-base-content min-h-full w-80 p-4 gap-6">
           <Logo />
           <ul className="flex flex-col gap-1 flex-1">
-            {visibleRoutes(AppRoutes, user).map((route, index) => (
+            {filteredRoutes({
+              routes: AppRoutes,
+              user,
+              options: { onlyVisible: true },
+            }).map((route, index) => (
               <li key={index}>
                 <NavLink
                   to={route.path}
