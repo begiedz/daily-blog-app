@@ -9,6 +9,7 @@ import AppRoutes from './routes/AppRoutes'
 import AppLayout from './layouts/AppLayout'
 import { filteredRoutes } from './routes/utils'
 import { authStore } from './store/authStore'
+import { useStore } from '@tanstack/react-store'
 
 export default function App() {
   useEffect(() => {
@@ -17,9 +18,7 @@ export default function App() {
     loadingPostsStore.setState(() => true)
     getPosts().then(() => loadingPostsStore.setState(() => false))
   }, [])
-
-  const { user } = authStore.state
-
+  const user = useStore(authStore, state => state.user)
   return (
     <Router>
       <AppLayout>

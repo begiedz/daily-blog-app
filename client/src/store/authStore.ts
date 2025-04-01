@@ -1,6 +1,6 @@
 import { Store } from '@tanstack/react-store'
 
-import { IAuthState, IUser } from './types'
+import { IAuthState, TUser } from './types'
 const initialState: IAuthState = {
   user: null,
   isAuthenticated: false,
@@ -8,7 +8,7 @@ const initialState: IAuthState = {
 
 export const authStore = new Store<IAuthState>(initialState)
 
-export const setUserState = (user: IUser) => {
+export const setUserState = (user: TUser) => {
   authStore.setState(prevState => ({
     ...prevState,
     user,
