@@ -1,11 +1,11 @@
 import { jwtDecode } from 'jwt-decode'
 import { loginRequest, registerRequest } from '../api/authApi'
 import { authStore, setUserState } from '../store/authStore'
-import { Role } from '../store/authStore'
+import { TRole } from '../store/types'
 
 interface ITokenPayload {
   unique_name: string
-  role: Role
+  role: TRole
 }
 
 interface IHandleLoginProps {
