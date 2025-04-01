@@ -1,22 +1,7 @@
 import { jwtDecode } from 'jwt-decode'
 import { loginRequest, registerRequest } from '../api/authApi'
 import { authStore, setUserState } from '../store/authStore'
-import { TRole } from '../store/types'
-
-interface ITokenPayload {
-  unique_name: string
-  role: TRole
-}
-
-interface IHandleLoginProps {
-  username: string
-  password: string
-  setError: (error: string) => void
-}
-
-interface IHandleRegisterProps extends IHandleLoginProps {
-  email: string
-}
+import { IHandleLoginProps, IHandleRegisterProps, ITokenPayload } from './types'
 
 export const handleLogin = async ({ username, password, setError }: IHandleLoginProps) => {
   try {
@@ -53,8 +38,18 @@ export const handleRegister = async ({
 
 export const authOnEntry = () => {
   const token = localStorage.getItem('token')
-  if (token) {
+  if (!token) return
+
+  try {
     const decoded = jwtDecode<ITokenPayload>(token)
+
+    const now = Math.floor(Date.now() / 1000)
+    if (decoded.exp && decoded.exp < now) {
+      console.warn('Token expired')
+      localStorage.removeItem('token')
+      setUserState(null)
+      return
+    }
 
     const newUser = {
       username: decoded.unique_name,
@@ -63,6 +58,10 @@ export const authOnEntry = () => {
 
     setUserState(newUser)
     localStorage.setItem('token', token)
+  } catch (error) {
+    console.error('Invalid token', error)
+    localStorage.removeItem('token')
+    setUserState(null)
   }
 }
 
