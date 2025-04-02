@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
+﻿using daily_blog_app.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace daily_blog_app.Controllers
@@ -8,23 +8,20 @@ namespace daily_blog_app.Controllers
     [ApiController]
     public class CurrencyController : ControllerBase
     {
-        private readonly HttpClient _httpClient;
+        private readonly ICurrencyService _currencyService;
 
-        public CurrencyController(HttpClient httpClient)
+        public CurrencyController(ICurrencyService currencyService)
         {
-            _httpClient = httpClient;
+            _currencyService = currencyService;
         }
 
         [HttpGet("kursy-walut")]
         public async Task<IActionResult> GetLatestRates()
         {
-            var url = "https://api.nbp.pl/api/exchangerates/tables/A/?format=json";
-            var response = await _httpClient.GetAsync(url);
+            var content = await _currencyService.GetLatestRatesAsync();
 
-            if (!response.IsSuccessStatusCode)
-                return StatusCode((int)response.StatusCode, "Błąd pobierania danych z NBP");
-
-            var content = await response.Content.ReadAsStringAsync();
+            if (string.IsNullOrEmpty(content))
+                return StatusCode(502, new { message = "Błąd pobierania danych z NBP" });
 
             return Content(content, "application/json");
         }
