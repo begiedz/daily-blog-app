@@ -12,7 +12,14 @@ const Home = () => {
 
   return (
     <div className='w-[90%]'>
-      <h2 className='mb-4 text-3xl font-bold'>Latest Posts:</h2>
+      <div className='mb-12 space-y-6 text-center'>
+        <h2 className='font-bold'>Daily Blog</h2>
+        <p className='text-5xl font-bold'>Writings from our team</p>
+        <p className='text-base-content/60'>
+          Latest news, trends, information.
+        </p>
+      </div>
+
       {loading ? (
         <FadeLoader />
       ) : posts.length > 0 ? (
