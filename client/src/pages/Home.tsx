@@ -11,18 +11,18 @@ const Home = () => {
   const loading = useStore(loadingPostsStore);
 
   return (
-    <>
+    <div className='w-[90%]'>
       <h2 className='mb-4 text-3xl font-bold'>Latest Posts:</h2>
       {loading ? (
         <FadeLoader />
       ) : posts.length > 0 ? (
-        <ul className='space-y-4'>
-          {posts.map(post => (
-            <li key={post.slug}>
-              <Link
-                to={`/post/${post.slug}`}
-                className='list-row'
-              >
+        <ul className='grid grid-cols-[repeat(auto-fit,minmax(256px,0))] justify-center gap-6'>
+          {posts.map((post, index) => (
+            <li
+              key={post.slug}
+              className={index === 0 ? 'col-span-full' : ''}
+            >
+              <Link to={`/post/${post.slug}`}>
                 <Post
                   imgUrl={post.img!}
                   title={post.title}
@@ -38,7 +38,7 @@ const Home = () => {
       ) : (
         <p>No posts at the moment!</p>
       )}
-    </>
+    </div>
   );
 };
 
