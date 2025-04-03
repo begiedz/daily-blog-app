@@ -16,8 +16,8 @@ const Post = ({
   tags = ['Food', 'Travel'],
 }: IPostProps) => {
   return (
-    <div className='card bg-base-100 w-96 shadow-sm'>
-      <figure className='h-45 w-full'>
+    <div className='card bg-base-100 h-90 shadow-sm'>
+      <figure className='h-30 w-full'>
         <img
           src={imgUrl}
           alt='Post image'
