@@ -17,10 +17,11 @@ const Post = ({
 }: IPostProps) => {
   return (
     <div className='card bg-base-100 w-96 shadow-sm'>
-      <figure>
+      <figure className='h-45 w-full'>
         <img
           src={imgUrl}
           alt='Post image'
+          className='h-full w-full object-cover'
         />
       </figure>
       <div className='card-body'>

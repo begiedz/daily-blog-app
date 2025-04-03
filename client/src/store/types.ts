@@ -11,3 +11,14 @@ export interface IAuthState {
   user: IUser | null;
   isAuthenticated: boolean;
 }
+
+export interface IPost {
+  slug: string;
+  img?: string;
+  title: string;
+  author: string;
+  excerpt: string;
+  content: string;
+  date: string;
+  tags: string[];
+}
