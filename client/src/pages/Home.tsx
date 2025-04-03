@@ -4,6 +4,7 @@ import { useStore } from '@tanstack/react-store';
 import { loadingPostsStore, postsStore } from '../store/postStore';
 
 import FadeLoader from 'react-spinners/FadeLoader';
+import Post from '../components/Post';
 
 const Home = () => {
   const posts = useStore(postsStore);
@@ -15,31 +16,21 @@ const Home = () => {
       {loading ? (
         <FadeLoader />
       ) : posts.length > 0 ? (
-        <ul className='list bg-base-100 rounded-box max-w-4xl shadow-md'>
+        <ul className='space-y-4'>
           {posts.map(post => (
-            <li key={post.id}>
+            <li key={post.slug}>
               <Link
-                to='/post'
+                to={`/post/${post.slug}`}
                 className='list-row'
               >
-                <img
-                  className='rounded-box size-10'
-                  loading='lazy'
-                  src={post.img}
-                  alt={post.title}
+                <Post
+                  imgUrl={post.img!}
+                  title={post.title}
+                  author={post.author}
+                  createdAt={post.date}
+                  excerpt={post.excerpt}
+                  tags={post.tags}
                 />
-                <div>
-                  <h3 className='text-xl'>{post.title}</h3>
-                  <div className='text-xs font-semibold uppercase opacity-60'>
-                    {post.subject}
-                  </div>
-                </div>
-                <p className='list-col-wrap line-clamp-2 text-xs'>
-                  {post.snippet}
-                </p>
-                <p className='text-xs opacity-60'>
-                  {new Date(post.date).toLocaleDateString()}
-                </p>
               </Link>
             </li>
           ))}
