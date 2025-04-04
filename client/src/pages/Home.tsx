@@ -11,7 +11,7 @@ const Home = () => {
   const loading = useStore(loadingPostsStore);
 
   return (
-    <div className='w-[90%]'>
+    <div className='w-[95%] max-w-4xl'>
       <div className='mb-12 space-y-6 text-center'>
         <h2 className='font-bold'>Daily Blog</h2>
         <p className='text-5xl font-bold'>Writings from our team</p>

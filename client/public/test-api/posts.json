@@ -7,7 +7,7 @@
     "excerpt": "\"Remaining Reason\" became an instant hit, praised for its haunting sound and emotional depth.",
     "date": "2025-03-18T11:25:33.548Z",
     "tags": ["Music", "Fashion"],
-    "img": "https://img.daisyui.com/images/profile/demo/1@94.webp"
+    "img": "https://images.pexels.com/photos/30974521/pexels-photo-30974521/free-photo-of-mount-fuji-with-sakura-blossoms-in-springtime.jpeg"
   },
   {
     "slug": "bears-of-a-fever",
@@ -17,7 +17,7 @@
     "excerpt": "\"Bears of a Fever\" captivated audiences with its intense energy and mysterious lyrics. ",
     "date": "2024-05-12T11:25:33.548Z",
     "tags": ["Food", "Wellness"],
-    "img": "https://img.daisyui.com/images/profile/demo/4@94.webp"
+    "img": "https://img.daisyui.com/images/profile/demo/2@94.webp"
   },
   {
     "slug": "cappuccino",
@@ -26,6 +26,47 @@
     "subject": "Cappuccino",
     "excerpt": "\"Cappuccino\" quickly gained attention for its smooth melody and relatable themes. ",
     "date": "2023-01-01T11:25:33.548Z",
+    "tags": ["Food", "Wellness"],
     "img": "https://img.daisyui.com/images/profile/demo/3@94.webp"
+  },
+  {
+    "slug": "neon-reverie",
+    "title": "Neon Reverie",
+    "author": "Ola",
+    "subject": "Neon Reverie",
+    "excerpt": "\"Neon Reverie\" is a vibrant blend of retro beats and modern synths, echoing late-night city vibes.",
+    "date": "2025-02-10T20:15:22.000Z",
+    "tags": ["Music", "Culture"],
+    "img": "https://img.daisyui.com/images/profile/demo/4@94.webp"
+  },
+  {
+    "slug": "midnight-basil",
+    "title": "Midnight Basil",
+    "author": "Maurycy",
+    "subject": "Midnight Basil",
+    "excerpt": "\"Midnight Basil\" offers a refreshing culinary twist, combining herbs and storytelling in one plate.",
+    "date": "2024-11-03T08:43:11.000Z",
+    "tags": ["Food", "Lifestyle"],
+    "img": "https://img.daisyui.com/images/profile/demo/5@94.webp"
+  },
+  {
+    "slug": "threads-of-silence",
+    "title": "Threads of Silence",
+    "author": "janek",
+    "subject": "Threads of Silence",
+    "excerpt": "\"Threads of Silence\" takes fashion to a poetic dimension, exploring the language of fabric and form.",
+    "date": "2023-06-22T17:30:00.000Z",
+    "tags": ["Fashion", "Art"],
+    "img": "https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+  },
+  {
+    "slug": "espresso-blues",
+    "title": "Espresso Blues",
+    "author": "Ania",
+    "subject": "Espresso Blues",
+    "excerpt": "\"Espresso Blues\" dives into the bittersweet rituals of morning coffee and late-night introspection.",
+    "date": "2024-02-14T13:05:45.000Z",
+    "tags": ["Food", "Wellness"],
+    "img": "https://img.daisyui.com/images/profile/demo/1@94.webp"
   }
 ]
