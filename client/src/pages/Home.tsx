@@ -25,34 +25,29 @@ const Home = () => {
         <FadeLoader />
       ) : posts.length > 0 ? (
         <ul className='grid grid-cols-[repeat(auto-fit,minmax(256px,0))] justify-center gap-6'>
-          {posts.map((post, index) => (
-            <li
-              key={post.slug}
-              className={index === 0 ? 'col-span-full' : ''}
-            >
-              <Link to={`/post/${post.slug}`}>
-                {index === 0 ? (
-                  <HeroPost
-                    imgUrl={post.img!}
-                    title={post.title}
-                    author={post.author}
-                    createdAt={post.date}
-                    excerpt={post.excerpt}
-                    tags={post.tags}
-                  />
-                ) : (
-                  <Post
-                    imgUrl={post.img!}
-                    title={post.title}
-                    author={post.author}
-                    createdAt={post.date}
-                    excerpt={post.excerpt}
-                    tags={post.tags}
-                  />
-                )}
-              </Link>
-            </li>
-          ))}
+          {posts.map((post, index) => {
+            const postProps = {
+              imgUrl: post.img!,
+              title: post.title,
+              author: post.author,
+              createdAt: post.date,
+              excerpt: post.excerpt,
+              tags: post.tags,
+            };
+
+            const PostComponent = index === 0 ? HeroPost : Post;
+
+            return (
+              <li
+                key={post.slug}
+                className={index === 0 ? 'col-span-full' : ''}
+              >
+                <Link to={`/post/${post.slug}`}>
+                  <PostComponent {...postProps} />
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       ) : (
         <p>No posts at the moment!</p>
