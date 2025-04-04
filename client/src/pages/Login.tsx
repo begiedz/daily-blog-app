@@ -26,55 +26,55 @@ const Login = () => {
 
   return (
     <>
-      <h2 className='mb-4 text-3xl font-bold'>
+      <h2 className="mb-4 text-3xl font-bold">
         {isRegister ? 'Register' : 'Log in'}
       </h2>
-      {error && <p className='text-red-500'>{error}</p>}
+      {error && <p className="text-red-500">{error}</p>}
       <form
         onSubmit={handleSubmit}
-        className='fieldset bg-base-200 border-base-300 rounded-box w-md max-w-full border p-8'
+        className="fieldset bg-base-200 border-base-300 rounded-box w-md max-w-full border p-8"
       >
         <div>
-          <label className='fieldset-label'>Username</label>
+          <label className="fieldset-label">Username</label>
           <input
-            type='text'
-            placeholder='John'
+            type="text"
+            placeholder="John"
             required
             value={username}
             onChange={event => setUsername(event.target.value)}
-            className='input validator w-full'
+            className="input validator w-full"
           />
-          <div className='validator-hint'>Enter valid username</div>
+          <div className="validator-hint">Enter valid username</div>
         </div>
         {isRegister && (
           <div>
-            <label className='fieldset-label'>E-mail</label>
+            <label className="fieldset-label">E-mail</label>
             <input
-              type='email'
-              placeholder='john.doe@blog.pl'
+              type="email"
+              placeholder="john.doe@blog.pl"
               required
               value={email}
               onChange={event => setEmail(event.target.value)}
-              className='input validator w-full'
+              className="input validator w-full"
             />
-            <div className='validator-hint'>Enter valid email</div>
+            <div className="validator-hint">Enter valid email</div>
           </div>
         )}
         <div>
-          <label className='fieldset-label'>Password</label>
+          <label className="fieldset-label">Password</label>
           <input
-            type='password'
-            placeholder='•••••••'
+            type="password"
+            placeholder="•••••••"
             required
             value={password}
             onChange={event => setPassword(event.target.value)}
-            className='input validator w-full'
+            className="input validator w-full"
           />
-          <div className='validator-hint'>Enter valid password</div>
+          <div className="validator-hint">Enter valid password</div>
         </div>
         <button
-          type='submit'
-          className='btn btn-primary'
+          type="submit"
+          className="btn btn-primary"
         >
           {isRegister ? 'Register' : 'Log in'}
         </button>
@@ -84,7 +84,7 @@ const Login = () => {
           ' '}
         <button
           onClick={() => setIsRegister(!isRegister)}
-          className='link'
+          className="link"
         >
           {isRegister ? 'Log in' : 'Register'}
         </button>

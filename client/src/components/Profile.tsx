@@ -1,13 +1,13 @@
-import { Link } from 'react-router-dom'
-import { authStore } from '../store/authStore'
-import { handleLogout } from '../auth'
+import { Link } from 'react-router-dom';
+import { authStore } from '../store/authStore';
+import { handleLogout } from '../auth';
 
 interface IProfileProps {
-  setIsChecked: (isChecked: boolean) => void
+  setIsChecked: (isChecked: boolean) => void;
 }
 
 const Profile = ({ setIsChecked }: IProfileProps) => {
-  const { user } = authStore.state
+  const { user } = authStore.state;
 
   return (
     <div>
@@ -36,7 +36,7 @@ const Profile = ({ setIsChecked }: IProfileProps) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;

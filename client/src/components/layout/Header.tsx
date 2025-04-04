@@ -19,8 +19,8 @@ const MenuButton = () => {
         ></path>
       </svg>
     </label>
-  )
-}
+  );
+};
 
 export default function Header() {
   return (
@@ -30,5 +30,5 @@ export default function Header() {
       </div>
       <div className="hidden flex-none lg:block"></div>
     </header>
-  )
+  );
 }

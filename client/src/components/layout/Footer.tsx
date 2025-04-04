@@ -1,12 +1,14 @@
-import { FC } from 'react'
+import { FC } from 'react';
 
 interface IFooterProps {
-  className?: string
+  className?: string;
 }
 
 const Footer: FC<IFooterProps> = ({ className }) => {
   return (
-    <footer className={`footer sm:footer-horizontal items-center p-4 ${className}`}>
+    <footer
+      className={`footer sm:footer-horizontal items-center p-4 ${className}`}
+    >
       <aside className="grid-flow-col items-center opacity-50">
         <svg
           width="36"
@@ -22,6 +24,6 @@ const Footer: FC<IFooterProps> = ({ className }) => {
         <p>Copyright © {new Date().getFullYear()} - All right reserved</p>
       </aside>
     </footer>
-  )
-}
-export default Footer
+  );
+};
+export default Footer;

@@ -12,11 +12,11 @@ const Home = () => {
   const loading = useStore(loadingPostsStore);
 
   return (
-    <div className='w-[95%] max-w-4xl'>
-      <div className='mb-12 space-y-6 text-center'>
-        <h2 className='font-bold'>Daily Blog</h2>
-        <p className='text-5xl font-bold'>Writings from our team</p>
-        <p className='text-base-content/60'>
+    <div className="w-[95%] max-w-4xl">
+      <div className="mb-12 space-y-6 text-center">
+        <h2 className="font-bold">Daily Blog</h2>
+        <p className="text-5xl font-bold">Writings from our team</p>
+        <p className="text-base-content/60">
           Latest news, trends, information.
         </p>
       </div>
@@ -24,7 +24,7 @@ const Home = () => {
       {loading ? (
         <FadeLoader />
       ) : posts.length > 0 ? (
-        <ul className='grid grid-cols-[repeat(auto-fit,minmax(256px,0))] justify-center gap-6'>
+        <ul className="grid grid-cols-[repeat(auto-fit,minmax(256px,0))] justify-center gap-6">
           {posts.map((post, index) => {
             const postProps = {
               imgUrl: post.img!,
