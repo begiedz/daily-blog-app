@@ -5,6 +5,7 @@ import { loadingPostsStore, postsStore } from '../store/postStore';
 
 import FadeLoader from 'react-spinners/FadeLoader';
 import Post from '../components/Post';
+import HeroPost from '../components/HeroPost';
 
 const Home = () => {
   const posts = useStore(postsStore);
@@ -30,14 +31,25 @@ const Home = () => {
               className={index === 0 ? 'col-span-full' : ''}
             >
               <Link to={`/post/${post.slug}`}>
-                <Post
-                  imgUrl={post.img!}
-                  title={post.title}
-                  author={post.author}
-                  createdAt={post.date}
-                  excerpt={post.excerpt}
-                  tags={post.tags}
-                />
+                {index === 0 ? (
+                  <HeroPost
+                    imgUrl={post.img!}
+                    title={post.title}
+                    author={post.author}
+                    createdAt={post.date}
+                    excerpt={post.excerpt}
+                    tags={post.tags}
+                  />
+                ) : (
+                  <Post
+                    imgUrl={post.img!}
+                    title={post.title}
+                    author={post.author}
+                    createdAt={post.date}
+                    excerpt={post.excerpt}
+                    tags={post.tags}
+                  />
+                )}
               </Link>
             </li>
           ))}
