@@ -8,19 +8,19 @@ interface IPostProps {
 }
 
 const Post = ({
-  imgUrl = 'https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp',
-  title = 'Post Title',
-  author = 'Author',
-  createdAt = '2014-11-03T19:38:34.203Z',
-  excerpt = 'A card component has a figure, a body part, and inside body there are title and actions parts',
-  tags = ['Food', 'Travel'],
+  imgUrl,
+  title,
+  author,
+  createdAt,
+  excerpt,
+  tags,
 }: IPostProps) => {
   return (
-    <div className='card bg-base-100 h-90 shadow-sm'>
+    <div className='card bg-base-200 h-90 shadow-sm'>
       <figure className='h-30 w-full'>
         <img
           src={imgUrl}
-          alt='Post image'
+          alt={`${title} image`}
           className='h-full w-full object-cover'
         />
       </figure>
@@ -34,7 +34,7 @@ const Post = ({
           {tags.map((tag, index) => (
             <span
               key={index}
-              className='badge badge-outline badge-neutral rounded-full'
+              className='badge badge-outline rounded-full'
             >
               {tag}
             </span>
