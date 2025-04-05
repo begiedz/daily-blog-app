@@ -40,7 +40,7 @@ const Home = () => {
 
             return (
               <li
-                key={post.slug}
+                key={index}
                 className={index === 0 ? 'col-span-full' : ''}
               >
                 <Link to={`/post/${post.slug}`}>
