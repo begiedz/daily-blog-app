@@ -1,4 +1,7 @@
+import { Link } from 'react-router-dom';
+
 interface IPostProps {
+  slug: string;
   imgUrl: string;
   title: string;
   author: string;
@@ -8,6 +11,7 @@ interface IPostProps {
 }
 
 const Post = ({
+  slug,
   imgUrl,
   title,
   author,
@@ -16,7 +20,10 @@ const Post = ({
   tags,
 }: IPostProps) => {
   return (
-    <div className="card bg-base-200 h-90 shadow-sm">
+    <Link
+      to={`/post/${slug}`}
+      className="card bg-base-200 h-90 shadow-sm"
+    >
       <figure className="h-30 w-full">
         <img
           src={imgUrl}
@@ -41,7 +48,7 @@ const Post = ({
           ))}
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
