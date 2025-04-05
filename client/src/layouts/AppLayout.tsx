@@ -40,14 +40,14 @@ const NavLink = ({ to, children, className, onClick }: IRouteLink) => {
 
 export default function Layout(props: TLayoutProps) {
   const [isChecked, setIsChecked] = useState(false);
-  const user = useStore(authStore, (state) => state.user);
+  const user = useStore(authStore, state => state.user);
   return (
     <aside className="drawer lg:drawer-open">
       <input
         id="drawer"
         type="checkbox"
         className="drawer-toggle"
-        onChange={(event) => setIsChecked(event.currentTarget.checked)}
+        onChange={event => setIsChecked(event.currentTarget.checked)}
         checked={isChecked}
       />
 
@@ -73,8 +73,11 @@ export default function Layout(props: TLayoutProps) {
               options: { onlyVisible: true },
             }).map((route, index) => (
               <li key={index}>
-                <NavLink to={route.path} onClick={() => setIsChecked(false)}>
-                  {route.value}
+                <NavLink
+                  to={route.path}
+                  onClick={() => setIsChecked(false)}
+                >
+                  {route.name}
                 </NavLink>
               </li>
             ))}

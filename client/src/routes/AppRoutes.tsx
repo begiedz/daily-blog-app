@@ -6,25 +6,26 @@ import { IAppRoute } from './types';
 
 const AppRoutes: IAppRoute[] = [
   {
-    value: 'Home',
+    name: 'Home',
     path: '/',
     pageElement: <Home />,
     role: [],
   },
   {
-    value: 'About',
+    name: 'About',
     path: '/about',
     pageElement: <About />,
     role: [],
   },
   {
-    value: 'New Post',
+    name: 'New Post',
     path: '/create',
     pageElement: <Create />,
     role: ['admin', 'author'],
   },
+
   {
-    value: 'Log in',
+    name: 'Log in',
     path: '/login',
     pageElement: <Login />,
     role: ['guest'],
