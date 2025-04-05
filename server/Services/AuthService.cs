@@ -25,11 +25,11 @@ namespace daily_blog_app.Services
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Name == request.Username.Trim());
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password.Trim(), user.Password))
-                return null;
+                throw new UnauthorizedAccessException("Nieprawidłowa nazwa użytkownika lub hasło");
 
             return GenerateJwtToken(user);
         }
-
+        
         public async Task<bool> RegisterAsync(RegisterRequest request)
         {
             if (_context.Users.Any(u => u.Name == request.Username || u.Email == request.Email))

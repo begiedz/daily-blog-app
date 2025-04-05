@@ -1,6 +1,8 @@
 ﻿using daily_blog_app.Interfaces;
 using daily_blog_app.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
+
 
 namespace daily_blog_app.Controllers
 {
@@ -15,7 +17,7 @@ namespace daily_blog_app.Controllers
             _authService = authService;
         }
 
-        
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
@@ -24,13 +26,22 @@ namespace daily_blog_app.Controllers
                 return BadRequest(new { message = "Login i hasło są wymagane." });
             }
 
-            var token = await _authService.LoginAsync(request);
-
-            if (token == null)
-                return Unauthorized(new { message = "Nieprawidłowa nazwa użytkownika lub hasło" });
-
-            return Ok(new { token, message = "Zalogowano pomyślnie" });
+            try
+            {
+                var token = await _authService.LoginAsync(request);
+                return Ok(new { token, message = "Zalogowano pomyślnie" });
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = "Wystąpił błąd serwera podczas logowania." });
+            }
         }
+
+
 
 
         [HttpPost("register")]
@@ -43,12 +54,26 @@ namespace daily_blog_app.Controllers
                 return BadRequest(new { message = "Wszystkie pola są wymagane." });
             }
 
-            var success = await _authService.RegisterAsync(request);
-            if (!success)
-                return BadRequest(new { message = "Użytkownik o podanym loginie lub mailu już istnieje." });
+            // Walidacja emaila
+            if (!Regex.IsMatch(request.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            {
+                return BadRequest(new { message = "Nieprawidłowy format adresu e-mail." });
+            }
 
-            return Ok(new { message = "Użytkownik zarejestrowany" });
+            try
+            {
+                var success = await _authService.RegisterAsync(request);
+                if (!success)
+                    return BadRequest(new { message = "Użytkownik o podanym loginie lub mailu już istnieje." });
+
+                return Ok(new { message = "Użytkownik zarejestrowany" });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = "Wystąpił błąd serwera podczas rejestracji." });
+            }
         }
+
 
     }
 }
