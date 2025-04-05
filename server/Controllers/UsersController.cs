@@ -17,7 +17,7 @@ namespace daily_blog_app.Controllers
             _userService = userService;
         }
 
-        // === ADMIN: LISTA UŻYTKOWNIKÓW ===
+        // Lista użytkowników-Admin
         [HttpGet]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> GetAll()
@@ -26,7 +26,7 @@ namespace daily_blog_app.Controllers
             return Ok(users);
         }
 
-        // === ADMIN: USUŃ UŻYTKOWNIKA ===
+        // Usuwanie użytkownika-Admin
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Delete(int id)
@@ -44,11 +44,16 @@ namespace daily_blog_app.Controllers
         }
 
 
-        // === ADMIN: ZMIEŃ ROLĘ UŻYTKOWNIKA ===
+        // Zmiana roli użytkownika-admin
         [HttpPut("{id}/role")]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> UpdateRole(int id, [FromBody] string newRole)
         {
+            if (string.IsNullOrWhiteSpace(newRole))
+            {
+                return BadRequest(new { message = "Nowa rola jest wymagana." });
+            }
+
             var success = await _userService.UpdateRoleAsync(id, newRole);
             if (!success)
                 return NotFound(new { message = "Użytkownik nie istnieje" });
@@ -57,31 +62,50 @@ namespace daily_blog_app.Controllers
 
         }
 
-        // === USER: POBIERZ SWOJE DANE ===
-        [HttpGet("me")]
+        // Pobieraie danych zalogowanego użytkownika
+        [HttpGet("get-my-profile")]
         [Authorize]
         public async Task<IActionResult> GetMe()
         {
-            var userId = GetUserIdFromClaims();
-            var user = await _userService.GetByIdAsync(userId);
-            if (user == null) return NotFound(new { message = "Użytkownik nie istnieje" });
-            return Ok(user);
+            try
+            {
+                var userId = GetUserIdFromClaims();
+                var user = await _userService.GetByIdAsync(userId);
+                if (user == null) return NotFound(new { message = "Użytkownik nie istnieje" });
+                return Ok(user);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = "Wystąpił błąd serwera podczas aktualizacji." });
+            }     
         }
 
-        // === USER: AKTUALIZUJ SWÓJ EMAIL I HASŁO ===
-        [HttpPut("me")]
+        // Aktualizacja hasła/emaila zalogowanego użytkownika
+        [HttpPut("update-my-account")]
         [Authorize]
         public async Task<IActionResult> UpdateMe([FromBody] UpdateUserRequest request)
         {
-            var userId = GetUserIdFromClaims();
-            var success = await _userService.UpdateOwnDataAsync(userId, request.Email, request.Password);
-            if (!success) return NotFound(new { message = "Użytkownik nie istnieje" });
+            if (string.IsNullOrWhiteSpace(request.Email) && string.IsNullOrWhiteSpace(request.Password))
+            {
+                return BadRequest(new { message = "Musisz podać nowe hasło lub email." });
+            }
 
-            return Ok(new { message = "Dane zaktualizowane" });
-            
+            var userId = GetUserIdFromClaims();
+
+            try
+            {
+                var success = await _userService.UpdateOwnDataAsync(userId, request.Email, request.Password);
+                if (!success) return NotFound(new { message = "Użytkownik nie istnieje" });
+
+                return Ok(new { message = "Dane zaktualizowane" });
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, new { message = "Wystąpił błąd serwera podczas aktualizacji." });
+            } 
         }
 
-        // === Pomocnicza metoda do pobrania ID z tokena ===
+        // Pobieranie ID z tokena
         private int GetUserIdFromClaims()
         {
             var idClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);

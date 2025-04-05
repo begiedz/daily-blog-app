@@ -16,6 +16,8 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
+builder.Services.AddScoped<IBlogService, BlogService>();
+
 
 
 builder.Services.AddEndpointsApiExplorer();
