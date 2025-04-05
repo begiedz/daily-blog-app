@@ -1,4 +1,11 @@
-export type TRole = 'guest' | 'user' | 'author' | 'admin';
+export enum ERole {
+  GUEST = 'guest',
+  USER = 'user',
+  AUTHOR = 'author',
+  ADMIN = 'admin',
+}
+
+export type TRole = `${ERole}`;
 
 export interface IUser {
   username: string;
