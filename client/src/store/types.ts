@@ -19,13 +19,12 @@ export interface IAuthState {
   isAuthenticated: boolean;
 }
 
-export interface IPost {
+export interface IPostPreview {
   slug: string;
-  img?: string;
+  imgUrl?: string;
   title: string;
   author: string;
   excerpt: string;
-  content: string;
-  date: string;
+  createdAt: string;
   tags: string[];
 }

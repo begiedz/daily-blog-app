@@ -4,7 +4,7 @@ import { loadingPostsStore } from './store/postStore';
 import { useEffect } from 'react';
 
 import { authOnEntry } from './auth';
-import { getPosts } from './api/postsApi';
+import { getAllPosts } from './api/postsApi';
 import AppRoutes from './routes/AppRoutes';
 import AppLayout from './layouts/AppLayout';
 import { filteredRoutes } from './routes/utils';
@@ -16,7 +16,7 @@ export default function App() {
     authOnEntry();
 
     loadingPostsStore.setState(() => true);
-    getPosts().then(() => loadingPostsStore.setState(() => false));
+    getAllPosts().then(() => loadingPostsStore.setState(() => false));
   }, []);
   const user = useStore(authStore, state => state.user);
   return (

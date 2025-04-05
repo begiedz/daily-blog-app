@@ -1,7 +1,8 @@
-import About from '../pages/About';
 import Home from '../pages/Home';
-import Create from '../pages/Create';
+import About from '../pages/About';
 import Login from '../pages/Login';
+import Create from '../pages/Create';
+import PostPage from '../pages/PostPage';
 import AdminPanel from '../pages/AdminPanel';
 
 import { IAppRoute } from './types';
@@ -22,6 +23,8 @@ const AppRoutes: IAppRoute[] = [
     pageElement: <About />,
     role: [],
   },
+
+  // routes that you have to be logged in to see
   {
     name: 'New Post',
     path: '/create',
@@ -36,6 +39,13 @@ const AppRoutes: IAppRoute[] = [
   },
 
   // routes that are not included in the menu
+  {
+    name: 'Post',
+    path: '/post/:slug',
+    pageElement: <PostPage />,
+    role: [],
+    includeInMenu: false,
+  },
   {
     name: 'Log in',
     path: '/login',

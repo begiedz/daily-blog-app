@@ -27,10 +27,11 @@ const Home = () => {
         <ul className="grid grid-cols-[repeat(auto-fit,minmax(256px,0))] justify-center gap-6">
           {posts.map((post, index) => {
             const postProps = {
-              imgUrl: post.img!,
+              slug: post.slug,
+              imgUrl: post.imgUrl!,
               title: post.title,
               author: post.author,
-              createdAt: post.date,
+              createdAt: post.createdAt,
               excerpt: post.excerpt,
               tags: post.tags,
             };

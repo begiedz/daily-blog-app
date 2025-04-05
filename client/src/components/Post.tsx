@@ -1,12 +1,4 @@
-interface IPostProps {
-  slug: string;
-  imgUrl: string;
-  title: string;
-  author: string;
-  createdAt: string;
-  excerpt: string;
-  tags: string[];
-}
+import { IPostPreview } from '../store/types';
 
 const Post = ({
   imgUrl,
@@ -15,7 +7,7 @@ const Post = ({
   createdAt,
   excerpt,
   tags,
-}: IPostProps) => {
+}: IPostPreview) => {
   return (
     <div className="card bg-base-200 h-90 shadow-sm">
       <figure className="h-30 w-full">
