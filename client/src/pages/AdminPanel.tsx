@@ -1,27 +1,6 @@
-const statCards = [
-  { label: 'Total Posts', value: 7 },
-  { label: 'Total Users', value: 5 },
-  { label: 'Authors', value: 2 },
-  { label: 'Total Comments', value: 15 },
-];
-
-const latestUsers = [
-  { id: 1, email: 'jan@dev.pl', role: 'AUTHOR', registered: '2024-04-01' },
-  { id: 2, email: 'admin@xyz.com', role: 'ADMIN', registered: '2024-03-28' },
-];
-
-const recentPosts = [
-  {
-    title: 'Pierwszy post',
-    author: 'jan@dev.pl',
-    date: '2024-04-03',
-  },
-  {
-    title: 'Drugi post',
-    author: 'admin@xyz.com',
-    date: '2024-04-01',
-  },
-];
+import { postsStore } from '../store/postStore';
+import { useStore } from '@tanstack/react-store';
+import { IPostPreview } from '../store/types';
 
 const StatCard = ({ label, value }: { label: string; value: number }) => (
   <div className="card bg-base-200 p-4 text-center shadow-sm">
@@ -31,9 +10,24 @@ const StatCard = ({ label, value }: { label: string; value: number }) => (
 );
 
 const AdminPanel = () => {
+  const posts = useStore(postsStore);
+
+  const statCards = [
+    { label: 'Total Posts', value: posts.length },
+    { label: 'Total Users', value: 0 },
+    { label: 'Authors', value: 0 },
+  ];
+
+  const latestUsers = [
+    // { id: 1, email: 'jan@dev.pl', role: 'AUTHOR', registered: '2024-04-01' },
+    // { id: 2, email: 'admin@xyz.com', role: 'ADMIN', registered: '2024-03-28' },
+  ];
+
+  const recentPosts = posts.slice(0, 5);
+
   return (
     <main className="space-y-8 p-6">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-3">
         {statCards.map(stat => (
           <StatCard
             key={stat.label}
@@ -82,11 +76,11 @@ const AdminPanel = () => {
                 </tr>
               </thead>
               <tbody>
-                {recentPosts.map((post, idx) => (
-                  <tr key={idx}>
+                {recentPosts.map((post: IPostPreview, i) => (
+                  <tr key={i}>
                     <td>{post.title}</td>
                     <td>{post.author}</td>
-                    <td>{post.date}</td>
+                    <td>{new Date(post.createdAt).toLocaleDateString()}</td>
                   </tr>
                 ))}
               </tbody>
@@ -103,7 +97,6 @@ const AdminPanel = () => {
           </li>
           <li className="hover:bg-base-300 cursor-pointer p-4">Manage Posts</li>
           <li className="hover:bg-base-300 cursor-pointer p-4">Manage Users</li>
-          <li className="hover:bg-base-300 cursor-pointer p-4">App Settings</li>
         </ul>
       </div>
     </main>
