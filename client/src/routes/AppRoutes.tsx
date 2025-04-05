@@ -3,6 +3,9 @@ import Home from '../pages/Home';
 import Create from '../pages/Create';
 import Login from '../pages/Login';
 import { IAppRoute } from './types';
+import { ERole } from '../store/types';
+
+const { ADMIN, AUTHOR, GUEST } = ERole;
 
 const AppRoutes: IAppRoute[] = [
   {
@@ -21,14 +24,13 @@ const AppRoutes: IAppRoute[] = [
     name: 'New Post',
     path: '/create',
     pageElement: <Create />,
-    role: ['admin', 'author'],
+    role: [ADMIN, AUTHOR],
   },
-
   {
     name: 'Log in',
     path: '/login',
     pageElement: <Login />,
-    role: ['guest'],
+    role: [GUEST],
     includeInMenu: false,
   },
 ];
