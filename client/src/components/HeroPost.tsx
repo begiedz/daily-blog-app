@@ -7,7 +7,7 @@ interface IPostProps {
   tags: string[];
 }
 
-const Post = ({
+const HeroPost = ({
   imgUrl,
   title,
   author,
@@ -45,4 +45,4 @@ const Post = ({
   );
 };
 
-export default Post;
+export default HeroPost;

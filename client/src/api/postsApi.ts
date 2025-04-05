@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { postsStore } from '../store/postStore';
 
-export const getPosts = async () => {
+export const getAllPosts = async () => {
   try {
     const response = await axios.get(
       'http://localhost:5017/api/Blog/all-posts',
@@ -14,4 +14,9 @@ export const getPosts = async () => {
       error instanceof Error ? error.message : 'Unknown error',
     );
   }
+};
+
+export const getPost = async (slug: string) => {
+  const response = await axios.get(`http://localhost:5017/api/Blog/${slug}`);
+  return response.data;
 };
