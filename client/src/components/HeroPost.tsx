@@ -18,8 +18,8 @@ const HeroPost = ({
   return (
     <div className="card relative z-0 h-90 overflow-hidden shadow-sm">
       <img
-        src={imgUrl}
-        alt={`${title} image`}
+        src={imgUrl || '/no-image.jpg'}
+        alt={`${title || 'Post'} image`}
         className="absolute h-full w-full object-cover"
       />
       <div className="bg-base-100/70 z-10 h-full w-full">

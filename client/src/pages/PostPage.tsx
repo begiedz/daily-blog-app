@@ -42,24 +42,27 @@ const PostPage = () => {
   if (!post) return <p>Post not found.</p>;
 
   return (
-    <main className="mx-auto max-w-4xl p-6">
-      <h2>{post.title}</h2>
+    <main className="mx-auto max-w-4xl space-y-6 p-2">
+      <h2 className="text-center text-4xl font-bold">{post.title}</h2>
       <img
-        src={post.imgUrl}
-        alt="Title image"
+        src={post?.imgUrl || '/no-image.jpg'}
+        alt={`${post?.title || 'Post'} image`}
+        className="card h-60 w-full border object-cover"
       />
-      <p className="font-bold">
-        {post.author} • {new Date(post.createdAt).toLocaleDateString()}
-      </p>
-      <div className="space-x-2">
-        {post.tags.map((tag, index) => (
-          <span
-            key={index}
-            className="badge badge-outline rounded-full"
-          >
-            {tag}
-          </span>
-        ))}
+      <div>
+        <p className="font-bold">
+          {post.author} • {new Date(post.createdAt).toLocaleDateString()}
+        </p>
+        <div className="space-x-2">
+          {post.tags.map((tag, index) => (
+            <span
+              key={index}
+              className="badge badge-outline rounded-full"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
       </div>
       <article>
         <p>{post.content}</p>

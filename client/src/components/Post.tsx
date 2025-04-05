@@ -12,8 +12,8 @@ const Post = ({
     <div className="card bg-base-200 h-90 shadow-sm">
       <figure className="h-30 w-full">
         <img
-          src={imgUrl}
-          alt={`${title} image`}
+          src={imgUrl || '/no-image.jpg'}
+          alt={`${title || 'Post'} image`}
           className="h-full w-full object-cover"
         />
       </figure>
