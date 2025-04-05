@@ -2,6 +2,8 @@ import About from '../pages/About';
 import Home from '../pages/Home';
 import Create from '../pages/Create';
 import Login from '../pages/Login';
+import AdminPanel from '../pages/AdminPanel';
+
 import { IAppRoute } from './types';
 import { ERole } from '../store/types';
 
@@ -26,6 +28,14 @@ const AppRoutes: IAppRoute[] = [
     pageElement: <Create />,
     role: [ADMIN, AUTHOR],
   },
+  {
+    name: 'Admin Panel',
+    path: '/panel',
+    pageElement: <AdminPanel />,
+    role: [ADMIN],
+  },
+
+  // routes that are not included in the menu
   {
     name: 'Log in',
     path: '/login',
