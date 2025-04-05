@@ -32,7 +32,7 @@ const StatCard = ({ label, value }: { label: string; value: number }) => (
 
 const AdminPanel = () => {
   return (
-    <div className="space-y-8 p-6">
+    <main className="space-y-8 p-6">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
         {statCards.map(stat => (
           <StatCard
@@ -106,7 +106,7 @@ const AdminPanel = () => {
           <li className="hover:bg-base-300 cursor-pointer p-4">App Settings</li>
         </ul>
       </div>
-    </div>
+    </main>
   );
 };
 

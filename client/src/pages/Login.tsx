@@ -25,8 +25,8 @@ const Login = () => {
   };
 
   return (
-    <>
-      <h2 className="mb-4 text-3xl font-bold">
+    <main>
+      <h2 className="mb-4 text-center text-3xl font-bold">
         {isRegister ? 'Register' : 'Log in'}
       </h2>
       {error && <p className="text-red-500">{error}</p>}
@@ -89,7 +89,7 @@ const Login = () => {
           {isRegister ? 'Log in' : 'Register'}
         </button>
       </p>
-    </>
+    </main>
   );
 };
 
