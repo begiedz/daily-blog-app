@@ -1,4 +1,4 @@
-export type TRole = 'user' | 'author' | 'admin';
+export type TRole = 'guest' | 'user' | 'author' | 'admin';
 
 export interface IUser {
   username: string;

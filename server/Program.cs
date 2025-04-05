@@ -36,7 +36,7 @@ builder.Services.AddSwaggerGen(options =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = ParameterLocation.Header,
-        Description = "Wpisz token JWT jako: Bearer {twój_token}"
+        Description = "Wpisz token JWT jako: Bearer {twï¿½j_token}"
     });
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -82,7 +82,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
-        policy => policy.WithOrigins("http://localhost:3000") // Adres frontendu
+        policy => policy.WithOrigins("http://localhost:5173") // Adres frontendu
                         .AllowAnyMethod()
                         .AllowAnyHeader());
 });
