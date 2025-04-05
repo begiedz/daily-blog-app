@@ -15,9 +15,13 @@ export const filteredRoutes = ({
   routes,
   user,
   options = {},
-}: IFilteredRoutesProps): IAppRoute[] =>
-  routes.filter(route => {
+}: IFilteredRoutesProps): IAppRoute[] => {
+  // if user is null, set userRole to 'guest', nullish coalescing operator, optional chaining
+  const userRole = user?.role ?? 'guest';
+
+  return routes.filter(route => {
     if (options.onlyVisible && route.includeInMenu === false) return false;
-    if (route.private && !user) return false;
-    return true;
+    if (!route.role || route.role.length === 0) return true;
+    return route.role.includes(userRole);
   });
+};
