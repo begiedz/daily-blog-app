@@ -4,6 +4,7 @@ import { useStore } from '@tanstack/react-store';
 import { IPostPreview, TRole } from '../store/types';
 import { getAllUsers } from '../api/usersApi';
 import { ERole } from '../store/types';
+import { Link } from 'react-router-dom';
 
 interface IUser {
   id: number;
@@ -67,6 +68,7 @@ const AdminPanel = () => {
               <thead>
                 <tr>
                   <th>ID</th>
+                  <th>Name</th>
                   <th>Email</th>
                   <th>Role</th>
                 </tr>
@@ -75,6 +77,7 @@ const AdminPanel = () => {
                 {latestUsers.map(user => (
                   <tr key={user.id}>
                     <td>{user.id}</td>
+                    <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
                   </tr>
@@ -114,8 +117,22 @@ const AdminPanel = () => {
           <li className="p-4 text-sm font-medium tracking-wider text-gray-500 uppercase">
             Management Panel
           </li>
-          <li className="hover:bg-base-300 cursor-pointer p-4">Manage Posts</li>
-          <li className="hover:bg-base-300 cursor-pointer p-4">Manage Users</li>
+          <li className="hover:bg-base-300 cursor-pointer p-4">
+            <Link
+              to="/panel/posts"
+              className="block h-full w-full"
+            >
+              Manage Posts
+            </Link>
+          </li>
+          <li className="hover:bg-base-300 cursor-pointer p-4">
+            <Link
+              to="/panel/users"
+              className="block h-full w-full"
+            >
+              Manage Users
+            </Link>
+          </li>
         </ul>
       </div>
     </main>

@@ -4,9 +4,11 @@ import Login from '../pages/Login';
 import Create from '../pages/Create';
 import PostPage from '../pages/PostPage';
 import AdminPanel from '../pages/AdminPanel';
+import ManageAllPosts from '../pages/ManagePosts';
 
 import { IAppRoute } from './types';
 import { ERole } from '../store/types';
+import ManageAllUsers from '../pages/ManageAllUsers';
 
 const { ADMIN, AUTHOR, GUEST } = ERole;
 
@@ -51,6 +53,20 @@ const AppRoutes: IAppRoute[] = [
     path: '/login',
     pageElement: <Login />,
     role: [GUEST],
+    includeInMenu: false,
+  },
+  {
+    name: 'Manage Posts',
+    path: '/panel/posts',
+    pageElement: <ManageAllPosts />,
+    role: [ADMIN],
+    includeInMenu: false,
+  },
+  {
+    name: 'Manage Users',
+    path: '/panel/users',
+    pageElement: <ManageAllUsers />,
+    role: [ADMIN],
     includeInMenu: false,
   },
 ];
