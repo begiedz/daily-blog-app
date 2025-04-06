@@ -1,6 +1,16 @@
+import { useState, useEffect } from 'react';
 import { postsStore } from '../store/postStore';
 import { useStore } from '@tanstack/react-store';
-import { IPostPreview } from '../store/types';
+import { IPostPreview, TRole } from '../store/types';
+import { getAllUsers } from '../api/usersApi';
+import { ERole } from '../store/types';
+
+interface IUser {
+  id: number;
+  name: string;
+  email: string;
+  role: TRole;
+}
 
 const StatCard = ({ label, value }: { label: string; value: number }) => (
   <div className="card bg-base-200 p-4 text-center shadow-sm">
@@ -10,24 +20,36 @@ const StatCard = ({ label, value }: { label: string; value: number }) => (
 );
 
 const AdminPanel = () => {
+  const [users, setUsers] = useState<IUser[]>([]);
+
+  useEffect(() => {
+    getAllUsers()
+      .then(data => setUsers(data))
+      .catch(error => console.error('Failed to fetch users:', error));
+  }, []);
+
   const posts = useStore(postsStore);
 
   const statCards = [
     { label: 'Total Posts', value: posts.length },
-    { label: 'Total Users', value: 0 },
-    { label: 'Authors', value: 0 },
+    { label: 'Total Users', value: users.length },
+    {
+      label: 'Authors',
+      value: users.filter(user => user.role === ERole.AUTHOR).length,
+    },
+    {
+      label: 'Admins',
+      value: users.filter(user => user.role === ERole.ADMIN).length,
+    },
   ];
 
-  const latestUsers = [
-    // { id: 1, email: 'jan@dev.pl', role: 'AUTHOR', registered: '2024-04-01' },
-    // { id: 2, email: 'admin@xyz.com', role: 'ADMIN', registered: '2024-03-28' },
-  ];
-
+  const latestUsers = users.slice(0, 5).reverse();
   const recentPosts = posts.slice(0, 5);
 
   return (
     <main className="space-y-8 p-6">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-1 md:grid-cols-3">
+      <h2 className="text-center text-4xl font-bold">Admin Panel</h2>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
         {statCards.map(stat => (
           <StatCard
             key={stat.label}
@@ -47,7 +69,6 @@ const AdminPanel = () => {
                   <th>ID</th>
                   <th>Email</th>
                   <th>Role</th>
-                  <th>Registered</th>
                 </tr>
               </thead>
               <tbody>
@@ -56,7 +77,6 @@ const AdminPanel = () => {
                     <td>{user.id}</td>
                     <td>{user.email}</td>
                     <td>{user.role}</td>
-                    <td>{user.registered}</td>
                   </tr>
                 ))}
               </tbody>
@@ -90,10 +110,9 @@ const AdminPanel = () => {
       </div>
 
       <div>
-        <h2 className="mb-4 text-xl font-semibold">Management Panel</h2>
         <ul className="list bg-base-200 rounded-box divide-base-300 divide-y shadow-md">
           <li className="p-4 text-sm font-medium tracking-wider text-gray-500 uppercase">
-            Manager
+            Management Panel
           </li>
           <li className="hover:bg-base-300 cursor-pointer p-4">Manage Posts</li>
           <li className="hover:bg-base-300 cursor-pointer p-4">Manage Users</li>
