@@ -6,6 +6,7 @@ import { loadingPostsStore, postsStore } from '../store/postStore';
 import FadeLoader from 'react-spinners/FadeLoader';
 import Post from '../components/Post';
 import HeroPost from '../components/HeroPost';
+import Alert from '../components/Alert';
 
 const Home = () => {
   const posts = useStore(postsStore);
@@ -22,7 +23,7 @@ const Home = () => {
       </div>
 
       {loading ? (
-        <FadeLoader />
+        <FadeLoader className="mx-auto" />
       ) : posts.length > 0 ? (
         <ul className="grid grid-cols-[repeat(auto-fit,minmax(256px,0))] justify-center gap-6">
           {posts.map((post, index) => {
@@ -51,7 +52,12 @@ const Home = () => {
           })}
         </ul>
       ) : (
-        <p>No posts at the moment!</p>
+        <Alert
+          variant="WARNING"
+          className="mx-auto"
+        >
+          No posts at the moment!
+        </Alert>
       )}
     </main>
   );

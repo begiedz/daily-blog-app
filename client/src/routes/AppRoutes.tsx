@@ -3,16 +3,18 @@ import About from '../pages/About';
 import Login from '../pages/Login';
 import Create from '../pages/Create';
 import PostPage from '../pages/PostPage';
+import PostsPanel from '../pages/PostsPanel';
 import AdminPanel from '../pages/AdminPanel';
 import ManageAllPosts from '../pages/ManagePosts';
+import ManageAllUsers from '../pages/ManageAllUsers';
 
 import { IAppRoute } from './types';
 import { ERole } from '../store/types';
-import ManageAllUsers from '../pages/ManageAllUsers';
 
 const { ADMIN, AUTHOR, GUEST } = ERole;
 
 const AppRoutes: IAppRoute[] = [
+  // public routes
   {
     name: 'Home',
     path: '/',
@@ -31,6 +33,12 @@ const AppRoutes: IAppRoute[] = [
     name: 'New Post',
     path: '/create',
     pageElement: <Create />,
+    role: [ADMIN, AUTHOR],
+  },
+  {
+    name: 'My Posts',
+    path: '/posts',
+    pageElement: <PostsPanel />,
     role: [ADMIN, AUTHOR],
   },
   {
