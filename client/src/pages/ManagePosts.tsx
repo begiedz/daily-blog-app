@@ -1,18 +1,17 @@
+import { useState } from 'react';
 import { useStore } from '@tanstack/react-store';
 import { postsStore } from '../store/postStore';
 import { IPostPreview } from '../store/types';
 import EditPostModal from '../components/modals/EditPostModal';
-import DeleteModal from '../components/modals/DeleteModal';
+// import DeleteModal from '../components/modals/DeleteModal';
 
 const ManageAllPosts = () => {
   const posts = useStore(postsStore);
+  const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
 
-  const openEditModal = () => {
-    const modal = document.getElementById('edit-post-modal');
-    if (modal) (modal as HTMLDialogElement).showModal();
-  };
-  const openDeleteModal = () => {
-    const modal = document.getElementById('delete-modal');
+  const openModal = (id: string, slug: string) => {
+    setSelectedSlug(slug);
+    const modal = document.getElementById(id);
     if (modal) (modal as HTMLDialogElement).showModal();
   };
 
@@ -36,13 +35,13 @@ const ManageAllPosts = () => {
               <td>{new Date(post.createdAt).toLocaleDateString()}</td>
               <td className="flex flex-wrap gap-2">
                 <button
-                  onClick={openEditModal}
+                  onClick={() => openModal('edit-post-modal', post.slug)}
                   className="btn btn-warning flex-1"
                 >
                   Edit
                 </button>
                 <button
-                  onClick={openDeleteModal}
+                  onClick={() => openModal('delete-modal', post.slug)}
                   className="btn btn-error flex-1"
                 >
                   Delete
@@ -52,8 +51,8 @@ const ManageAllPosts = () => {
           ))}
         </tbody>
       </table>
-      <EditPostModal />
-      <DeleteModal />
+      <EditPostModal slug={selectedSlug} />
+      {/* <DeleteModal slug={selectedSlug} /> */}
     </main>
   );
 };

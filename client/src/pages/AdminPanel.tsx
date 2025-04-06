@@ -13,6 +13,8 @@ interface IUser {
   role: TRole;
 }
 
+const { ADMIN, AUTHOR } = ERole;
+
 const StatCard = ({ label, value }: { label: string; value: number }) => (
   <div className="card bg-base-200 p-4 text-center shadow-sm">
     <div className="text-lg font-bold">{label}</div>
@@ -36,11 +38,11 @@ const AdminPanel = () => {
     { label: 'Total Users', value: users.length },
     {
       label: 'Authors',
-      value: users.filter(user => user.role === ERole.AUTHOR).length,
+      value: users.filter(user => user.role === AUTHOR).length,
     },
     {
       label: 'Admins',
-      value: users.filter(user => user.role === ERole.ADMIN).length,
+      value: users.filter(user => user.role === ADMIN).length,
     },
   ];
 
