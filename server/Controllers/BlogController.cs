@@ -2,6 +2,7 @@
 using daily_blog_app.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System.Security.Claims;
 
 namespace daily_blog_app.Controllers
@@ -26,8 +27,10 @@ namespace daily_blog_app.Controllers
                 p.Slug,
                 p.Title,
                 p.CreatedAt,
+                p.Content,
                 p.Excerpt,
-                p.Tags
+                p.Tags,
+                Author = p.User.Name
             });
             return Ok(result);
         }
@@ -36,14 +39,14 @@ namespace daily_blog_app.Controllers
         public async Task<IActionResult> GetPostBySlug(string slug)
         {
             var post = await _postService.GetPostBySlugAsync(slug);
-            if (post == null) return NotFound(new { message = "Post nie istnieje" });
-
+            
             return Ok(new
             {
                 post.Slug,
                 post.Title,
                 post.CreatedAt,
                 post.Content,
+                post.Excerpt,
                 post.Tags,
                 Author = post.User.Name
             });
@@ -53,8 +56,6 @@ namespace daily_blog_app.Controllers
         [Authorize]
         public async Task<IActionResult> CreatePost([FromBody] PostRequest request)
         {
-            try
-            {
                 var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
                 var post = new Post
@@ -69,14 +70,7 @@ namespace daily_blog_app.Controllers
                 };
 
                 await _postService.CreatePostAsync(post, userId);
-
-                return Ok(new { message = "Post został dodany poprawnie." });
-            }
-            catch (Exception ex)
-            {
-     
-                return StatusCode(500, new { message = "Wystąpił błąd podczas zapisywania posta. Spróbuj ponownie." });
-            }
+                return Ok(new { message = "The post has been created successfully." });        
         }
 
         [HttpGet("my-posts")]
@@ -85,27 +79,19 @@ namespace daily_blog_app.Controllers
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-            try
-            {
-                var posts = await _postService.GetPostsByUserAsync(userId);
+            var posts = await _postService.GetPostsByUserAsync(userId);
 
-                var result = posts.Select(p => new
-                {
-                    p.Slug,
-                    p.Title,
-                    p.CreatedAt,
-                    p.Excerpt,
-                    p.Tags
-                });
-
-                return Ok(result);
-            }
-            catch (Exception)
+            var result = posts.Select(p => new
             {
-                return StatusCode(500, new { message = "Wystąpił błąd podczas pobierania postów użytkownika." });
-            }
+                p.Slug,
+                p.Title,
+                p.CreatedAt,
+                p.Excerpt,
+                p.Content,
+                p.Tags
+            });
+
+            return Ok(result);
         }
-
-
     }
 }

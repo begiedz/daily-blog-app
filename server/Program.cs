@@ -1,5 +1,6 @@
 using daily_blog_app.Data;
 using daily_blog_app.Interfaces;
+using daily_blog_app.Middleware;
 using daily_blog_app.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,9 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
+builder.Services.AddHttpClient<IAffirmationService, AffirmationService>();
+
+
 
 
 
@@ -99,6 +103,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 
