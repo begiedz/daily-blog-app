@@ -23,25 +23,13 @@ namespace daily_blog_app.Controllers
         {
             if (string.IsNullOrWhiteSpace(request.Username) || string.IsNullOrWhiteSpace(request.Password))
             {
-                return BadRequest(new { message = "Login i hasło są wymagane." });
+                return BadRequest(new { message = "Username and password are required." });
             }
 
-            try
-            {
-                var token = await _authService.LoginAsync(request);
-                return Ok(new { token, message = "Zalogowano pomyślnie" });
-            }
-            catch (UnauthorizedAccessException ex)
-            {
-                return Unauthorized(new { message = ex.Message });
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, new { message = "Wystąpił błąd serwera podczas logowania." });
-            }
+           var token = await _authService.LoginAsync(request);
+           return Ok(new { token, message = "Logged in successfully." });
+            
         }
-
-
 
 
         [HttpPost("register")]
@@ -51,29 +39,17 @@ namespace daily_blog_app.Controllers
                 string.IsNullOrWhiteSpace(request.Email) ||
                 string.IsNullOrWhiteSpace(request.Password))
             {
-                return BadRequest(new { message = "Wszystkie pola są wymagane." });
+                return BadRequest(new { message = "All fields are required." });
             }
 
             // Walidacja emaila
             if (!Regex.IsMatch(request.Email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
             {
-                return BadRequest(new { message = "Nieprawidłowy format adresu e-mail." });
+                return BadRequest(new { message = "Invalid email format." });
             }
 
-            try
-            {
-                var success = await _authService.RegisterAsync(request);
-                if (!success)
-                    return BadRequest(new { message = "Użytkownik o podanym loginie lub mailu już istnieje." });
-
-                return Ok(new { message = "Użytkownik zarejestrowany" });
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, new { message = "Wystąpił błąd serwera podczas rejestracji." });
-            }
+           return Ok(new { message = "User registered successfully." });
+            
         }
-
-
     }
 }

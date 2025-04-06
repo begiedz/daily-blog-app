@@ -15,13 +15,13 @@ namespace daily_blog_app.Controllers
             _currencyService = currencyService;
         }
 
-        [HttpGet("kursy-walut")]
+        [HttpGet("currency-rates")]
         public async Task<IActionResult> GetLatestRates()
         {
             var content = await _currencyService.GetLatestRatesAsync();
 
             if (string.IsNullOrEmpty(content))
-                return StatusCode(502, new { message = "Błąd pobierania danych z NBP" });
+                throw new Exception("Failed to fetch currency data from NBP." );
 
             return Content(content, "application/json");
         }

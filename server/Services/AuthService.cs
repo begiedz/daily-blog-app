@@ -1,4 +1,5 @@
 ﻿using daily_blog_app.Data;
+using daily_blog_app.Exceptions;
 using daily_blog_app.Interfaces;
 using daily_blog_app.Models;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace daily_blog_app.Services
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Name == request.Username.Trim());
 
             if (user == null || !BCrypt.Net.BCrypt.Verify(request.Password.Trim(), user.Password))
-                throw new UnauthorizedAccessException("Nieprawidłowa nazwa użytkownika lub hasło");
+                throw new UnauthorizedException("Invalid username or password."); 
 
             return GenerateJwtToken(user);
         }
@@ -33,7 +34,7 @@ namespace daily_blog_app.Services
         public async Task<bool> RegisterAsync(RegisterRequest request)
         {
             if (_context.Users.Any(u => u.Name == request.Username || u.Email == request.Email))
-                return false;
+                throw new ConflictException("A user with this username or email already exists."); ;
 
             var user = new User
             {
