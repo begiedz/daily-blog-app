@@ -37,3 +37,20 @@ export const sendPost = async (postToSend: object) => {
       console.log(error);
     });
 };
+
+export const updatePost = async (updatedValues: object) => {
+  const token = localStorage.getItem('token');
+
+  await axios
+    .post('http://localhost:5017/api/Blog/create-post', updatedValues, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+};

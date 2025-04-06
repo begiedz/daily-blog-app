@@ -41,8 +41,8 @@ const Create = () => {
       setTagsError('Add at least 1 tag');
     } else if (newTags.length > 3) {
       setTagsError('Max 3 tags');
-    } else if (newTags.some(tag => tag.length > 15)) {
-      setTagsError("Tags can't have more than 15 characters");
+    } else if (newTags.some(tag => tag.length > 20)) {
+      setTagsError("Tags can't have more than 20 characters");
     } else {
       setTagsError('');
     }
