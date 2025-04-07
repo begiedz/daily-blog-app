@@ -33,7 +33,12 @@ export type TUser = IUser | null;
 export interface ITokenPayload {
   unique_name: string;
   role: TRole;
+  nameid: string;
+  nbf: number;
   exp: number;
+  iat: number;
+  iss: string;
+  aud: string;
 }
 
 export interface IHandleLoginProps {
