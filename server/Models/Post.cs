@@ -11,10 +11,11 @@ namespace daily_blog_app.Models
         public string Excerpt { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-
+        public DateTime? ModifiedAt { get; set; }
+        public string? ModifiedBy { get; set; }
         public List<string> Tags { get; set; } = new();
 
-        // 🔗 Powiązanie z użytkownikiem
+        //Powiązanie z użytkownikiem
         public int UserId { get; set; }
         public User User { get; set; } = null!;
     }
