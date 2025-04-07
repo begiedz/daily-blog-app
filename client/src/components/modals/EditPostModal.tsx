@@ -2,32 +2,25 @@ import { useEffect, useState } from 'react';
 import { getPost } from '../../api/postsApi';
 import Alert from '../Alert';
 import FadeLoader from 'react-spinners/FadeLoader';
+import { IPost } from '../../types';
+import { createSlug } from '../../utils';
 
-interface PostToSend {
-  imgUrl: string;
-  title: string;
-  author: string;
-  createdAt: string;
-  excerpt: string;
-  content: string;
-  tags: string[];
+interface EditPostModalProps {
+  post: IPost;
 }
 
-//excerpt to remake
-
-const EditPostModal = ({ slug }: { slug: string | null }) => {
-  const [post, setPost] = useState<PostToSend | null>(null);
+const EditPostModal = ({ post }: EditPostModalProps) => {
+  const [postToUpdate, setPostToUpdate] = useState<IPost>(post);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPost = async () => {
-      if (!slug) return;
       setLoading(true);
       setError(null);
       try {
-        const postData = await getPost(slug);
-        setPost(postData);
+        const postData = await getPost(post.slug);
+        setPostToUpdate({ ...postData });
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch post');
       } finally {
@@ -36,14 +29,13 @@ const EditPostModal = ({ slug }: { slug: string | null }) => {
     };
 
     fetchPost();
-  }, [slug]);
+  }, [post.slug]);
 
   const handleUpdatePost = () => {
     // logic here
   };
 
   if (loading) return <FadeLoader className="mx-auto" />;
-  if (error) return <Alert variant="ERROR">{error}</Alert>;
 
   return (
     <dialog
@@ -51,7 +43,8 @@ const EditPostModal = ({ slug }: { slug: string | null }) => {
       className="modal"
     >
       <div className="modal-box">
-        <h3 className="text-lg font-bold">Editing {post?.title}</h3>
+        {error && <Alert variant="ERROR">{error}</Alert>}
+        <h3 className="text-lg font-bold">Editing {post.title}</h3>
         <div>
           <form
             onSubmit={handleUpdatePost}
@@ -62,9 +55,13 @@ const EditPostModal = ({ slug }: { slug: string | null }) => {
               <input
                 type="text"
                 placeholder="Title of post"
-                value={post?.title || ''}
+                value={postToUpdate.title}
                 onChange={e =>
-                  setPost({ ...post, title: e.target.value } as PostToSend)
+                  setPostToUpdate({
+                    ...postToUpdate,
+                    title: e.target.value,
+                    slug: createSlug(e.target.value),
+                  })
                 }
                 required
                 minLength={3}
@@ -77,13 +74,24 @@ const EditPostModal = ({ slug }: { slug: string | null }) => {
             </div>
 
             <div>
+              <label className="fieldset-label">Slug</label>
+              <input
+                type="text"
+                placeholder="Title of post"
+                value={postToUpdate.slug}
+                disabled
+                className="input validator w-full"
+              />
+            </div>
+
+            <div>
               <label className="fieldset-label">Excerpt</label>
               <input
                 type="text"
                 placeholder="Short summary of your post..."
-                value={post?.content.substring(0, 100) || ''}
+                value={postToUpdate.excerpt}
                 onChange={e =>
-                  setPost({ ...post, content: e.target.value } as PostToSend)
+                  setPostToUpdate({ ...postToUpdate, content: e.target.value })
                 }
                 required
                 minLength={3}
@@ -100,12 +108,12 @@ const EditPostModal = ({ slug }: { slug: string | null }) => {
               <input
                 type="text"
                 placeholder="Food, Travel, Sport..."
-                value={post?.tags.join(', ')}
+                value={postToUpdate.tags.join(', ')}
                 onChange={e =>
-                  setPost({
-                    ...post,
+                  setPostToUpdate({
+                    ...postToUpdate,
                     tags: e.target.value.split(',').map(tag => tag.trim()),
-                  } as PostToSend)
+                  })
                 }
                 required
                 className="input w-full"
@@ -129,9 +137,9 @@ const EditPostModal = ({ slug }: { slug: string | null }) => {
               <label className="fieldset-label">Content</label>
               <textarea
                 placeholder="Today I wanted to tell you how awesome my new post is..."
-                value={post?.content || ''}
+                value={postToUpdate.content}
                 onChange={e =>
-                  setPost({ ...post, content: e.target.value } as PostToSend)
+                  setPostToUpdate({ ...postToUpdate, content: e.target.value })
                 }
                 required
                 minLength={3}

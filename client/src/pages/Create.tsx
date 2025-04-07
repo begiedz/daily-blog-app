@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { sendPost } from '../api/postsApi';
 import { useNavigate } from 'react-router-dom';
+import { arrayFromString, createSlug } from '../utils';
 
 interface PostToSend {
   slug: string;
@@ -18,18 +19,6 @@ const Create = () => {
 
   const [tagsError, setTagsError] = useState('');
   const navigate = useNavigate();
-
-  const createSlug = (title: string) => {
-    const slug = title.toLowerCase().replace(/\s+/g, '-');
-    return slug;
-  };
-
-  const arrayFromString = (strTags: string) => {
-    return strTags
-      .split(',')
-      .map(tag => tag.trim())
-      .filter(tag => tag !== '');
-  };
 
   const handleSetTags = (e: React.ChangeEvent<HTMLInputElement>) => {
     const input = e.target.value;

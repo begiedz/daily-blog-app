@@ -4,8 +4,8 @@ export interface IPost {
   title: string;
   imgUrl: string;
   createdAt: string;
-  content?: string;
-  excerpt?: string;
+  content: string;
+  excerpt: string;
   tags: string[];
   author: string;
 }

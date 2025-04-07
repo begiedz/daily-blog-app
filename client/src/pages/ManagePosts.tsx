@@ -1,24 +1,43 @@
 import { useState, useEffect } from 'react';
-import { getAllPosts } from '../api/postsApi';
-import { IPost } from '../api/types';
+import { getAllPosts, deletePost as deletePostApi } from '../api/postsApi';
+import { IPost } from '../types';
 import EditPostModal from '../components/modals/EditPostModal';
 import { Link } from 'react-router-dom';
-// import DeleteModal from '../components/modals/DeleteModal';
+import DeleteModal from '../components/modals/DeleteModal';
 
 const ManageAllPosts = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
-  const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+  const [selectedPost, setSelectedPost] = useState<IPost | null>(null);
+  const [postToDelete, setPostToDelete] = useState<IPost | null>(null);
 
   useEffect(() => {
-    getAllPosts()
-      .then(data => setPosts(data))
-      .catch(error => console.error('Failed to fetch posts:', error));
+    const fetchPosts = async () => {
+      const postsData = await getAllPosts();
+      setPosts(postsData);
+    };
+    fetchPosts();
   }, []);
 
-  const openModal = (id: string, slug: string) => {
-    setSelectedSlug(slug);
-    const modal = document.getElementById(id);
+  const openEditModal = (post: IPost) => {
+    setSelectedPost(post);
+    const modal = document.getElementById('edit-post-modal');
     if (modal) (modal as HTMLDialogElement).showModal();
+  };
+
+  const openDeleteModal = (post: IPost) => {
+    setPostToDelete(post);
+    const modal = document.getElementById('delete-modal');
+    if (modal) (modal as HTMLDialogElement).showModal();
+  };
+
+  const deletePost = async (postId: number) => {
+    try {
+      await deletePostApi(postId);
+      setPosts(posts.filter(post => post.id !== postId));
+      setPostToDelete(null);
+    } catch (error) {
+      console.error('Failed to delete post:', error);
+    }
   };
 
   return (
@@ -48,13 +67,13 @@ const ManageAllPosts = () => {
               <td>{new Date(post.createdAt).toLocaleDateString()}</td>
               <td className="flex flex-wrap gap-2">
                 <button
-                  onClick={() => openModal('edit-post-modal', post.slug)}
+                  onClick={() => openEditModal(post)}
                   className="btn flex-1"
                 >
                   Edit
                 </button>
                 <button
-                  onClick={() => openModal('delete-modal', post.slug)}
+                  onClick={() => openDeleteModal(post)}
                   className="btn btn-error flex-1"
                 >
                   Delete
@@ -64,8 +83,13 @@ const ManageAllPosts = () => {
           ))}
         </tbody>
       </table>
-      <EditPostModal slug={selectedSlug} />
-      {/* <DeleteModal slug={selectedSlug} /> */}
+      {selectedPost && <EditPostModal post={selectedPost} />}
+      {postToDelete && (
+        <DeleteModal
+          name={postToDelete.title}
+          onDelete={() => deletePost(postToDelete.id)}
+        />
+      )}
     </main>
   );
 };
