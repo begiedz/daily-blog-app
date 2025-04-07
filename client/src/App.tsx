@@ -1,10 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { loadingPostsStore } from './store/postStore';
 
 import { useEffect } from 'react';
 
 import { authOnEntry } from './auth';
-import { getAllPosts } from './api/postsApi';
 import AppRoutes from './routes/AppRoutes';
 import AppLayout from './layouts/AppLayout';
 import { filteredRoutes } from './routes/utils';
@@ -14,9 +12,6 @@ import { useStore } from '@tanstack/react-store';
 export default function App() {
   useEffect(() => {
     authOnEntry();
-
-    loadingPostsStore.setState(() => true);
-    getAllPosts().then(() => loadingPostsStore.setState(() => false));
   }, []);
   const user = useStore(authStore, state => state.user);
   return (
