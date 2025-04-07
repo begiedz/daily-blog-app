@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getUserProfile } from '../api/usersApi';
+import { getUserProfile, updateUserProfile } from '../api/usersApi';
 import Alert from '../components/Alert';
 import FadeLoader from 'react-spinners/FadeLoader';
 
@@ -9,6 +9,7 @@ const ProfilePanel = () => {
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -29,24 +30,32 @@ const ProfilePanel = () => {
     fetchProfile();
   }, []);
 
-  const handleUpdateProfile = (e: React.FormEvent) => {
+  const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     setPasswordError(null);
+    setError(null);
+    setSuccess(null);
 
     if (profile.password !== repeatPassword) {
       setPasswordError('Passwords do not match.');
       return;
     }
 
-    // Logic to update profile
+    try {
+      const response = await updateUserProfile(profile.email, profile.password);
+      setSuccess(response.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update profile');
+    }
   };
 
   if (loading) return <FadeLoader className="mx-auto" />;
-  if (error) return <Alert variant="ERROR">{error}</Alert>;
 
   return (
     <main>
       <h2 className="mb-4 text-center text-3xl font-bold">Your Profile</h2>
+      {error && <Alert variant="ERROR">{error}</Alert>}
+      {success && <Alert variant="SUCCESS">{success}</Alert>}
       <form
         onSubmit={handleUpdateProfile}
         className="fieldset bg-base-200 border-base-300 rounded-box w-md max-w-full border p-10"
