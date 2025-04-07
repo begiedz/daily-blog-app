@@ -19,24 +19,15 @@ namespace daily_blog_app.Controllers
         }
 
         [HttpGet("all-posts")]
-        public async Task<IActionResult> GetAllPosts()
+        public async Task<IActionResult> GetAllPosts([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            var posts = await _postService.GetAllPostsAsync();
-            var result = posts.Select(p => new
-            {
-                p.Slug,
-                p.Title,
-                p.CreatedAt,
-                p.Content,
-                p.Excerpt,
-                p.Tags,
-                Author = p.User.Name
-            });
-            return Ok(result);
+            var response = await _postService.GetAllPostsAsync(pageNumber, pageSize);
+            return Ok(response);
         }
 
+
         [HttpGet("{slug}")]
-        public async Task<IActionResult> GetPostBySlug(string slug)
+        public async Task<IActionResult> GetPostBySlug([FromRoute] string slug)
         {
             var post = await _postService.GetPostBySlugAsync(slug);
             
