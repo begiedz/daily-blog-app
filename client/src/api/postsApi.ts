@@ -1,13 +1,14 @@
 import axios from 'axios';
 import { postsStore } from '../store/postStore';
 
-export const getAllPosts = async () => {
+export const getAllPosts = async (pageNumber = 1, pageSize = 7) => {
   try {
     const response = await axios.get(
-      'http://localhost:5017/api/Blog/all-posts',
+      `http://localhost:5017/api/Blog/all-posts?pageNumber=${pageNumber}&pageSize=${pageSize}`,
     );
-    postsStore.setState(() => response.data);
+    postsStore.setState(() => response.data.posts);
     console.log('getPosts response: ', response.data);
+    return response.data.pagination;
   } catch (error) {
     console.error(
       'Error fetching posts:',
