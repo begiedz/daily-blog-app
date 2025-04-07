@@ -3,35 +3,29 @@ import { getAllUsers, deleteUser as deleteUserApi } from '../api/usersApi';
 import EditUserModal from '../components/modals/EditUserModal';
 import DeleteModal from '../components/modals/DeleteModal';
 import { capitalize } from '../utils';
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-}
+import { IUser } from '../types';
 
 const ManageAllUsers = () => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [userToDelete, setUserToDelete] = useState<User | null>(null);
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
+  const [userToDelete, setUserToDelete] = useState<IUser | null>(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
       const usersData = await getAllUsers();
       //set users and prevent Admin to self edit
-      setUsers(usersData.filter((user: User) => user.name !== 'Admin'));
+      setUsers(usersData.filter((user: IUser) => user.name !== 'Admin'));
     };
     fetchUsers();
   }, []);
 
-  const openEditModal = (user: User) => {
+  const openEditModal = (user: IUser) => {
     setSelectedUser(user);
     const modal = document.getElementById('edit-user-modal');
     if (modal) (modal as HTMLDialogElement).showModal();
   };
 
-  const openDeleteModal = (user: User) => {
+  const openDeleteModal = (user: IUser) => {
     setUserToDelete(user);
     const modal = document.getElementById('delete-modal');
     if (modal) (modal as HTMLDialogElement).showModal();
@@ -60,7 +54,7 @@ const ManageAllUsers = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user: User, i) => (
+          {users.map((user: IUser, i) => (
             <tr key={i}>
               <td className="font-medium">{user.id}</td>
               <td>{user.name}</td>
