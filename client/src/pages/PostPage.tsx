@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { getPost } from '../api/postsApi';
 import { useEffect, useState } from 'react';
+import Alert from '../components/Alert';
+import FadeLoader from 'react-spinners/FadeLoader';
 
 interface Post {
   imgUrl: string;
@@ -37,9 +39,9 @@ const PostPage = () => {
     };
   }, [slug]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
-  if (!post) return <p>Post not found.</p>;
+  if (loading) return <FadeLoader className="mx-auto" />;
+  if (error) return <Alert variant="ERROR">{error}</Alert>;
+  if (!post) return <Alert variant="ERROR">Post not found.</Alert>;
 
   return (
     <main className="mx-auto max-w-4xl space-y-6 p-2">
