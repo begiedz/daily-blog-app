@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import { postsStore } from '../store/postStore';
-import { useStore } from '@tanstack/react-store';
-import { IPostPreview, TRole } from '../store/types';
 import { getAllUsers } from '../api/usersApi';
+import { getAllPosts } from '../api/postsApi';
+import { IPost } from '../api/types';
+import { TRole } from '../store/types';
 import { ERole } from '../store/types';
 import { Link } from 'react-router-dom';
 import { capitalize } from '../utils';
@@ -25,14 +25,17 @@ const StatCard = ({ label, value }: { label: string; value: number }) => (
 
 const AdminPanel = () => {
   const [users, setUsers] = useState<IUser[]>([]);
+  const [posts, setPosts] = useState<IPost[]>([]);
 
   useEffect(() => {
     getAllUsers()
       .then(data => setUsers(data))
       .catch(error => console.error('Failed to fetch users:', error));
-  }, []);
 
-  const posts = useStore(postsStore);
+    getAllPosts()
+      .then(data => setPosts(data))
+      .catch(error => console.error('Failed to fetch posts:', error));
+  }, []);
 
   const statCards = [
     { label: 'Total Posts', value: posts.length },
@@ -102,7 +105,7 @@ const AdminPanel = () => {
                 </tr>
               </thead>
               <tbody>
-                {recentPosts.map((post: IPostPreview, i) => (
+                {recentPosts.map((post: IPost, i) => (
                   <tr key={i}>
                     <td>{post.title}</td>
                     <td>{post.author}</td>

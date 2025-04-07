@@ -1,9 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
-import { useStore } from '@tanstack/react-store';
-import { loadingPostsStore, postsStore } from '../store/postStore';
-import { getAllPosts } from '../api/postsApi';
+import { getPosts } from '../api/postsApi';
 
 import FadeLoader from 'react-spinners/FadeLoader';
 import Post from '../components/Post';
@@ -17,18 +15,29 @@ interface Pagination {
   totalPages: number;
 }
 
+interface Post {
+  slug: string;
+  imgUrl?: string;
+  title: string;
+  author: string;
+  createdAt: string;
+  excerpt: string;
+  tags: string[];
+}
+
 const Home = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pagination, setPagination] = useState<Pagination | null>(null);
-  const posts = useStore(postsStore);
-  const loading = useStore(loadingPostsStore);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
-      loadingPostsStore.setState(() => true);
-      const paginationData = await getAllPosts(pageNumber);
-      setPagination(paginationData);
-      loadingPostsStore.setState(() => false);
+      setLoading(true);
+      const paginationData = await getPosts(pageNumber);
+      setPosts(paginationData.posts);
+      setPagination(paginationData.pagination);
+      setLoading(false);
     };
     fetchPosts();
   }, [pageNumber]);
@@ -95,11 +104,6 @@ const Home = () => {
             </button>
             <button
               onClick={handleNextPage}
-              /*  
-              The button will be disabled only if:
-              - The pagination object exists (!!pagination is true).
-              - The current page is the last page (pageNumber === pagination.totalPages)
-              */
               disabled={!!pagination && pageNumber === pagination.totalPages}
               className="btn"
             >
