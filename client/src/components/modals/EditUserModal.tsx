@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import Alert from '../Alert';
 import { updateUserRole } from '../../api/usersApi';
+import { ERole } from '../../store/types';
+import { capitalize } from '../../utils/';
+import FadeLoader from 'react-spinners/FadeLoader';
 
 interface User {
   id: number;
@@ -13,6 +16,8 @@ interface EditUserModalProps {
   user: User;
   // updateUser: (updatedUser: User) => void;
 }
+
+const roles = Object.values(ERole).filter(role => role !== 'guest');
 
 const EditUserModal = ({ user }: EditUserModalProps) => {
   const [userToUpdate, setUserToUpdate] = useState<User>(user);
@@ -41,7 +46,7 @@ const EditUserModal = ({ user }: EditUserModalProps) => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <FadeLoader className="mx-auto" />;
   if (error) return <Alert variant="ERROR">{error}</Alert>;
 
   return (
@@ -78,9 +83,14 @@ const EditUserModal = ({ user }: EditUserModalProps) => {
               required
               className="select w-full"
             >
-              <option value="user">User</option>
-              <option value="author">Author</option>
-              <option value="admin">Admin</option>
+              {roles.map(role => (
+                <option
+                  key={role}
+                  value={role}
+                >
+                  {capitalize(role)}
+                </option>
+              ))}
             </select>
           </div>
         </form>

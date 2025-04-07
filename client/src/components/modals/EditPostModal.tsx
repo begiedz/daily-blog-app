@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getPost } from '../../api/postsApi';
 import Alert from '../Alert';
+import FadeLoader from 'react-spinners/FadeLoader';
 
 interface PostToSend {
   imgUrl: string;
@@ -41,7 +42,7 @@ const EditPostModal = ({ slug }: { slug: string | null }) => {
     // logic here
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <FadeLoader className="mx-auto" />;
   if (error) return <Alert variant="ERROR">{error}</Alert>;
 
   return (
@@ -50,8 +51,8 @@ const EditPostModal = ({ slug }: { slug: string | null }) => {
       className="modal"
     >
       <div className="modal-box">
-        <h3 className="text-lg font-bold">Edit {post?.title}</h3>
-        <div className="">
+        <h3 className="text-lg font-bold">Editing {post?.title}</h3>
+        <div>
           <form
             onSubmit={handleUpdatePost}
             className="fieldset max-w-full p-10"

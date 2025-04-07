@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
-import { getAllUsers } from '../api/usersApi';
+import { getAllUsers, deleteUser as deleteUserApi } from '../api/usersApi';
 import EditUserModal from '../components/modals/EditUserModal';
+import DeleteModal from '../components/modals/DeleteModal';
+import { capitalize } from '../utils';
 
 interface User {
   id: number;
@@ -12,11 +14,13 @@ interface User {
 const ManageAllUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
+  const [userToDelete, setUserToDelete] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
       const usersData = await getAllUsers();
-      setUsers(usersData);
+      //set users and prevent Admin to self edit
+      setUsers(usersData.filter((user: User) => user.name !== 'Admin'));
     };
     fetchUsers();
   }, []);
@@ -27,11 +31,21 @@ const ManageAllUsers = () => {
     if (modal) (modal as HTMLDialogElement).showModal();
   };
 
-  // const updateUser = (updatedUser: User) => {
-  //   setUsers(
-  //     users.map(user => (user.id === updatedUser.id ? updatedUser : user)),
-  //   );
-  // };
+  const openDeleteModal = (user: User) => {
+    setUserToDelete(user);
+    const modal = document.getElementById('delete-modal');
+    if (modal) (modal as HTMLDialogElement).showModal();
+  };
+
+  const deleteUser = async (userId: number) => {
+    try {
+      await deleteUserApi(userId);
+      setUsers(users.filter(user => user.id !== userId));
+      setUserToDelete(null);
+    } catch (error) {
+      console.error('Failed to delete user:', error);
+    }
+  };
 
   return (
     <main>
@@ -51,24 +65,30 @@ const ManageAllUsers = () => {
               <td className="font-medium">{user.id}</td>
               <td>{user.name}</td>
               <td>{user.email}</td>
-              <td>{user.role}</td>
+              <td>{capitalize(user.role)}</td>
               <td className="flex flex-wrap gap-2">
                 <button
                   onClick={() => openEditModal(user)}
-                  className="btn btn-warning flex-1"
+                  className="btn flex-1"
                 >
                   Edit
                 </button>
-                <button className="btn btn-error flex-1">Delete</button>
+                <button
+                  onClick={() => openDeleteModal(user)}
+                  className="btn btn-error flex-1"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      {selectedUser && (
-        <EditUserModal
-          user={selectedUser}
-          // updateUser={updateUser}
+      {selectedUser && <EditUserModal user={selectedUser} />}
+      {userToDelete && (
+        <DeleteModal
+          name={userToDelete.name}
+          onDelete={() => deleteUser(userToDelete.id)}
         />
       )}
     </main>
