@@ -7,6 +7,15 @@ import {
   ITokenPayload,
 } from '../types';
 
+const setNewUser = (decoded: ITokenPayload) => {
+  return {
+    id: parseInt(decoded.nameid),
+    name: decoded.unique_name,
+    email: '',
+    role: decoded.role,
+  };
+};
+
 export const handleLogin = async ({
   username,
   password,
@@ -17,10 +26,7 @@ export const handleLogin = async ({
     const decoded = jwtDecode<ITokenPayload>(token);
     console.log('decoded token', decoded);
 
-    const newUser = {
-      username: decoded.unique_name,
-      role: decoded.role,
-    };
+    const newUser = setNewUser(decoded);
 
     setUserState(newUser);
     console.log(newUser);
@@ -59,10 +65,7 @@ export const authOnEntry = () => {
       return;
     }
 
-    const newUser = {
-      username: decoded.unique_name,
-      role: decoded.role,
-    };
+    const newUser = setNewUser(decoded);
 
     setUserState(newUser);
     localStorage.setItem('token', token);
