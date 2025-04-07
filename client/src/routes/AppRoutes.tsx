@@ -5,13 +5,14 @@ import Create from '../pages/Create';
 import PostPage from '../pages/PostPage';
 import PostsPanel from '../pages/PostsPanel';
 import AdminPanel from '../pages/AdminPanel';
+import ProfilePanel from '../pages/ProfilePanel';
 import ManageAllPosts from '../pages/ManagePosts';
 import ManageAllUsers from '../pages/ManageAllUsers';
 
 import { IAppRoute } from './types';
 import { ERole } from '../store/types';
 
-const { ADMIN, AUTHOR, GUEST } = ERole;
+const { ADMIN, AUTHOR, USER, GUEST } = ERole;
 
 const AppRoutes: IAppRoute[] = [
   // public routes
@@ -44,6 +45,13 @@ const AppRoutes: IAppRoute[] = [
     pageElement: <PostsPanel />,
     role: [ADMIN, AUTHOR],
     icon: '📂',
+  },
+  {
+    name: 'My Profile',
+    path: '/profile',
+    pageElement: <ProfilePanel />,
+    role: [ADMIN, AUTHOR, USER],
+    icon: '👤',
   },
   {
     name: 'Admin Panel',
