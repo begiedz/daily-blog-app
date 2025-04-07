@@ -1,13 +1,18 @@
-import { useState } from 'react';
-import { useStore } from '@tanstack/react-store';
-import { postsStore } from '../store/postStore';
-import { IPostPreview } from '../store/types';
+import { useState, useEffect } from 'react';
+import { getAllPosts } from '../api/postsApi';
+import { IPost } from '../api/types';
 import EditPostModal from '../components/modals/EditPostModal';
 // import DeleteModal from '../components/modals/DeleteModal';
 
 const ManageAllPosts = () => {
-  const posts = useStore(postsStore);
+  const [posts, setPosts] = useState<IPost[]>([]);
   const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+
+  useEffect(() => {
+    getAllPosts()
+      .then(data => setPosts(data))
+      .catch(error => console.error('Failed to fetch posts:', error));
+  }, []);
 
   const openModal = (id: string, slug: string) => {
     setSelectedSlug(slug);
@@ -28,7 +33,7 @@ const ManageAllPosts = () => {
           </tr>
         </thead>
         <tbody>
-          {posts.map((post: IPostPreview, i) => (
+          {posts.map((post: IPost, i) => (
             <tr key={i}>
               <td className="font-medium">{post.title}</td>
               <td>{post.author}</td>

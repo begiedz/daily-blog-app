@@ -1,19 +1,49 @@
 import axios from 'axios';
-import { postsStore } from '../store/postStore';
+import { IPost } from './types';
 
-export const getAllPosts = async (pageNumber = 1, pageSize = 7) => {
+export const getAllPosts = async (): Promise<IPost[]> => {
+  try {
+    let allPosts: IPost[] = [];
+    let pageNumber = 1;
+    let totalPages = 1;
+
+    while (pageNumber <= totalPages) {
+      const response = await axios.get(
+        `http://localhost:5017/api/Blog/all-posts?pageNumber=${pageNumber}&pageSize=7`,
+      );
+      const { posts, pagination } = response.data;
+
+      allPosts = [...allPosts, ...posts];
+      totalPages = pagination.totalPages;
+      pageNumber++;
+    }
+
+    return allPosts;
+  } catch (error) {
+    console.error(
+      'Error fetching all posts:',
+      error instanceof Error ? error.message : 'Unknown error',
+    );
+    return [];
+  }
+};
+
+export const getPosts = async (pageNumber = 1, pageSize = 7) => {
   try {
     const response = await axios.get(
       `http://localhost:5017/api/Blog/all-posts?pageNumber=${pageNumber}&pageSize=${pageSize}`,
     );
-    postsStore.setState(() => response.data.posts);
     console.log('getPosts response: ', response.data);
-    return response.data.pagination;
+    return {
+      posts: response.data.posts,
+      pagination: response.data.pagination,
+    };
   } catch (error) {
     console.error(
       'Error fetching posts:',
       error instanceof Error ? error.message : 'Unknown error',
     );
+    return { posts: [], pagination: null };
   }
 };
 
@@ -38,7 +68,7 @@ export const sendPost = async (postToSend: object) => {
       console.log(error);
     });
 };
-
+// to do
 export const updatePost = async (updatedValues: object) => {
   const token = localStorage.getItem('token');
 
