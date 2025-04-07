@@ -29,18 +29,9 @@ namespace daily_blog_app.Controllers
         [HttpGet("{slug}")]
         public async Task<IActionResult> GetPostBySlug([FromRoute] string slug)
         {
-            var post = await _postService.GetPostBySlugAsync(slug);
-            
-            return Ok(new
-            {
-                post.Slug,
-                post.Title,
-                post.CreatedAt,
-                post.Content,
-                post.Excerpt,
-                post.Tags,
-                Author = post.User.Name
-            });
+            var postDto = await _postService.GetPostBySlugAsync(slug);
+            return Ok(postDto);
+
         }
 
         [HttpPost("create-post")]
@@ -69,20 +60,37 @@ namespace daily_blog_app.Controllers
         public async Task<IActionResult> GetMyPosts()
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
-
             var posts = await _postService.GetPostsByUserAsync(userId);
 
-            var result = posts.Select(p => new
-            {
-                p.Slug,
-                p.Title,
-                p.CreatedAt,
-                p.Excerpt,
-                p.Content,
-                p.Tags
-            });
-
-            return Ok(result);
+            return Ok(posts);
         }
+
+        [HttpPut("update-post/{id}")]
+        [Authorize]
+        public async Task<IActionResult> UpdatePost([FromRoute] int id, [FromBody] PostRequest request)
+        {
+            if (request == null)
+                return BadRequest(new { message = "Invalid post data." });
+
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var role = User.FindFirstValue(ClaimTypes.Role)!;
+
+            await _postService.UpdatePostAsync(id, request, userId, role);
+
+            return Ok(new { message = "Post updated successfully." });
+        }
+
+        [HttpDelete("delete-post/{id}")]
+        [Authorize]
+        public async Task<IActionResult> DeletePost([FromRoute] int id)
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var role = User.FindFirstValue(ClaimTypes.Role)!;
+
+            await _postService.DeletePostAsync(id, userId, role);
+            return Ok(new { message = "Post deleted successfully." });
+        }
+
+
     }
 }
