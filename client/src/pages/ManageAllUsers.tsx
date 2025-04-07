@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAllUsers } from '../api/usersApi';
-// import EditUserModal from '../components/modals/EditPostModal';
-// import DeleteModal from '../components/modals/DeleteModal';
+import EditUserModal from '../components/modals/EditUserModal';
 
 interface User {
   id: number;
@@ -12,19 +11,26 @@ interface User {
 
 const ManageAllUsers = () => {
   const [users, setUsers] = useState<User[]>([]);
+  const [selectedUser, setSelectedUser] = useState<User | null>(null);
 
   useEffect(() => {
     const fetchUsers = async () => {
       const usersData = await getAllUsers();
-      console.log(usersData);
       setUsers(usersData);
     };
     fetchUsers();
   }, []);
 
-  // const openModal = (id: string) => {
-  //   const modal = document.getElementById(id);
-  //   if (modal) (modal as HTMLDialogElement).showModal();
+  const openEditModal = (user: User) => {
+    setSelectedUser(user);
+    const modal = document.getElementById('edit-user-modal');
+    if (modal) (modal as HTMLDialogElement).showModal();
+  };
+
+  // const updateUser = (updatedUser: User) => {
+  //   setUsers(
+  //     users.map(user => (user.id === updatedUser.id ? updatedUser : user)),
+  //   );
   // };
 
   return (
@@ -48,24 +54,23 @@ const ManageAllUsers = () => {
               <td>{user.role}</td>
               <td className="flex flex-wrap gap-2">
                 <button
-                  // onClick={() => openModal('edit-user-modal', user.id)}
+                  onClick={() => openEditModal(user)}
                   className="btn btn-warning flex-1"
                 >
                   Edit
                 </button>
-                <button
-                  // onClick={() => openModal('delete-modal', user.id)}
-                  className="btn btn-error flex-1"
-                >
-                  Delete
-                </button>
+                <button className="btn btn-error flex-1">Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      {/* <EditUserModal id={selectedSlug} /> */}
-      {/* <DeleteModal slug={selectedSlug} /> */}
+      {selectedUser && (
+        <EditUserModal
+          user={selectedUser}
+          // updateUser={updateUser}
+        />
+      )}
     </main>
   );
 };
