@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IPost } from './types';
+import { IPost } from '../types';
 
 export const getAllPosts = async (): Promise<IPost[]> => {
   try {
@@ -64,6 +64,31 @@ export const getPost = async (slug: string) => {
   }
 };
 
+export const deletePost = async (id: number) => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.delete(
+      `http://localhost:5017/api/Blog/delete-post/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    if (response.status !== 200 || response.data.error) {
+      throw new Error(response.data.error || 'Failed to fetch the post.');
+    }
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(
+      'Error fetching post:',
+      error instanceof Error ? error.message : 'Unknown error',
+    );
+    throw error;
+  }
+};
+
 export const sendPost = async (postToSend: object) => {
   const token = localStorage.getItem('token');
 
@@ -81,11 +106,11 @@ export const sendPost = async (postToSend: object) => {
     });
 };
 // to do
-export const updatePost = async (updatedValues: object) => {
+export const updatePost = async (id: number, updatedValues: object) => {
   const token = localStorage.getItem('token');
 
   await axios
-    .post('http://localhost:5017/api/Blog/create-post', updatedValues, {
+    .post(`http://localhost:5017/api/Blog/update-post/${id}`, updatedValues, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
