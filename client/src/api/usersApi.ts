@@ -76,3 +76,26 @@ export const getUserProfile = async () => {
       throw error;
     });
 };
+
+export const updateUserProfile = async (email: string, password: string) => {
+  const token = localStorage.getItem('token');
+
+  return await axios
+    .put(
+      'http://localhost:5017/api/Users/update-my-account',
+      { email, password },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
+    .then(response => {
+      console.log('/api/Users/update-my-account response:', response.data);
+      return response.data;
+    })
+    .catch(error => {
+      console.log(error);
+      throw error;
+    });
+};
