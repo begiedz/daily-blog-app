@@ -20,12 +20,14 @@ const AppRoutes: IAppRoute[] = [
     path: '/',
     pageElement: <Home />,
     role: [],
+    icon: '🏠',
   },
   {
     name: 'About',
     path: '/about',
     pageElement: <About />,
     role: [],
+    icon: 'ℹ️',
   },
 
   // routes that you have to be logged in to see
@@ -34,18 +36,21 @@ const AppRoutes: IAppRoute[] = [
     path: '/create',
     pageElement: <Create />,
     role: [ADMIN, AUTHOR],
+    icon: '📝',
   },
   {
     name: 'My Posts',
     path: '/posts',
     pageElement: <PostsPanel />,
     role: [ADMIN, AUTHOR],
+    icon: '📂',
   },
   {
     name: 'Admin Panel',
     path: '/panel',
     pageElement: <AdminPanel />,
     role: [ADMIN],
+    icon: '⚙️',
   },
 
   // routes that are not included in the menu

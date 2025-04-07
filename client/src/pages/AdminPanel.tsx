@@ -5,6 +5,7 @@ import { IPostPreview, TRole } from '../store/types';
 import { getAllUsers } from '../api/usersApi';
 import { ERole } from '../store/types';
 import { Link } from 'react-router-dom';
+import { capitalize } from '../utils';
 
 interface IUser {
   id: number;
@@ -81,7 +82,7 @@ const AdminPanel = () => {
                     <td>{user.id}</td>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
-                    <td>{user.role}</td>
+                    <td>{capitalize(user.role)}</td>
                   </tr>
                 ))}
               </tbody>

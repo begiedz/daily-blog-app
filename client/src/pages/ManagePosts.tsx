@@ -36,7 +36,7 @@ const ManageAllPosts = () => {
               <td className="flex flex-wrap gap-2">
                 <button
                   onClick={() => openModal('edit-post-modal', post.slug)}
-                  className="btn btn-warning flex-1"
+                  className="btn flex-1"
                 >
                   Edit
                 </button>

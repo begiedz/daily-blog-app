@@ -7,4 +7,5 @@ export interface IAppRoute {
   pageElement: JSX.Element;
   role: TRole[];
   includeInMenu?: boolean;
+  icon?: string;
 }
