@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { getAllPosts } from '../api/postsApi';
 import { IPost } from '../api/types';
 import EditPostModal from '../components/modals/EditPostModal';
+import { Link } from 'react-router-dom';
 // import DeleteModal from '../components/modals/DeleteModal';
 
 const ManageAllPosts = () => {
@@ -35,7 +36,14 @@ const ManageAllPosts = () => {
         <tbody>
           {posts.map((post: IPost, i) => (
             <tr key={i}>
-              <td className="font-medium">{post.title}</td>
+              <td className="font-medium">
+                <Link
+                  to={`/post/${post.slug}`}
+                  className="link"
+                >
+                  {post.title}
+                </Link>
+              </td>
               <td>{post.author}</td>
               <td>{new Date(post.createdAt).toLocaleDateString()}</td>
               <td className="flex flex-wrap gap-2">
