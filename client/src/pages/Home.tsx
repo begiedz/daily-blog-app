@@ -1,12 +1,14 @@
-import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import { getPosts } from '../api/postsApi';
 
 import FadeLoader from 'react-spinners/FadeLoader';
-import Post from '../components/Post';
 import HeroPost from '../components/HeroPost';
 import Alert from '../components/Alert';
+import Post from '../components/Post';
+
+import { IPost } from '../types';
 
 interface Pagination {
   totalItems: number;
@@ -15,20 +17,10 @@ interface Pagination {
   totalPages: number;
 }
 
-interface Post {
-  slug: string;
-  imgUrl?: string;
-  title: string;
-  author: string;
-  createdAt: string;
-  excerpt: string;
-  tags: string[];
-}
-
 const Home = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pagination, setPagination] = useState<Pagination | null>(null);
-  const [posts, setPosts] = useState<Post[]>([]);
+  const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -70,16 +62,6 @@ const Home = () => {
         <>
           <ul className="grid grid-cols-[repeat(auto-fit,minmax(256px,0))] justify-center gap-6">
             {posts.map((post, index) => {
-              const postProps = {
-                slug: post.slug,
-                imgUrl: post.imgUrl!,
-                title: post.title,
-                author: post.author,
-                createdAt: post.createdAt,
-                excerpt: post.excerpt,
-                tags: post.tags,
-              };
-
               const PostComponent = index === 0 ? HeroPost : Post;
 
               return (
@@ -88,7 +70,7 @@ const Home = () => {
                   className={index === 0 ? 'col-span-full' : ''}
                 >
                   <Link to={`/post/${post.slug}`}>
-                    <PostComponent {...postProps} />
+                    <PostComponent {...post} />
                   </Link>
                 </li>
               );

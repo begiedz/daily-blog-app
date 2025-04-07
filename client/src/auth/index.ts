@@ -5,7 +5,7 @@ import {
   IHandleLoginProps,
   IHandleRegisterProps,
   ITokenPayload,
-} from './types';
+} from '../types';
 
 export const handleLogin = async ({
   username,

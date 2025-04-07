@@ -1,5 +1,4 @@
-import { IAppRoute } from './types';
-import { TUser } from '../store/types';
+import { IAppRoute, TUser } from '../types';
 
 interface IFilterOptions {
   onlyVisible?: boolean;

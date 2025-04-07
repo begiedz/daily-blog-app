@@ -1,11 +1,4 @@
-interface IPostProps {
-  imgUrl: string;
-  title: string;
-  author: string;
-  createdAt: string;
-  excerpt: string;
-  tags: string[];
-}
+import { IPost } from '../types';
 
 const HeroPost = ({
   imgUrl,
@@ -14,7 +7,7 @@ const HeroPost = ({
   createdAt,
   excerpt,
   tags,
-}: IPostProps) => {
+}: IPost) => {
   return (
     <div className="card relative z-0 h-90 overflow-hidden shadow-sm">
       <img
