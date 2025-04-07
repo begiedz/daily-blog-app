@@ -50,7 +50,7 @@ const AppRoutes: IAppRoute[] = [
     name: 'My Profile',
     path: '/profile',
     pageElement: <ProfilePanel />,
-    role: [ADMIN, AUTHOR, USER],
+    role: [AUTHOR, USER],
     icon: '👤',
   },
   {
