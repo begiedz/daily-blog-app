@@ -10,6 +10,7 @@ interface Post {
   author: string;
   createdAt: string;
   content: string;
+  excerpt: string;
   tags: string[];
 }
 
@@ -22,7 +23,6 @@ const PostPage = () => {
   const handleFetchPost = async (slug: string) => {
     try {
       const postData = await getPost(slug);
-      console.log(postData);
       setPost(postData);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
@@ -44,12 +44,11 @@ const PostPage = () => {
   if (!post) return <Alert variant="ERROR">Post not found.</Alert>;
 
   return (
-    <main className="mx-auto max-w-4xl space-y-6 p-2">
-      <h2 className="text-center text-4xl font-bold">{post.title}</h2>
+    <main className="mx-auto w-full max-w-4xl space-y-6 p-6">
       <img
         src={post?.imgUrl || '/no-image.jpg'}
         alt={`${post?.title || 'Post'} image`}
-        className="card h-60 w-full border object-cover"
+        className="card h-70 w-full object-cover shadow-md"
       />
       <div>
         <p className="font-bold">
@@ -66,7 +65,9 @@ const PostPage = () => {
           ))}
         </div>
       </div>
-      <article>
+      <h2 className="text-5xl font-bold">{post.title}</h2>
+      <h3 className="text-2xl font-bold">{post.excerpt}</h3>
+      <article className="whitespace-pre-wrap">
         <p>{post.content}</p>
       </article>
     </main>

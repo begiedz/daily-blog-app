@@ -48,8 +48,20 @@ export const getPosts = async (pageNumber = 1, pageSize = 7) => {
 };
 
 export const getPost = async (slug: string) => {
-  const response = await axios.get(`http://localhost:5017/api/Blog/${slug}`);
-  return response.data;
+  try {
+    const response = await axios.get(`http://localhost:5017/api/Blog/${slug}`);
+    if (response.status !== 200 || response.data.error) {
+      throw new Error(response.data.error || 'Failed to fetch the post.');
+    }
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(
+      'Error fetching post:',
+      error instanceof Error ? error.message : 'Unknown error',
+    );
+    throw error;
+  }
 };
 
 export const sendPost = async (postToSend: object) => {
