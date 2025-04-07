@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Alert from '../Alert';
 import { updateUserRole } from '../../api/usersApi';
-import { ERole } from '../../store/types';
+import { ERole } from '../../types';
 import { capitalize } from '../../utils/';
 import FadeLoader from 'react-spinners/FadeLoader';
 

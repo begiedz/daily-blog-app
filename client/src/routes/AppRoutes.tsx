@@ -9,8 +9,7 @@ import ProfilePanel from '../pages/ProfilePanel';
 import ManageAllPosts from '../pages/ManagePosts';
 import ManageAllUsers from '../pages/ManageAllUsers';
 
-import { IAppRoute } from './types';
-import { ERole } from '../store/types';
+import { IAppRoute, ERole } from '../types';
 
 const { ADMIN, AUTHOR, USER, GUEST } = ERole;
 

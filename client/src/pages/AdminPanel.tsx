@@ -1,11 +1,14 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
 import { getAllUsers } from '../api/usersApi';
 import { getAllPosts } from '../api/postsApi';
-import { IPost } from '../api/types';
-import { TRole } from '../store/types';
-import { ERole } from '../store/types';
-import { Link } from 'react-router-dom';
+
 import { capitalize } from '../utils';
+
+import { IPost } from '../types';
+import { TRole } from '../types';
+import { ERole } from '../types';
 
 interface IUser {
   id: number;

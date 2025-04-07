@@ -1,6 +1,6 @@
 import { Store } from '@tanstack/react-store';
 
-import { IAuthState, TUser } from './types';
+import { IAuthState, TUser } from '../types';
 const initialState: IAuthState = {
   user: null,
   isAuthenticated: false,
