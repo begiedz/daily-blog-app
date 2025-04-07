@@ -31,7 +31,7 @@ const NavLink = ({ to, children, className, onClick }: IRouteLink) => {
     <Link
       to={to}
       onClick={() => onClick && onClick()}
-      className={clsx(className, { 'bg-base-300 font-bold': isCurrentUrl })}
+      className={clsx(className, { 'font-bold': isCurrentUrl })}
     >
       {children}
     </Link>
@@ -72,11 +72,15 @@ export default function Layout(props: TLayoutProps) {
               user,
               options: { onlyVisible: true },
             }).map((route, index) => (
-              <li key={index}>
+              <li
+                key={index}
+                className="text-base"
+              >
                 <NavLink
                   to={route.path}
                   onClick={() => setIsChecked(false)}
                 >
+                  {route.icon && <span>{route.icon}</span>}
                   {route.name}
                 </NavLink>
               </li>
