@@ -16,13 +16,35 @@ namespace daily_blog_app.Services
             _context = context;
         }
 
-        public async Task<List<Post>> GetAllPostsAsync()
+        public async Task<AllPostsResponse> GetAllPostsAsync(int pageNumber, int pageSize)
         {
-            return await _context.Posts
+            var totalItems = await _context.Posts.CountAsync();
+            var posts = await _context.Posts
                 .Include(p => p.User)
                 .OrderByDescending(p => p.CreatedAt)
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .Select(p => new PostDto
+                {
+                    Slug = p.Slug,
+                    Title = p.Title,
+                    Excerpt = p.Excerpt,
+                    Content = p.Content,
+                    Tags = p.Tags,
+                    CreatedAt = p.CreatedAt,
+                    Author = p.User.Name
+                })
                 .ToListAsync();
+
+            var pagination = new PaginationMetadata(totalItems, pageSize, pageSize);
+
+            return new AllPostsResponse
+            {
+                Posts = posts,
+                Pagination = pagination
+            };
         }
+
 
         public async Task<Post> GetPostBySlugAsync(string slug)
         {

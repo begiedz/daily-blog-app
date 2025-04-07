@@ -29,7 +29,7 @@ namespace daily_blog_app.Controllers
         // Usuwanie użytkownika-- tylko dla admina
         [HttpDelete("{id}")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
             await _userService.DeleteAsync(id);
             return Ok(new { message = "User deleted successfully." });
@@ -39,7 +39,7 @@ namespace daily_blog_app.Controllers
         // Zmiana roli użytkownika - tylko dla admina
         [HttpPut("{id}/role")]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> UpdateRole(int id, [FromBody] string newRole)
+        public async Task<IActionResult> UpdateRole([FromRoute] int id, [FromBody] string newRole)
         {
             if (string.IsNullOrWhiteSpace(newRole))
             {

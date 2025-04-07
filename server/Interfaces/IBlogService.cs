@@ -4,7 +4,7 @@ namespace daily_blog_app.Interfaces
 {
     public interface IBlogService
     {
-        Task<List<Post>> GetAllPostsAsync();
+        Task<AllPostsResponse> GetAllPostsAsync(int pageNumber, int pageSize);
         Task<Post> GetPostBySlugAsync(string slug);
         Task CreatePostAsync(Post post, int userId);
         Task<List<Post>> GetPostsByUserAsync(int userId);
