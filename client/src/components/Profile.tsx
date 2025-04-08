@@ -14,7 +14,7 @@ const Profile = ({ setIsChecked }: IProfileProps) => {
       {user ? (
         <div className="flex items-center justify-between gap-4">
           <p>
-            Logged in as <span className="font-bold">{user.username}</span>
+            Logged in as <span className="font-bold">{user.name}</span>
           </p>
           <button
             onClick={handleLogout}
