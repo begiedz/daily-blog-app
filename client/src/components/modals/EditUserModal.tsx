@@ -47,7 +47,7 @@ const EditUserModal = ({ user }: EditUserModalProps) => {
   };
 
   if (loading) return <FadeLoader className="mx-auto" />;
-  if (error) return <Alert variant="ERROR">{error}</Alert>;
+  if (error) return <Alert variant="Error">{error}</Alert>;
 
   return (
     <dialog
