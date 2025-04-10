@@ -43,7 +43,7 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
       className="modal"
     >
       <div className="modal-box">
-        {error && <Alert variant="ERROR">{error}</Alert>}
+        {error && <Alert variant="Error">{error}</Alert>}
         <h3 className="text-lg font-bold">Editing {post.title}</h3>
         <div>
           <form
