@@ -3,6 +3,7 @@ import { getPost } from '../api/postsApi';
 import { useEffect, useState } from 'react';
 import Alert from '../components/Alert';
 import FadeLoader from 'react-spinners/FadeLoader';
+import axios from 'axios';
 
 interface Post {
   imgUrl: string;
@@ -25,7 +26,7 @@ const PostPage = () => {
       const postData = await getPost(slug);
       setPost(postData);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      setError(axios.isAxiosError(err) ? err.message : 'Unknown error');
     } finally {
       setLoading(false);
     }

@@ -6,6 +6,7 @@ import {
   IHandleRegisterProps,
   ITokenPayload,
 } from '../types';
+import axios from 'axios';
 
 const setNewUser = (decoded: ITokenPayload) => {
   return {
@@ -34,7 +35,11 @@ export const handleLogin = async ({
     localStorage.setItem('token', token);
     return true;
   } catch (error) {
-    setError(error instanceof Error ? error.message : 'Unknown error');
+    if (axios.isAxiosError(error) && error.response?.data?.message) {
+      setError(error.response.data.message);
+    } else {
+      setError('An unexpected error occurred. Please try again.');
+    }
     return false;
   }
 };
