@@ -20,7 +20,7 @@ export const handleLogin = async ({
   username,
   password,
   setError,
-}: IHandleLoginProps) => {
+}: IHandleLoginProps): Promise<boolean> => {
   try {
     const { token } = await loginRequest(username, password);
     const decoded = jwtDecode<ITokenPayload>(token);
@@ -32,8 +32,10 @@ export const handleLogin = async ({
     console.log(newUser);
 
     localStorage.setItem('token', token);
+    return true;
   } catch (error) {
     setError(error instanceof Error ? error.message : 'Unknown error');
+    return false;
   }
 };
 
@@ -42,11 +44,13 @@ export const handleRegister = async ({
   email,
   password,
   setError,
-}: IHandleRegisterProps) => {
+}: IHandleRegisterProps): Promise<boolean> => {
   try {
     await registerRequest(username, email, password);
+    return true;
   } catch (error) {
     setError(error instanceof Error ? error.message : 'Unknown error');
+    return false;
   }
 };
 

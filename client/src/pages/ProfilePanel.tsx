@@ -45,7 +45,9 @@ const ProfilePanel = () => {
       const response = await updateUserProfile(profile.email, profile.password);
       setSuccess(response.message);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update profile');
+      setError(
+        err instanceof Error ? err.message : 'An unexpected error occurred.',
+      );
     }
   };
 

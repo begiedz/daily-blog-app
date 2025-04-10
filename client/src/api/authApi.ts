@@ -35,7 +35,7 @@ export const registerRequest = async (
     return response.data;
   } catch (error) {
     throw new Error(
-      `Error logging in: ${
+      `Error while registering: ${
         error instanceof Error ? error.message : 'Unknown error'
       }`,
     );
