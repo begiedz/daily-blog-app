@@ -8,10 +8,10 @@ export const loginRequest = async (username: string, password: string) => {
     });
     console.log('Response from API:', response);
     return response.data;
-  } catch (error) {
+  } catch (err) {
     throw new Error(
       `Error logging in: ${
-        error instanceof Error ? error.message : 'Unknown error'
+        axios.isAxiosError(err) ? err.message : 'Unknown error'
       }`,
     );
   }
@@ -33,10 +33,10 @@ export const registerRequest = async (
     );
     console.log('Response from API:', response);
     return response.data;
-  } catch (error) {
+  } catch (err) {
     throw new Error(
       `Error while registering: ${
-        error instanceof Error ? error.message : 'Unknown error'
+        axios.isAxiosError(err) ? err.message : 'Unknown error'
       }`,
     );
   }

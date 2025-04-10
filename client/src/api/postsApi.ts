@@ -20,10 +20,10 @@ export const getAllPosts = async (): Promise<IPost[]> => {
     }
 
     return allPosts;
-  } catch (error) {
+  } catch (err) {
     console.error(
       'Error fetching all posts:',
-      error instanceof Error ? error.message : 'Unknown error',
+      axios.isAxiosError(err) ? err.message : 'Unknown error',
     );
     return [];
   }
@@ -39,10 +39,10 @@ export const getPosts = async (pageNumber = 1, pageSize = 7) => {
       posts: response.data.posts,
       pagination: response.data.pagination,
     };
-  } catch (error) {
+  } catch (err) {
     console.error(
       'Error fetching posts:',
-      error instanceof Error ? error.message : 'Unknown error',
+      axios.isAxiosError(err) ? err.message : 'Unknown error',
     );
     return { posts: [], pagination: null };
   }
@@ -52,8 +52,8 @@ export const getPost = async (slug: string) => {
   try {
     const response = await axios.get(`http://localhost:5017/api/Blog/${slug}`);
     return response.data;
-  } catch (error) {
-    handleApiError(error);
+  } catch (err) {
+    handleApiError(err);
   }
 };
 
@@ -73,12 +73,12 @@ export const deletePost = async (id: number) => {
     }
     console.log(response.data);
     return response.data;
-  } catch (error) {
+  } catch (err) {
     console.error(
-      'Error fetching post:',
-      error instanceof Error ? error.message : 'Unknown error',
+      'Error deleting post:',
+      axios.isAxiosError(err) ? err.message : 'An unexpected error occurred.',
     );
-    throw error;
+    throw err;
   }
 };
 
@@ -93,8 +93,8 @@ export const sendPost = async (postToSend: object) => {
       },
     );
     return response.data;
-  } catch (error) {
-    handleApiError(error);
+  } catch (err) {
+    handleApiError(err);
   }
 };
 // to do
