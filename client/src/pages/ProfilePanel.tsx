@@ -56,8 +56,8 @@ const ProfilePanel = () => {
   return (
     <main>
       <h2 className="mb-4 text-center text-3xl font-bold">Your Profile</h2>
-      {error && <Alert variant="ERROR">{error}</Alert>}
-      {success && <Alert variant="SUCCESS">{success}</Alert>}
+      {error && <Alert variant="Error">{error}</Alert>}
+      {success && <Alert variant="Success">{success}</Alert>}
       <form
         onSubmit={handleUpdateProfile}
         className="fieldset bg-base-200 border-base-300 rounded-box w-md max-w-full border p-10"

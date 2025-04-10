@@ -6,10 +6,10 @@ import InfoIcon from './icons/InfoIcon';
 import { ReactNode } from 'react';
 
 enum Variant {
-  SUCCESS = 'alert-success',
-  ERROR = 'alert-error',
-  WARNING = 'alert-warning',
-  INFO = 'alert-info',
+  Success = 'alert-success',
+  Error = 'alert-error',
+  Warning = 'alert-warning',
+  Info = 'alert-info',
 }
 
 interface AlertProps {
@@ -20,16 +20,16 @@ interface AlertProps {
 
 const Alert = ({ children, variant, className }: AlertProps) => {
   const icons = {
-    SUCCESS: <SuccessIcon />,
-    ERROR: <ErrorIcon />,
-    WARNING: <WarningIcon />,
-    INFO: <InfoIcon />,
+    Success: <SuccessIcon />,
+    Error: <ErrorIcon />,
+    Warning: <WarningIcon />,
+    Info: <InfoIcon />,
   };
 
   return (
     <div
       role="alert"
-      className={clsx('alert', Variant[variant || 'INFO'], className)}
+      className={clsx('alert', Variant[variant || 'Info'], className)}
     >
       {variant && icons[variant]}
       <span>{children}</span>

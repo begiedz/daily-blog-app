@@ -37,7 +37,7 @@ const Login = () => {
       <h2 className="mb-4 text-center text-3xl font-bold">
         {isRegister ? 'Register' : 'Log in'}
       </h2>
-      {error && <Alert variant="ERROR">{error}</Alert>}
+      {error && <Alert variant="Error">{error}</Alert>}
       <form
         onSubmit={handleSubmit}
         className="fieldset bg-base-200 border-base-300 rounded-box w-md max-w-full border p-8"
