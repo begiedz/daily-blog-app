@@ -40,10 +40,7 @@ export const getPosts = async (pageNumber = 1, pageSize = 7) => {
       pagination: response.data.pagination,
     };
   } catch (err) {
-    console.error(
-      'Error fetching posts:',
-      axios.isAxiosError(err) ? err.message : 'Unknown error',
-    );
+    handleApiError(err);
     return { posts: [], pagination: null };
   }
 };
@@ -69,16 +66,12 @@ export const deletePost = async (id: number) => {
       },
     );
     if (response.status !== 200 || response.data.error) {
-      throw new Error(response.data.error || 'Failed to fetch the post.');
+      throw new Error(response.data.error || 'Failed to delete the post.');
     }
     console.log(response.data);
     return response.data;
   } catch (err) {
-    console.error(
-      'Error deleting post:',
-      axios.isAxiosError(err) ? err.message : 'An unexpected error occurred.',
-    );
-    throw err;
+    handleApiError(err);
   }
 };
 
