@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { IPost } from '../types';
+import { handleApiError } from './utils';
 
 export const getAllPosts = async (): Promise<IPost[]> => {
   try {
@@ -9,7 +10,7 @@ export const getAllPosts = async (): Promise<IPost[]> => {
 
     while (pageNumber <= totalPages) {
       const response = await axios.get(
-        `http://localhost:5017/api/Blog/all-posts?pageNumber=${pageNumber}&pageSize=7`,
+        `http://localhost:5017/api/Blog/all-posts?pageNumber=${pageNumber}`,
       );
       const { posts, pagination } = response.data;
 
@@ -50,17 +51,9 @@ export const getPosts = async (pageNumber = 1, pageSize = 7) => {
 export const getPost = async (slug: string) => {
   try {
     const response = await axios.get(`http://localhost:5017/api/Blog/${slug}`);
-    if (response.status !== 200 || response.data.error) {
-      throw new Error(response.data.error || 'Failed to fetch the post.');
-    }
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.error(
-      'Error fetching post:',
-      error instanceof Error ? error.message : 'Unknown error',
-    );
-    throw error;
+    handleApiError(error);
   }
 };
 
@@ -91,19 +84,18 @@ export const deletePost = async (id: number) => {
 
 export const sendPost = async (postToSend: object) => {
   const token = localStorage.getItem('token');
-
-  await axios
-    .post('http://localhost:5017/api/Blog/create-post', postToSend, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+  try {
+    const response = await axios.post(
+      'http://localhost:5017/api/Blog/create-post',
+      postToSend,
+      {
+        headers: { Authorization: `Bearer ${token}` },
       },
-    })
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    );
+    return response.data;
+  } catch (error) {
+    handleApiError(error);
+  }
 };
 // to do
 export const updatePost = async (id: number, updatedValues: object) => {

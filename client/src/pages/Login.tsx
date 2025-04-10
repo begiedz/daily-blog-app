@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { handleLogin, handleRegister } from '../auth';
 import { useNavigate } from 'react-router-dom';
+import Alert from '../components/Alert';
 
 const Login = () => {
   const [isRegister, setIsRegister] = useState(false);
@@ -13,14 +14,21 @@ const Login = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!isRegister) {
-      setError('');
-      await handleLogin({ username, password, setError });
-      navigate('/');
-    } else {
-      setError('');
-      await handleRegister({ username, email, password, setError });
-      if (!error) window.location.reload();
+    setError('');
+
+    try {
+      let success = false;
+      if (!isRegister) {
+        success = await handleLogin({ username, password, setError });
+        if (success) navigate('/');
+      } else {
+        success = await handleRegister({ username, email, password, setError });
+        if (success) window.location.reload();
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : 'An unexpected error occurred.',
+      );
     }
   };
 
@@ -29,7 +37,7 @@ const Login = () => {
       <h2 className="mb-4 text-center text-3xl font-bold">
         {isRegister ? 'Register' : 'Log in'}
       </h2>
-      {error && <p className="text-red-500">{error}</p>}
+      {error && <Alert variant="ERROR">{error}</Alert>}
       <form
         onSubmit={handleSubmit}
         className="fieldset bg-base-200 border-base-300 rounded-box w-md max-w-full border p-8"
