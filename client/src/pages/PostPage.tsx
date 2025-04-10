@@ -41,8 +41,8 @@ const PostPage = () => {
   }, [slug]);
 
   if (loading) return <FadeLoader className="mx-auto" />;
-  if (error) return <Alert variant="ERROR">{error}</Alert>;
-  if (!post) return <Alert variant="ERROR">Post not found.</Alert>;
+  if (error) return <Alert variant="Error">{error}</Alert>;
+  if (!post) return <Alert variant="Error">Post not found.</Alert>;
 
   return (
     <main className="mx-auto w-full max-w-4xl space-y-6 p-6">

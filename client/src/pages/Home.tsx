@@ -95,7 +95,7 @@ const Home = () => {
         </>
       ) : (
         <Alert
-          variant="WARNING"
+          variant="Warning"
           className="mx-auto"
         >
           No posts at the moment!
