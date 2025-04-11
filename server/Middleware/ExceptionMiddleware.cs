@@ -46,7 +46,7 @@ namespace daily_blog_app.Middleware
             return ex switch
             {
                 NotFoundException => (int)HttpStatusCode.NotFound,
-                UnauthorizedAccessException => (int)HttpStatusCode.Unauthorized,
+                UnauthorizedAccessException or UnauthorizedException => (int)HttpStatusCode.Unauthorized,
                 ForbiddenException => (int)HttpStatusCode.Forbidden,
                 ConflictException => (int)HttpStatusCode.Conflict,
                 ExternalApiException => (int)HttpStatusCode.BadGateway,

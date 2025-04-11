@@ -14,6 +14,8 @@ namespace daily_blog_app.Models
         public DateTime? ModifiedAt { get; set; }
         public string? ModifiedBy { get; set; }
         public List<string> Tags { get; set; } = new();
+        public string? ImageUrl { get; set; } 
+
 
         //Powiązanie z użytkownikiem
         public int UserId { get; set; }
