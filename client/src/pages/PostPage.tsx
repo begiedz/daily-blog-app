@@ -3,6 +3,7 @@ import { getPost } from '../api/postsApi';
 import { useEffect, useState } from 'react';
 import Alert from '../components/Alert';
 import FadeLoader from 'react-spinners/FadeLoader';
+import { isApiError } from '../api/utils';
 
 interface Post {
   imgUrl: string;
@@ -25,7 +26,11 @@ const PostPage = () => {
       const postData = await getPost(slug);
       setPost(postData);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      if (isApiError(err)) {
+        setError(`${err.status}: ${err.message}`);
+      } else {
+        setError('An unexpected error occurred.');
+      }
     } finally {
       setLoading(false);
     }
