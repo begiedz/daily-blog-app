@@ -35,7 +35,8 @@ namespace daily_blog_app.Services
                     CreatedAt = p.CreatedAt,
                     Author = p.User.Name,
                     ModifiedAt = p.ModifiedAt,
-                    ModifiedBy = p.ModifiedBy
+                    ModifiedBy = p.ModifiedBy,
+                    ImageUrl = p.ImageUrl
                 })
                 .ToListAsync();
 
@@ -69,7 +70,8 @@ namespace daily_blog_app.Services
                 Tags = post.Tags,
                 Author = post.User.Name,
                 ModifiedAt = post.ModifiedAt,
-                ModifiedBy = post.ModifiedBy
+                ModifiedBy = post.ModifiedBy,
+                ImageUrl = post.ImageUrl
             };
         }
 
@@ -102,7 +104,8 @@ namespace daily_blog_app.Services
                 Tags = p.Tags,
                 Author = p.User.Name,
                 ModifiedAt = p.ModifiedAt,
-                ModifiedBy = p.ModifiedBy
+                ModifiedBy = p.ModifiedBy,
+                ImageUrl = p.ImageUrl
             })
             .ToList();
         }

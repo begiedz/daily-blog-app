@@ -7,5 +7,6 @@
         public string Excerpt { get; set; }
         public string Content { get; set; }
         public List<string> Tags { get; set; }
+        public IFormFile? Image { get; set; }
     }
 }

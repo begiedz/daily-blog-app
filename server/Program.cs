@@ -19,6 +19,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICurrencyService, CurrencyService>();
 builder.Services.AddScoped<IBlogService, BlogService>();
 builder.Services.AddHttpClient<IAffirmationService, AffirmationService>();
+builder.Services.AddScoped<IBlobService, BlobService>();
 
 
 

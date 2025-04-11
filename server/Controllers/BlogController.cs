@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System.Security.Claims;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace daily_blog_app.Controllers
 {
@@ -12,10 +13,12 @@ namespace daily_blog_app.Controllers
     public class BlogController : ControllerBase
     {
         private readonly IBlogService _postService;
+        private readonly IBlobService _blobService;
 
-        public BlogController(IBlogService postService)
+        public BlogController(IBlogService postService,IBlobService blobService)
         {
             _postService = postService;
+            _blobService = blobService;
         }
 
         [HttpGet("all-posts")]
@@ -36,11 +39,39 @@ namespace daily_blog_app.Controllers
 
         [HttpPost("create-post")]
         [Authorize]
-        public async Task<IActionResult> CreatePost([FromBody] PostRequest request)
+        public async Task<IActionResult> CreatePost([FromForm] PostRequest request)
         {
-                var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-                var post = new Post
+            if (request.Image != null)
+            {
+                //Walidacja rozmiaru (maks. 2 MB)
+                if (request.Image.Length > 2 * 1024 * 1024)
+                {
+                    return BadRequest(new { message = "Image size cannot exceed 2 MB." });
+                }
+
+                // Walidacja rozszerzenia
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+                var extension = Path.GetExtension(request.Image.FileName).ToLowerInvariant();
+
+                if (!allowedExtensions.Contains(extension))
+                {
+                    return BadRequest(new { message = "Only JPG, JPEG, PNG and GIF files are allowed." });
+                }
+            }
+
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+
+            string? imageUrl = null;
+
+            if (request.Image != null)
+            {
+               
+                imageUrl = await _blobService.UploadFileAsync(request.Image);
+            }
+
+
+            var post = new Post
                 {
                     Slug = request.Slug,
                     Title = request.Title,
@@ -48,8 +79,9 @@ namespace daily_blog_app.Controllers
                     Content = request.Content,
                     Tags = request.Tags,
                     CreatedAt = DateTime.UtcNow,
-                    UserId = userId
-                };
+                    UserId = userId,
+                    ImageUrl = imageUrl
+            };
 
                 await _postService.CreatePostAsync(post, userId);
                 return Ok(new { message = "The post has been created successfully." });        
