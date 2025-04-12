@@ -36,8 +36,7 @@ const PostPage = () => {
   }, [slug]);
 
   if (loading) return <FadeLoader className="mx-auto" />;
-  if (error) return <Alert variant="Error">{error}</Alert>;
-  if (!post) return <Alert variant="Error">Post not found.</Alert>;
+  if (error || !post) return <Alert variant="Error">{error}</Alert>;
 
   return (
     <main className="mx-auto w-full max-w-4xl space-y-6 p-6">
@@ -46,10 +45,18 @@ const PostPage = () => {
         alt={`${post?.title || 'Post'} image`}
         className="card h-70 w-full object-cover shadow-md"
       />
-      <div>
-        <p className="font-bold">
-          {post.author} • {new Date(post.createdAt).toLocaleDateString()}
-        </p>
+      <div className="space-y-2">
+        <div className=" ">
+          <p className="font-bold">
+            {post.author} • {new Date(post.createdAt).toLocaleDateString()}
+          </p>
+          {post.modifiedBy && post.modifiedAt ? (
+            <p className="text-xs italic opacity-40">
+              Modyfied by: {post.modifiedBy} •{' '}
+              {new Date(post.modifiedAt).toLocaleDateString()}
+            </p>
+          ) : null}
+        </div>
         <div className="space-x-2">
           {post.tags.map((tag, index) => (
             <span
