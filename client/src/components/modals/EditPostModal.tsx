@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getPost } from '../../api/postsApi';
+import { getPost, updatePost } from '../../api/postsApi';
 import Alert from '../Alert';
 import FadeLoader from 'react-spinners/FadeLoader';
 import { IPost } from '../../types';
@@ -12,17 +12,17 @@ interface EditPostModalProps {
 const EditPostModal = ({ post }: EditPostModalProps) => {
   const [postToUpdate, setPostToUpdate] = useState<IPost>(post);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [alert, setAlert] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPost = async () => {
       setLoading(true);
-      setError(null);
+      setAlert(null);
       try {
         const postData = await getPost(post.slug);
         setPostToUpdate({ ...postData });
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch post');
+        setAlert(err instanceof Error ? err.message : 'Failed to fetch post');
       } finally {
         setLoading(false);
       }
@@ -31,8 +31,14 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
     fetchPost();
   }, [post.slug]);
 
-  const handleUpdatePost = () => {
-    // logic here
+  const handleUpdatePost = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      const updatedPost = await updatePost(postToUpdate.id, postToUpdate);
+      setAlert(updatedPost.message);
+    } catch (err) {
+      setAlert(err instanceof Error ? err.message : '');
+    }
   };
 
   if (loading) return <FadeLoader className="mx-auto" />;
@@ -43,7 +49,15 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
       className="modal"
     >
       <div className="modal-box">
-        {error && <Alert variant="Error">{error}</Alert>}
+        {alert && (
+          <Alert
+            variant={
+              alert.toLowerCase().includes('error') ? 'Error' : 'Success'
+            }
+          >
+            {alert}
+          </Alert>
+        )}
         <h3 className="text-lg font-bold">Editing {post.title}</h3>
         <div>
           <form
@@ -120,17 +134,6 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
               />
               <label className="fieldset-label opacity-50">
                 Separate tags with commas
-              </label>
-            </div>
-
-            <div>
-              <label className="fieldset-label">Cover Image</label>
-              <input
-                type="file"
-                className="file-input w-full"
-              />
-              <label className="fieldset-label opacity-50">
-                Max size 2MB | WORK IN PROGRESS
               </label>
             </div>
             <div>

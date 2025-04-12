@@ -108,20 +108,22 @@ export const sendPost = async (postToSend: object) => {
     handleApiError(err);
   }
 };
-// to do
+
 export const updatePost = async (id: number, updatedValues: object) => {
   const token = localStorage.getItem('token');
-
-  await axios
-    .post(`http://localhost:5017/api/Blog/update-post/${id}`, updatedValues, {
-      headers: {
-        Authorization: `Bearer ${token}`,
+  try {
+    const response = await axios.put(
+      `http://localhost:5017/api/Blog/update-post/${id}`,
+      updatedValues,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       },
-    })
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    handleApiError(err);
+  }
 };
