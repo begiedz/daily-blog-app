@@ -29,6 +29,24 @@ export const getAllPosts = async (): Promise<IPost[]> => {
   }
 };
 
+export const getMyPosts = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(
+      'http://localhost:5017/api/Blog/my-posts',
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    console.log(response.data);
+    return response.data;
+  } catch (err) {
+    handleApiError(err);
+  }
+};
+
 export const getPosts = async (pageNumber = 1, pageSize = 7) => {
   try {
     const response = await axios.get(
