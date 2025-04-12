@@ -55,12 +55,12 @@ const PostPanel = () => {
         <tbody>
           {posts.map((post: IPost, i) => (
             <tr key={i}>
-              <td className="font-medium">
+              <td className="items-center">
                 <img
                   src={post.imageUrl || '/no-image.jpg'}
                   alt={`${post.title || 'Post'} image`}
                   loading="lazy"
-                  className="w-32 rounded"
+                  className="max-h-12 w-auto rounded"
                 />
               </td>
               <td className="font-medium">

@@ -46,6 +46,7 @@ const ManageAllPosts = () => {
       <table className="table w-full">
         <thead>
           <tr>
+            <th>Image</th>
             <th>Title</th>
             <th>Author</th>
             <th>Date</th>
@@ -55,6 +56,14 @@ const ManageAllPosts = () => {
         <tbody>
           {posts.map((post: IPost, i) => (
             <tr key={i}>
+              <td className="items-center">
+                <img
+                  src={post.imageUrl || '/no-image.jpg'}
+                  alt={`${post.title || 'Post'} image`}
+                  loading="lazy"
+                  className="max-h-12 w-auto rounded"
+                />
+              </td>
               <td className="font-medium">
                 <Link
                   to={`/post/${post.slug}`}
