@@ -3,19 +3,12 @@ import { sendPost } from '../api/postsApi';
 import { useNavigate } from 'react-router-dom';
 import { arrayFromString, createSlug } from '../utils';
 
-interface PostToSend {
-  slug: string;
-  title: string;
-  excerpt: string;
-  content: string;
-  tags: string[];
-}
-
 const Create = () => {
   const [title, setTitle] = useState('');
   const [excerpt, setExcerpt] = useState('');
   const [content, setContent] = useState('');
-  const [tags, setTags] = useState<PostToSend['tags']>([]);
+  const [imageFile, setImageFile] = useState<File | null>();
+  const [tags, setTags] = useState<string[]>([]);
 
   const [tagsError, setTagsError] = useState('');
   const navigate = useNavigate();
@@ -37,22 +30,31 @@ const Create = () => {
     }
   };
 
+  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setImageFile(e.target.files[0]);
+    }
+  };
+
   const handleSendPost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const generatedSlug = createSlug(title);
 
-    const postToSend: PostToSend = {
-      slug: generatedSlug,
-      title,
-      excerpt,
-      content,
-      tags,
-    };
+    const formData = new FormData();
+    formData.append('slug', generatedSlug);
+    formData.append('title', title);
+    formData.append('excerpt', excerpt);
+    formData.append('content', content);
+    if (imageFile) formData.append('image', imageFile);
+    tags.forEach(tag => formData.append('tags', tag));
 
-    await sendPost(postToSend).then(() => {
+    try {
+      await sendPost(formData);
       navigate('/');
-    });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -114,11 +116,10 @@ const Create = () => {
           <label className="fieldset-label">Cover Image</label>
           <input
             type="file"
+            onChange={handleFileInput}
             className="file-input w-full"
           />
-          <label className="fieldset-label opacity-50">
-            Max size 2MB | WORK IN PROGRESS
-          </label>
+          <label className="fieldset-label opacity-50">Max size 2MB</label>
         </div>
         <div>
           <label className="fieldset-label">Content</label>
