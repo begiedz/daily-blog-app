@@ -13,7 +13,7 @@ export interface IPost {
   id: number;
   slug: string;
   title: string;
-  imgUrl: string;
+  imageUrl: string;
   createdAt: string;
   content: string;
   excerpt: string;

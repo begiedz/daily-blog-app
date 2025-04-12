@@ -1,13 +1,13 @@
 import { IPost } from '../types';
 
-const Post = ({ imgUrl, title, author, createdAt, excerpt, tags }: IPost) => {
+const Post = ({ imageUrl, title, author, createdAt, excerpt, tags }: IPost) => {
   return (
     <div className="card bg-base-200 h-90 shadow-sm">
       <figure className="h-30 w-full">
         <img
-          src={imgUrl || '/no-image.jpg'}
+          src={imageUrl || '/no-image.jpg'}
           alt={`${title || 'Post'} image`}
-          className="h-full w-full object-cover"
+          className="h-full w-full object-cover opacity-50"
         />
       </figure>
       <div className="card-body">
