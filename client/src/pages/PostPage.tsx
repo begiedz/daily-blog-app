@@ -4,20 +4,11 @@ import { useEffect, useState } from 'react';
 import Alert from '../components/Alert';
 import FadeLoader from 'react-spinners/FadeLoader';
 import { isApiError } from '../api/utils';
-
-interface Post {
-  imgUrl: string;
-  title: string;
-  author: string;
-  createdAt: string;
-  content: string;
-  excerpt: string;
-  tags: string[];
-}
+import { IPost } from '../types';
 
 const PostPage = () => {
   const { slug } = useParams();
-  const [post, setPost] = useState<Post | null>(null);
+  const [post, setPost] = useState<IPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -51,7 +42,7 @@ const PostPage = () => {
   return (
     <main className="mx-auto w-full max-w-4xl space-y-6 p-6">
       <img
-        src={post?.imgUrl || '/no-image.jpg'}
+        src={post?.imageUrl || '/no-image.jpg'}
         alt={`${post?.title || 'Post'} image`}
         className="card h-70 w-full object-cover shadow-md"
       />
