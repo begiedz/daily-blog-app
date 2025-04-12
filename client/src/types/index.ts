@@ -13,18 +13,20 @@ export interface IPost {
   id: number;
   slug: string;
   title: string;
-  imageUrl: string;
   createdAt: string;
   content: string;
   excerpt: string;
   tags: string[];
   author: string;
+  modifiedAt?: string | null;
+  modifiedBy?: string | null;
+  imageUrl?: string;
 }
 
 export interface IUser {
   id: number;
   name: string;
-  email: string;
+  email: string | null;
   role: TRole;
 }
 
@@ -52,7 +54,7 @@ export interface IHandleRegisterProps extends IHandleLoginProps {
 }
 
 export interface IAuthState {
-  user: IUser | null;
+  user: TUser;
   isAuthenticated: boolean;
 }
 
