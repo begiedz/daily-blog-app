@@ -1,26 +1,19 @@
 import { useState, useEffect } from 'react';
 import Alert from '../Alert';
 import { updateUserRole } from '../../api/usersApi';
-import { ERole } from '../../types';
+import { ERole, IUser } from '../../types';
 import { capitalize } from '../../utils/';
 import FadeLoader from 'react-spinners/FadeLoader';
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-}
-
 interface EditUserModalProps {
-  user: User;
+  user: IUser;
   // updateUser: (updatedUser: User) => void;
 }
 
 const roles = Object.values(ERole).filter(role => role !== 'guest');
 
 const EditUserModal = ({ user }: EditUserModalProps) => {
-  const [userToUpdate, setUserToUpdate] = useState<User>(user);
+  const [userToUpdate, setUserToUpdate] = useState<IUser>(user);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -30,7 +23,7 @@ const EditUserModal = ({ user }: EditUserModalProps) => {
     setUserToUpdate(user);
   }, [user]);
 
-  const handleRoleChange = async (newRole: string) => {
+  const handleRoleChange = async (newRole: IUser['role']) => {
     setLoading(true);
     try {
       setUserToUpdate({ ...userToUpdate, role: newRole });
@@ -70,7 +63,7 @@ const EditUserModal = ({ user }: EditUserModalProps) => {
             <label className="fieldset-label">Email</label>
             <input
               type="email"
-              value={userToUpdate.email}
+              value={userToUpdate.email || ''}
               disabled
               className="input w-full"
             />
@@ -79,7 +72,7 @@ const EditUserModal = ({ user }: EditUserModalProps) => {
             <label className="fieldset-label">Role</label>
             <select
               value={userToUpdate.role}
-              onChange={e => handleRoleChange(e.target.value)}
+              onChange={e => handleRoleChange(e.target.value as ERole)}
               required
               className="select w-full"
             >
