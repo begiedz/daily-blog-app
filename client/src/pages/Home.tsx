@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { getPosts } from '../api/postsApi';
+import { getAffirmation } from '../api/externalApi';
 
 import FadeLoader from 'react-spinners/FadeLoader';
 import HeroPost from '../components/HeroPost';
@@ -22,6 +23,16 @@ const Home = () => {
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(false);
+  const [affirmation, setAffirmation] = useState('');
+
+  useEffect(() => {
+    const fetchAffirmation = async () => {
+      const response = await getAffirmation();
+      console.log(response);
+      setAffirmation(response);
+    };
+    fetchAffirmation();
+  }, []);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -51,8 +62,12 @@ const Home = () => {
       <div className="mb-12 space-y-6 text-center">
         <h2 className="font-bold">Daily Blog</h2>
         <p className="text-5xl font-bold">Writings from our team</p>
-        <p className="text-base-content/60">
-          Latest news, trends, information.
+        <p className="text-base-content/60 italic">
+          {!affirmation ? (
+            <FadeLoader className="mx-auto" />
+          ) : (
+            `"${affirmation}"`
+          )}
         </p>
       </div>
 
