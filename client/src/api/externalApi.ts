@@ -4,8 +4,8 @@ import { handleApiError } from './utils';
 
 export const getAffirmation = async () => {
   try {
-    const resposne = await axios.get(`${config.serverUrl}/Affirmation/random`);
-    return resposne.data;
+    const response = await axios.get(`${config.serverUrl}/Affirmation/random`);
+    return response.data;
   } catch (err) {
     handleApiError(err);
   }
@@ -13,10 +13,10 @@ export const getAffirmation = async () => {
 
 export const getRates = async () => {
   try {
-    const resposne = await axios.get(
+    const response = await axios.get(
       `${config.serverUrl}/Currency/currency-rates`,
     );
-    return resposne.data;
+    return response.data;
   } catch (err) {
     handleApiError(err);
   }
