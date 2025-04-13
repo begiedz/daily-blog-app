@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { getPosts } from '../api/postsApi';
-import { getAffirmation } from '../api/externalApi';
+import { getAffirmation, getRates } from '../api/externalApi';
 
 import FadeLoader from 'react-spinners/FadeLoader';
 import HeroPost from '../components/HeroPost';
@@ -18,12 +18,19 @@ interface Pagination {
   totalPages: number;
 }
 
+interface Rate {
+  currency: string;
+  code: string;
+  mid: number;
+}
+
 const Home = () => {
   const [pageNumber, setPageNumber] = useState(1);
   const [pagination, setPagination] = useState<Pagination | null>(null);
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(false);
   const [affirmation, setAffirmation] = useState('');
+  const [rates, setRates] = useState<Rate[] | null>(null);
 
   useEffect(() => {
     const fetchAffirmation = async () => {
@@ -31,7 +38,15 @@ const Home = () => {
       console.log(response);
       setAffirmation(response);
     };
+
+    const fetchRates = async () => {
+      const response = await getRates();
+      console.log(response[0].rates);
+      setRates(response[0].rates);
+    };
+
     fetchAffirmation();
+    fetchRates();
   }, []);
 
   useEffect(() => {
@@ -59,10 +74,37 @@ const Home = () => {
 
   return (
     <main className="w-[95%] max-w-4xl">
+      {rates ? (
+        <div className="marquee-container my-4 opacity-60">
+          <div className="marquee-content">
+            {rates.map((rate, i) => (
+              <p
+                key={`rate-${i}`}
+                className="inline whitespace-nowrap"
+              >
+                <span>{rate.code}: </span>
+                <span>{rate.mid}</span>
+              </p>
+            ))}
+            {/* dusplication for seamless loop */}
+            {rates.map((rate, i) => (
+              <p
+                key={`rate-duplicate-${i}`}
+                className="inline whitespace-nowrap"
+              >
+                <span>{rate.code}: </span>
+                <span>{rate.mid}</span>
+              </p>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <FadeLoader className="mx-auto" />
+      )}
       <div className="mb-12 space-y-6 text-center">
         <h2 className="font-bold">Daily Blog</h2>
         <p className="text-5xl font-bold">Writings from our team</p>
-        <p className="text-base-content/60 italic">
+        <p className="italic opacity-60">
           {!affirmation ? (
             <FadeLoader className="mx-auto" />
           ) : (
