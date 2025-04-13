@@ -5,7 +5,7 @@ import { handleApiError } from './utils';
 export const getAffirmation = async () => {
   try {
     const response = await axios.get(`${config.serverUrl}/Affirmation/random`);
-    return response.data;
+    return response.data.affirmation;
   } catch (err) {
     handleApiError(err);
   }
