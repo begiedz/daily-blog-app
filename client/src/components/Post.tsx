@@ -16,11 +16,11 @@ const Post = ({ imageUrl, title, author, createdAt, excerpt, tags }: IPost) => {
         </p>
         <h3 className="card-title text-xl">{title}</h3>
         <p>{excerpt}</p>
-        <div className="space-x-2">
+        <div className="inline-flex flex-wrap gap-2">
           {tags.map((tag, index) => (
             <span
               key={index}
-              className="badge badge-outline rounded-full"
+              className="badge badge-outline badge-white gap-2 rounded-full"
             >
               {tag}
             </span>
