@@ -4,6 +4,8 @@ import ErrorIcon from './icons/ErrorIcon';
 import WarningIcon from './icons/WarningIcon';
 import InfoIcon from './icons/InfoIcon';
 import { ReactNode } from 'react';
+import { createPortal } from 'react-dom';
+import * as motion from 'motion/react-client';
 
 enum Variant {
   Success = 'alert-success',
@@ -26,14 +28,25 @@ const Alert = ({ children, variant, className }: AlertProps) => {
     Info: <InfoIcon />,
   };
 
-  return (
-    <div
+  return createPortal(
+    <motion.div
       role="alert"
-      className={clsx('alert', Variant[variant || 'Info'], className)}
+      className={clsx(
+        'alert fixed bottom-20 left-1/2 -translate-x-1/2',
+        Variant[variant || 'Info'],
+        className,
+      )}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{
+        duration: 0.4,
+        scale: { type: 'spring', visualDuration: 0.4, bounce: 0.3 },
+      }}
     >
       {variant && icons[variant]}
       <span>{children}</span>
-    </div>
+    </motion.div>,
+    document.body,
   );
 };
 
