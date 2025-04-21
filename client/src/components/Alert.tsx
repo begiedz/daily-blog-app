@@ -1,40 +1,42 @@
+import { useStore } from '@tanstack/react-store';
+import { useEffect, JSX } from 'react';
 import clsx from 'clsx';
+
 import SuccessIcon from './icons/SuccessIcon';
-import ErrorIcon from './icons/ErrorIcon';
 import WarningIcon from './icons/WarningIcon';
+import ErrorIcon from './icons/ErrorIcon';
 import InfoIcon from './icons/InfoIcon';
-import { ReactNode } from 'react';
-import { createPortal } from 'react-dom';
+
 import * as motion from 'motion/react-client';
+import { errorStore, setErrorState } from '../store/errorStore';
 
-enum Variant {
-  Success = 'alert-success',
-  Error = 'alert-error',
-  Warning = 'alert-warning',
-  Info = 'alert-info',
-}
-
-interface AlertProps {
-  children?: ReactNode;
-  variant?: keyof typeof Variant;
-  className?: string;
-}
-
-const Alert = ({ children, variant, className }: AlertProps) => {
-  const icons = {
-    Success: <SuccessIcon />,
-    Error: <ErrorIcon />,
-    Warning: <WarningIcon />,
-    Info: <InfoIcon />,
+const Alert = () => {
+  const error = useStore(errorStore, s => s.error);
+  console.log('Error in Alert:', error);
+  const icons: Record<number, JSX.Element> = {
+    200: <SuccessIcon />,
+    400: <WarningIcon />,
+    401: <ErrorIcon />,
+    403: <ErrorIcon />,
+    404: <ErrorIcon />,
+    500: <ErrorIcon />,
   };
 
-  return createPortal(
+  useEffect(() => {
+    if (error) {
+      const timer = setTimeout(() => setErrorState(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [error]);
+
+  if (!error) return null;
+
+  return (
     <motion.div
       role="alert"
       className={clsx(
-        'alert fixed bottom-20 left-1/2 -translate-x-1/2',
-        Variant[variant || 'Info'],
-        className,
+        'alert fixed right-1/2 bottom-20 translate-x-1/2 md:right-20 md:translate-x-0',
+        `alert-${error.status === 200 ? 'success' : error.status >= 401 ? 'error' : 'warning'}`,
       )}
       initial={{ opacity: 0, scale: 0 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -43,10 +45,9 @@ const Alert = ({ children, variant, className }: AlertProps) => {
         scale: { type: 'spring', visualDuration: 0.4, bounce: 0.3 },
       }}
     >
-      {variant && icons[variant]}
-      <span>{children}</span>
-    </motion.div>,
-    document.body,
+      {icons[error.status] || <InfoIcon />}
+      <span>{`${error.status}: ${error.message}`}</span>
+    </motion.div>
   );
 };
 

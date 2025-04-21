@@ -6,10 +6,11 @@ import { getAffirmation, getRates } from '../api/externalApi';
 
 import FadeLoader from 'react-spinners/FadeLoader';
 import HeroPost from '../components/HeroPost';
-import Alert from '../components/Alert';
 import Post from '../components/Post';
 
 import { IPost } from '../types';
+import { isApiError } from '../api/utils';
+import { setErrorState } from '../store/errorStore';
 
 interface Pagination {
   totalItems: number;
@@ -34,15 +35,32 @@ const Home = () => {
 
   useEffect(() => {
     const fetchAffirmation = async () => {
-      const response = await getAffirmation();
-      console.log(response);
-      setAffirmation(response);
+      try {
+        const response = await getAffirmation();
+        setAffirmation(response);
+      } catch (err) {
+        if (isApiError(err)) {
+          setErrorState({
+            status: err.status || 500,
+            message:
+              err.message || 'No connection to server. Please try again later.',
+          });
+        }
+      }
     };
 
     const fetchRates = async () => {
-      const response = await getRates();
-      console.log(response[0].rates);
-      setRates(response[0].rates);
+      try {
+        const response = await getRates();
+        setRates(response[0].rates);
+      } catch (err) {
+        setErrorState({
+          status: isApiError(err) ? err.status || 500 : 500,
+          message: isApiError(err)
+            ? err.message || 'No connection to server. Please try again later.'
+            : 'No connection to server. Please try again later.',
+        });
+      }
     };
 
     fetchAffirmation();
@@ -51,12 +69,20 @@ const Home = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      setLoading(true);
-      const paginationData = await getPosts(pageNumber);
-      setPosts(paginationData.posts);
-      setPagination(paginationData.pagination);
-      setLoading(false);
+      try {
+        setLoading(true);
+        const paginationData = await getPosts(pageNumber);
+        setPosts(paginationData.posts);
+        setPagination(paginationData.pagination);
+      } catch (err) {
+        if (isApiError(err)) {
+          setErrorState(err);
+        }
+      } finally {
+        setLoading(false);
+      }
     };
+
     fetchPosts();
   }, [pageNumber]);
 
@@ -115,7 +141,7 @@ const Home = () => {
 
       {loading ? (
         <FadeLoader className="mx-auto" />
-      ) : posts.length > 0 ? (
+      ) : (
         <>
           <ul className="grid grid-cols-[repeat(auto-fit,minmax(256px,0))] justify-center gap-6">
             {posts.map((post, index) => {
@@ -150,13 +176,6 @@ const Home = () => {
             </button>
           </div>
         </>
-      ) : (
-        <Alert
-          variant="Warning"
-          className="mx-auto"
-        >
-          No posts at the moment!
-        </Alert>
       )}
     </main>
   );

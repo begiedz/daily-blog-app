@@ -67,7 +67,12 @@ export interface IAppRoute {
   icon?: string;
 }
 
-export interface ApiError {
+export interface IApiError {
   status: number;
   message: string;
+}
+
+export interface IApiErrorState {
+  error: IApiError | null;
+  // setError: (error: IApiError | null) => void;
 }
