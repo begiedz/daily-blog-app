@@ -1,43 +1,39 @@
 import { useParams } from 'react-router-dom';
 import { getPost } from '../api/postsApi';
-import { useEffect, useState } from 'react';
-import Alert from '../components/Alert';
+import { useCallback, useEffect, useState } from 'react';
 import FadeLoader from 'react-spinners/FadeLoader';
 import { isApiError } from '../api/utils';
 import { IPost } from '../types';
+
+import { setErrorState } from '../store/errorStore';
 
 const PostPage = () => {
   const { slug } = useParams();
   const [post, setPost] = useState<IPost | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
-  const handleFetchPost = async (slug: string) => {
+  const handleFetchPost = useCallback(async (slug: string) => {
     try {
       const postData = await getPost(slug);
       setPost(postData);
     } catch (err) {
       if (isApiError(err)) {
-        setError(`${err.status}: ${err.message}`);
-      } else {
-        setError('An unexpected error occurred.');
+        setErrorState(err);
       }
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (slug) handleFetchPost(slug);
     return () => {
       setLoading(true);
-      setError(null);
     };
-  }, [slug]);
+  }, [slug, handleFetchPost]);
 
   if (loading) return <FadeLoader className="mx-auto" />;
-  if (error || !post) return <Alert variant="Error">{error}</Alert>;
-
+  if (!post) return <p className="text-center">Post not found.</p>;
   return (
     <main className="mx-auto w-full max-w-4xl space-y-6 p-6">
       <img
@@ -46,7 +42,7 @@ const PostPage = () => {
         className="card h-70 w-full object-cover shadow-md"
       />
       <div className="space-y-2">
-        <div className=" ">
+        <div>
           <p className="font-bold">
             {post.author} • {new Date(post.createdAt).toLocaleDateString()}
           </p>

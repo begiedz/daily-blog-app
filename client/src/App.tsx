@@ -8,6 +8,7 @@ import AppLayout from './layouts/AppLayout';
 import { filteredRoutes } from './routes/utils';
 import { authStore } from './store/authStore';
 import { useStore } from '@tanstack/react-store';
+import Alert from './components/Alert';
 
 export default function App() {
   useEffect(() => {
@@ -27,6 +28,7 @@ export default function App() {
           ))}
         </Routes>
       </AppLayout>
+      <Alert />
     </Router>
   );
 }
