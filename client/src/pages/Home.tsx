@@ -87,28 +87,12 @@ const Home = () => {
   return (
     <main className="w-[95%] max-w-4xl">
       {rates ? (
-        <div className="marquee-container my-4 opacity-60">
-          <div className="marquee-content">
-            {rates.map((rate, i) => (
-              <p
-                key={`rate-${i}`}
-                className="inline whitespace-nowrap"
-              >
-                <span>{rate.code}: </span>
-                <span>{rate.mid}</span>
-              </p>
-            ))}
-            {/* dusplication for seamless loop */}
-            {rates.map((rate, i) => (
-              <p
-                key={`rate-duplicate-${i}`}
-                className="inline whitespace-nowrap"
-              >
-                <span>{rate.code}: </span>
-                <span>{rate.mid}</span>
-              </p>
-            ))}
-          </div>
+        <div className="my-4 inline-block animate-[ticker_25s_linear_infinite] space-x-4 whitespace-nowrap opacity-60">
+          {rates.map((rate, i) => (
+            <span key={i}>
+              {rate.code}: {rate.mid}
+            </span>
+          ))}
         </div>
       ) : (
         <FadeLoader className="mx-auto" />

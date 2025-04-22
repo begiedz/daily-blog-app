@@ -1,32 +1,12 @@
 @import 'tailwindcss';
 @plugin 'daisyui';
 
-@keyframes marquee {
+@keyframes ticker {
   0% {
-    transform: translateX(0%);
+    transform: translate3d(0, 0, 0);
   }
+
   100% {
-    transform: translateX(-100%);
+    transform: translate3d(-100%, 0, 0);
   }
-}
-
-.marquee-container {
-  display: flex;
-  overflow: hidden;
-  position: relative;
-  white-space: nowrap;
-}
-
-.marquee-content {
-  display: inline-flex;
-  animation: marquee 90s linear infinite;
-}
-
-.marquee-content > * {
-  flex-shrink: 0;
-  margin-right: 1rem;
-}
-
-.marquee-duplicate {
-  display: inline-flex;
 }
