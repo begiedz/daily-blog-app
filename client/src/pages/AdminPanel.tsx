@@ -9,6 +9,7 @@ import { capitalize } from '../utils';
 import { IPost } from '../types';
 import { TRole } from '../types';
 import { ERole } from '../types';
+import { setApiError } from '../api/utils';
 
 interface IUser {
   id: number;
@@ -33,11 +34,11 @@ const AdminPanel = () => {
   useEffect(() => {
     getAllUsers()
       .then(data => setUsers(data))
-      .catch(error => console.error('Failed to fetch users:', error));
+      .catch(err => setApiError(err));
 
     getAllPosts()
       .then(data => setPosts(data))
-      .catch(error => console.error('Failed to fetch posts:', error));
+      .catch(err => setApiError(err));
   }, []);
 
   const statCards = [

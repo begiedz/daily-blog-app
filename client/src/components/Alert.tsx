@@ -36,7 +36,11 @@ const Alert = () => {
       role="alert"
       className={clsx(
         'alert fixed right-1/2 bottom-20 translate-x-1/2 md:right-20 md:translate-x-0',
-        `alert-${error.status === 200 ? 'success' : error.status >= 401 ? 'error' : 'warning'}`,
+        error.status === 200
+          ? 'alert-success'
+          : error.status >= 401
+            ? 'alert-error'
+            : 'alert-warning',
       )}
       initial={{ opacity: 0, scale: 0 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -47,6 +51,12 @@ const Alert = () => {
     >
       {icons[error.status] || <InfoIcon />}
       <span>{`${error.status}: ${error.message}`}</span>
+      <button
+        onClick={() => setErrorState(null)}
+        className="size-6 cursor-pointer"
+      >
+        ✕
+      </button>
     </motion.div>
   );
 };

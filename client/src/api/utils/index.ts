@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { IApiError } from '../../types';
+import { setErrorState } from '../../store/errorStore';
 
 export const handleApiError = (err: unknown): never => {
   if (axios.isAxiosError(err) && err.response) {
@@ -13,7 +14,7 @@ export const handleApiError = (err: unknown): never => {
   };
 };
 
-export const isApiError = (err: unknown): err is IApiError => {
+const isApiError = (err: unknown): err is IApiError => {
   return (
     typeof err === 'object' &&
     err !== null &&
@@ -22,4 +23,10 @@ export const isApiError = (err: unknown): err is IApiError => {
     typeof (err as IApiError).status === 'number' &&
     typeof (err as IApiError).message === 'string'
   );
+};
+
+export const setApiError = (err: unknown) => {
+  if (isApiError(err)) {
+    setErrorState(err);
+  }
 };

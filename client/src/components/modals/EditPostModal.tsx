@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { getPost, updatePost } from '../../api/postsApi';
-import Alert from '../Alert';
 import FadeLoader from 'react-spinners/FadeLoader';
 import { IPost } from '../../types';
 import { createSlug } from '../../utils';
+import { setApiError } from '../../api/utils';
 
 interface EditPostModalProps {
   post: IPost;
@@ -12,17 +12,15 @@ interface EditPostModalProps {
 const EditPostModal = ({ post }: EditPostModalProps) => {
   const [postToUpdate, setPostToUpdate] = useState<IPost>(post);
   const [loading, setLoading] = useState(false);
-  const [alert, setAlert] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchPost = async () => {
       setLoading(true);
-      setAlert(null);
       try {
         const postData = await getPost(post.slug);
         setPostToUpdate({ ...postData });
       } catch (err) {
-        setAlert(err instanceof Error ? err.message : 'Failed to fetch post');
+        setApiError(err);
       } finally {
         setLoading(false);
       }
@@ -35,9 +33,9 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
     e.preventDefault();
     try {
       const updatedPost = await updatePost(postToUpdate.id, postToUpdate);
-      setAlert(updatedPost.message);
+      setApiError(updatedPost.message);
     } catch (err) {
-      setAlert(err instanceof Error ? err.message : '');
+      setApiError(err);
     }
   };
 
@@ -49,15 +47,6 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
       className="modal"
     >
       <div className="modal-box">
-        {alert && (
-          <Alert
-            variant={
-              alert.toLowerCase().includes('error') ? 'Error' : 'Success'
-            }
-          >
-            {alert}
-          </Alert>
-        )}
         <h3 className="text-lg font-bold">Editing {post.title}</h3>
         <div>
           <form
