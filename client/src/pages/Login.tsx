@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { handleLogin, handleRegister } from '../auth';
 import { useNavigate } from 'react-router-dom';
-import Alert from '../components/Alert';
+import { setApiError } from '../api/utils';
 
 const Login = () => {
   const [isRegister, setIsRegister] = useState(false);
-  const [error, setError] = useState<string>('');
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,21 +13,17 @@ const Login = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    setError('');
 
     try {
-      let success = false;
       if (!isRegister) {
-        success = await handleLogin({ username, password, setError });
-        if (success) navigate('/');
+        await handleLogin({ username, password });
+        navigate('/');
       } else {
-        success = await handleRegister({ username, email, password, setError });
-        if (success) window.location.reload();
+        await handleRegister({ username, email, password });
+        window.location.reload();
       }
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'An unexpected error occurred.',
-      );
+      setApiError(err);
     }
   };
 
@@ -37,7 +32,6 @@ const Login = () => {
       <h2 className="mb-4 text-center text-3xl font-bold">
         {isRegister ? 'Register' : 'Log in'}
       </h2>
-      {error && <Alert variant="Error">{error}</Alert>}
       <form
         onSubmit={handleSubmit}
         className="fieldset bg-base-200 border-base-300 rounded-box w-md max-w-full border p-8"

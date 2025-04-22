@@ -1,27 +1,22 @@
 import { useEffect, useState } from 'react';
 import { getUserProfile, updateUserProfile } from '../api/usersApi';
-import Alert from '../components/Alert';
 import FadeLoader from 'react-spinners/FadeLoader';
+import { setApiError } from '../api/utils';
 
 const ProfilePanel = () => {
   const [profile, setProfile] = useState({ name: '', email: '', password: '' });
   const [repeatPassword, setRepeatPassword] = useState('');
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchProfile = async () => {
       setLoading(true);
-      setError(null);
       try {
         const userProfile = await getUserProfile();
         setProfile(userProfile);
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : 'Failed to fetch profile',
-        );
+        setApiError(err);
       } finally {
         setLoading(false);
       }
@@ -33,8 +28,6 @@ const ProfilePanel = () => {
   const handleUpdateProfile = async (e: React.FormEvent) => {
     e.preventDefault();
     setPasswordError(null);
-    setError(null);
-    setSuccess(null);
 
     if (profile.password !== repeatPassword) {
       setPasswordError('Passwords do not match.');
@@ -43,11 +36,9 @@ const ProfilePanel = () => {
 
     try {
       const response = await updateUserProfile(profile.email, profile.password);
-      setSuccess(response.message);
+      setApiError({ status: response.status, message: response.message });
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'An unexpected error occurred.',
-      );
+      setApiError(err);
     }
   };
 
@@ -56,8 +47,6 @@ const ProfilePanel = () => {
   return (
     <main>
       <h2 className="mb-4 text-center text-3xl font-bold">Your Profile</h2>
-      {error && <Alert variant="Error">{error}</Alert>}
-      {success && <Alert variant="Success">{success}</Alert>}
       <form
         onSubmit={handleUpdateProfile}
         className="fieldset bg-base-200 border-base-300 rounded-box w-md max-w-full border p-10"
