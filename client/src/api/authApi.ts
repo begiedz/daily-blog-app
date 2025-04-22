@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../appconfig.json';
+import { handleApiError } from './utils';
 
 export const loginRequest = async (username: string, password: string) => {
   try {
@@ -10,11 +11,7 @@ export const loginRequest = async (username: string, password: string) => {
     console.log('Response from API:', response);
     return response.data;
   } catch (err) {
-    throw new Error(
-      `Error logging in: ${
-        axios.isAxiosError(err) ? err.message : 'Unknown error'
-      }`,
-    );
+    handleApiError(err);
   }
 };
 
@@ -32,10 +29,6 @@ export const registerRequest = async (
     console.log('Response from API:', response);
     return response.data;
   } catch (err) {
-    throw new Error(
-      `Error while registering: ${
-        axios.isAxiosError(err) ? err.message : 'Unknown error'
-      }`,
-    );
+    handleApiError(err);
   }
 };

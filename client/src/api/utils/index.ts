@@ -6,7 +6,10 @@ export const handleApiError = (err: unknown): never => {
   if (axios.isAxiosError(err) && err.response) {
     const { status, data } = err.response;
     console.error(status, data);
-    throw { status, message: data?.message || 'An unexpected error occurred.' };
+    throw {
+      status,
+      message: data?.message || 'An unexpected error occurred.',
+    };
   }
   throw {
     status: 500,

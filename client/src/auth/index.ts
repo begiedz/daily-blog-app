@@ -6,57 +6,34 @@ import {
   IHandleRegisterProps,
   ITokenPayload,
 } from '../types';
-import axios from 'axios';
 
-const setNewUser = (decoded: ITokenPayload) => {
-  return {
-    id: parseInt(decoded.nameid),
-    name: decoded.unique_name,
-    email: '',
-    role: decoded.role,
-  };
-};
+import { handleApiError } from '../api/utils';
+
+const setNewUser = (decoded: ITokenPayload) => ({
+  id: parseInt(decoded.nameid),
+  name: decoded.unique_name,
+  email: '',
+  role: decoded.role,
+});
 
 export const handleLogin = async ({
   username,
   password,
-  setError,
-}: IHandleLoginProps): Promise<boolean> => {
-  try {
-    const { token } = await loginRequest(username, password);
-    const decoded = jwtDecode<ITokenPayload>(token);
-    console.log('decoded token', decoded);
+}: IHandleLoginProps) => {
+  const { token } = await loginRequest(username, password);
+  const decoded = jwtDecode<ITokenPayload>(token);
+  const newUser = setNewUser(decoded);
 
-    const newUser = setNewUser(decoded);
-
-    setUserState(newUser);
-    console.log(newUser);
-
-    localStorage.setItem('token', token);
-    return true;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.data?.message) {
-      setError(error.response.data.message);
-    } else {
-      setError('An unexpected error occurred. Please try again.');
-    }
-    return false;
-  }
+  setUserState(newUser);
+  localStorage.setItem('token', token);
 };
 
 export const handleRegister = async ({
   username,
   email,
   password,
-  setError,
-}: IHandleRegisterProps): Promise<boolean> => {
-  try {
-    await registerRequest(username, email, password);
-    return true;
-  } catch (error) {
-    setError(error instanceof Error ? error.message : 'Unknown error');
-    return false;
-  }
+}: IHandleRegisterProps) => {
+  await registerRequest(username, email, password);
 };
 
 export const authOnEntry = () => {
@@ -78,8 +55,9 @@ export const authOnEntry = () => {
 
     setUserState(newUser);
     localStorage.setItem('token', token);
-  } catch (error) {
-    console.error('Invalid token', error);
+  } catch (err) {
+    handleApiError(err);
+    console.error('Invalid token', err);
     localStorage.removeItem('token');
     setUserState(null);
   }

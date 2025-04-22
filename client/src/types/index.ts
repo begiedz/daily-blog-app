@@ -46,7 +46,6 @@ export interface ITokenPayload {
 export interface IHandleLoginProps {
   username: string;
   password: string;
-  setError: (error: string) => void;
 }
 
 export interface IHandleRegisterProps extends IHandleLoginProps {
@@ -74,5 +73,4 @@ export interface IApiError {
 
 export interface IApiErrorState {
   error: IApiError | null;
-  // setError: (error: IApiError | null) => void;
 }
