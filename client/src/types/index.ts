@@ -66,11 +66,8 @@ export interface IAppRoute {
   icon?: string;
 }
 
-export interface IApiError {
+export interface INotification {
   status: number;
   message: string;
-}
-
-export interface IApiErrorState {
-  error: IApiError | null;
+  type?: 'success' | 'error' | 'info' | 'warning';
 }

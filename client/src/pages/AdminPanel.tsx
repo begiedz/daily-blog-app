@@ -9,7 +9,7 @@ import { capitalize } from '../utils';
 import { IPost } from '../types';
 import { TRole } from '../types';
 import { ERole } from '../types';
-import { setApiError } from '../api/utils';
+import { handleApiNotify } from '../api/utils';
 
 interface IUser {
   id: number;
@@ -34,11 +34,11 @@ const AdminPanel = () => {
   useEffect(() => {
     getAllUsers()
       .then(data => setUsers(data))
-      .catch(err => setApiError(err));
+      .catch(err => handleApiNotify(err));
 
     getAllPosts()
       .then(data => setPosts(data))
-      .catch(err => setApiError(err));
+      .catch(err => handleApiNotify(err));
   }, []);
 
   const statCards = [

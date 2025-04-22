@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { getPost } from '../api/postsApi';
 import { useCallback, useEffect, useState } from 'react';
 import FadeLoader from 'react-spinners/FadeLoader';
-import { setApiError } from '../api/utils';
+import { handleApiNotify } from '../api/utils';
 import { IPost } from '../types';
 
 const PostPage = () => {
@@ -15,7 +15,7 @@ const PostPage = () => {
       const postData = await getPost(slug);
       setPost(postData);
     } catch (err) {
-      setApiError(err);
+      handleApiNotify(err);
     } finally {
       setLoading(false);
     }

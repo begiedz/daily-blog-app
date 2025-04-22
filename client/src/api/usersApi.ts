@@ -1,6 +1,6 @@
 import axios from 'axios';
 import config from '../appconfig.json';
-import { handleApiError } from './utils';
+import { handleApiNotify } from './utils';
 
 export const getAllUsers = async () => {
   const token = localStorage.getItem('token');
@@ -9,8 +9,8 @@ export const getAllUsers = async () => {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
-  } catch (error) {
-    handleApiError(error);
+  } catch (err) {
+    handleApiNotify(err);
   }
 };
 
@@ -21,8 +21,8 @@ export const deleteUser = async (id: number) => {
       headers: { Authorization: `Bearer ${token}` },
     });
     return response.data;
-  } catch (error) {
-    handleApiError(error);
+  } catch (err) {
+    handleApiNotify(err);
   }
 };
 
@@ -40,8 +40,8 @@ export const updateUserRole = async (id: number, role: string) => {
       },
     );
     return response.data;
-  } catch (error) {
-    handleApiError(error);
+  } catch (err) {
+    handleApiNotify(err);
   }
 };
 
@@ -55,8 +55,8 @@ export const getUserProfile = async () => {
       },
     );
     return response.data;
-  } catch (error) {
-    handleApiError(error);
+  } catch (err) {
+    handleApiNotify(err);
   }
 };
 
@@ -71,7 +71,7 @@ export const updateUserProfile = async (email: string, password: string) => {
       },
     );
     return response.data;
-  } catch (error) {
-    handleApiError(error);
+  } catch (err) {
+    handleApiNotify(err);
   }
 };

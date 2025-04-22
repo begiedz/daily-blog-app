@@ -1,46 +1,45 @@
 import { useStore } from '@tanstack/react-store';
-import { useEffect, JSX } from 'react';
 import clsx from 'clsx';
+import { useEffect, JSX } from 'react';
+import * as motion from 'motion/react-client';
+import { notificationStore, setNotification } from '../store/notificationStore';
 
 import SuccessIcon from './icons/SuccessIcon';
 import WarningIcon from './icons/WarningIcon';
 import ErrorIcon from './icons/ErrorIcon';
 import InfoIcon from './icons/InfoIcon';
 
-import * as motion from 'motion/react-client';
-import { errorStore, setErrorState } from '../store/errorStore';
-
 const Alert = () => {
-  const error = useStore(errorStore, s => s.error);
-  console.log('Error in Alert:', error);
-  const icons: Record<number, JSX.Element> = {
-    200: <SuccessIcon />,
-    400: <WarningIcon />,
-    401: <ErrorIcon />,
-    403: <ErrorIcon />,
-    404: <ErrorIcon />,
-    500: <ErrorIcon />,
+  const notification = useStore(notificationStore, s => s.notification);
+
+  const icons: Record<string, JSX.Element> = {
+    success: <SuccessIcon />,
+    warning: <WarningIcon />,
+    error: <ErrorIcon />,
+    info: <InfoIcon />,
   };
 
   useEffect(() => {
-    if (error) {
-      const timer = setTimeout(() => setErrorState(null), 5000);
+    if (notification) {
+      const timer = setTimeout(() => setNotification(null), 5000);
       return () => clearTimeout(timer);
     }
-  }, [error]);
+  }, [notification]);
 
-  if (!error) return null;
+  if (!notification) return null;
+
+  const type =
+    notification.type || (notification.status >= 400 ? 'error' : 'success');
 
   return (
     <motion.div
       role="alert"
       className={clsx(
         'alert fixed right-1/2 bottom-20 translate-x-1/2 md:right-20 md:translate-x-0',
-        error.status === 200
-          ? 'alert-success'
-          : error.status >= 401
-            ? 'alert-error'
-            : 'alert-warning',
+        type === 'success' && 'alert-success',
+        type === 'error' && 'alert-error',
+        type === 'info' && 'alert-info',
+        type === 'warning' && 'alert-warning',
       )}
       initial={{ opacity: 0, scale: 0 }}
       animate={{ opacity: 1, scale: 1 }}
@@ -49,10 +48,14 @@ const Alert = () => {
         scale: { type: 'spring', visualDuration: 0.4, bounce: 0.3 },
       }}
     >
-      {icons[error.status] || <InfoIcon />}
-      <span>{`${error.status}: ${error.message}`}</span>
+      {icons[type] || <InfoIcon />}
+      <span>
+        {notification.status !== 200
+          ? `${notification.status}: ${notification.message}`
+          : notification.message}
+      </span>
       <button
-        onClick={() => setErrorState(null)}
+        onClick={() => setNotification(null)}
         className="size-6 cursor-pointer"
       >
         ✕

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { handleLogin, handleRegister } from '../auth';
 import { useNavigate } from 'react-router-dom';
-import { setApiError } from '../api/utils';
+import { handleApiNotify } from '../api/utils';
 
 const Login = () => {
   const [isRegister, setIsRegister] = useState(false);
@@ -14,16 +14,14 @@ const Login = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    try {
-      if (!isRegister) {
-        await handleLogin({ username, password });
-        navigate('/');
-      } else {
-        await handleRegister({ username, email, password });
-        window.location.reload();
-      }
-    } catch (err) {
-      setApiError(err);
+    if (!isRegister) {
+      const res = await handleLogin({ username, password });
+      handleApiNotify(res);
+      navigate('/');
+    } else {
+      const res = await handleRegister({ username, email, password });
+      handleApiNotify(res);
+      window.location.reload();
     }
   };
 

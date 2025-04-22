@@ -3,7 +3,7 @@ import { updateUserRole } from '../../api/usersApi';
 import { ERole, IUser } from '../../types';
 import { capitalize } from '../../utils/';
 import FadeLoader from 'react-spinners/FadeLoader';
-import { setApiError } from '../../api/utils';
+import { handleApiNotify } from '../../api/utils';
 
 interface EditUserModalProps {
   user: IUser;
@@ -27,7 +27,7 @@ const EditUserModal = ({ user }: EditUserModalProps) => {
       setUserToUpdate({ ...userToUpdate, role: newRole });
       await updateUserRole(userToUpdate.id, newRole);
     } catch (err) {
-      setApiError(err);
+      handleApiNotify(err);
     } finally {
       setLoading(false);
     }

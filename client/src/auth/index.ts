@@ -7,7 +7,7 @@ import {
   ITokenPayload,
 } from '../types';
 
-import { handleApiError } from '../api/utils';
+import { handleApiNotify } from '../api/utils';
 
 const setNewUser = (decoded: ITokenPayload) => ({
   id: parseInt(decoded.nameid),
@@ -20,12 +20,15 @@ export const handleLogin = async ({
   username,
   password,
 }: IHandleLoginProps) => {
-  const { token } = await loginRequest(username, password);
+  const response = await loginRequest(username, password);
+  const { token } = response!.data;
   const decoded = jwtDecode<ITokenPayload>(token);
   const newUser = setNewUser(decoded);
 
   setUserState(newUser);
   localStorage.setItem('token', token);
+
+  return response;
 };
 
 export const handleRegister = async ({
@@ -56,7 +59,7 @@ export const authOnEntry = () => {
     setUserState(newUser);
     localStorage.setItem('token', token);
   } catch (err) {
-    handleApiError(err);
+    handleApiNotify(err);
     console.error('Invalid token', err);
     localStorage.removeItem('token');
     setUserState(null);

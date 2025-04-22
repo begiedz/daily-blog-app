@@ -1,13 +1,13 @@
 import axios from 'axios';
 import config from '../appconfig.json';
-import { handleApiError } from './utils';
+import { handleApiNotify } from './utils';
 
 export const getAffirmation = async () => {
   try {
     const response = await axios.get(`${config.serverUrl}/Affirmation/random`);
     return response.data.affirmation;
   } catch (err) {
-    handleApiError(err);
+    handleApiNotify(err);
   }
 };
 
@@ -18,6 +18,6 @@ export const getRates = async () => {
     );
     return response.data;
   } catch (err) {
-    handleApiError(err);
+    handleApiNotify(err);
   }
 };
