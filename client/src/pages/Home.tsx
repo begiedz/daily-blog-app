@@ -9,8 +9,7 @@ import HeroPost from '../components/HeroPost';
 import Post from '../components/Post';
 
 import { IPost } from '../types';
-import { isApiError } from '../api/utils';
-import { setErrorState } from '../store/errorStore';
+import { setApiError } from '../api/utils';
 
 interface Pagination {
   totalItems: number;
@@ -39,13 +38,7 @@ const Home = () => {
         const response = await getAffirmation();
         setAffirmation(response);
       } catch (err) {
-        if (isApiError(err)) {
-          setErrorState({
-            status: err.status || 500,
-            message:
-              err.message || 'No connection to server. Please try again later.',
-          });
-        }
+        setApiError(err);
       }
     };
 
@@ -54,12 +47,7 @@ const Home = () => {
         const response = await getRates();
         setRates(response[0].rates);
       } catch (err) {
-        setErrorState({
-          status: isApiError(err) ? err.status || 500 : 500,
-          message: isApiError(err)
-            ? err.message || 'No connection to server. Please try again later.'
-            : 'No connection to server. Please try again later.',
-        });
+        setApiError(err);
       }
     };
 
@@ -75,9 +63,7 @@ const Home = () => {
         setPosts(paginationData.posts);
         setPagination(paginationData.pagination);
       } catch (err) {
-        if (isApiError(err)) {
-          setErrorState(err);
-        }
+        setApiError(err);
       } finally {
         setLoading(false);
       }
