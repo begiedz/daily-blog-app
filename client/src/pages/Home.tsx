@@ -9,7 +9,7 @@ import HeroPost from '../components/HeroPost';
 import Post from '../components/Post';
 
 import { IPost } from '../types';
-import { setApiError } from '../api/utils';
+import { handleApiNotify } from '../api/utils';
 
 interface Pagination {
   totalItems: number;
@@ -38,7 +38,7 @@ const Home = () => {
         const response = await getAffirmation();
         setAffirmation(response);
       } catch (err) {
-        setApiError(err);
+        handleApiNotify(err);
       }
     };
 
@@ -47,7 +47,7 @@ const Home = () => {
         const response = await getRates();
         setRates(response[0].rates);
       } catch (err) {
-        setApiError(err);
+        handleApiNotify(err);
       }
     };
 
@@ -63,7 +63,7 @@ const Home = () => {
         setPosts(paginationData.posts);
         setPagination(paginationData.pagination);
       } catch (err) {
-        setApiError(err);
+        handleApiNotify(err);
       } finally {
         setLoading(false);
       }

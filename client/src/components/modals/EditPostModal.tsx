@@ -3,7 +3,7 @@ import { getPost, updatePost } from '../../api/postsApi';
 import FadeLoader from 'react-spinners/FadeLoader';
 import { IPost } from '../../types';
 import { createSlug } from '../../utils';
-import { setApiError } from '../../api/utils';
+import { handleApiNotify } from '../../api/utils';
 
 interface EditPostModalProps {
   post: IPost;
@@ -20,7 +20,7 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
         const postData = await getPost(post.slug);
         setPostToUpdate({ ...postData });
       } catch (err) {
-        setApiError(err);
+        handleApiNotify(err);
       } finally {
         setLoading(false);
       }
@@ -33,9 +33,9 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
     e.preventDefault();
     try {
       const updatedPost = await updatePost(postToUpdate.id, postToUpdate);
-      setApiError(updatedPost.message);
+      handleApiNotify({ status: 200, message: updatedPost.message });
     } catch (err) {
-      setApiError(err);
+      handleApiNotify(err);
     }
   };
 

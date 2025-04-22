@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { IPost } from '../types';
 import config from '../appconfig.json';
-import { handleApiError } from './utils';
+import { handleApiNotify } from './utils';
 
 export const getAllPosts = async (): Promise<IPost[]> => {
   try {
@@ -41,7 +41,7 @@ export const getMyPosts = async () => {
     console.log(response.data);
     return response.data;
   } catch (err) {
-    handleApiError(err);
+    handleApiNotify(err);
   }
 };
 
@@ -56,7 +56,7 @@ export const getPosts = async (pageNumber = 1, pageSize = 7) => {
       pagination: response.data.pagination,
     };
   } catch (err) {
-    handleApiError(err);
+    handleApiNotify(err);
     return { posts: [], pagination: null };
   }
 };
@@ -66,7 +66,7 @@ export const getPost = async (slug: string) => {
     const response = await axios.get(`${config.serverUrl}/Blog/${slug}`);
     return response.data;
   } catch (err) {
-    handleApiError(err);
+    handleApiNotify(err);
   }
 };
 
@@ -87,7 +87,7 @@ export const deletePost = async (id: number) => {
     console.log(response.data);
     return response.data;
   } catch (err) {
-    handleApiError(err);
+    handleApiNotify(err);
   }
 };
 
@@ -103,7 +103,7 @@ export const sendPost = async (postToSend: object) => {
     );
     return response.data;
   } catch (err) {
-    handleApiError(err);
+    handleApiNotify(err);
   }
 };
 
@@ -122,6 +122,6 @@ export const updatePost = async (id: number, updatedValues: object) => {
     console.log(response.data);
     return response.data;
   } catch (err) {
-    handleApiError(err);
+    handleApiNotify(err);
   }
 };

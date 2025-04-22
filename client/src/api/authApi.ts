@@ -1,17 +1,15 @@
 import axios from 'axios';
 import config from '../appconfig.json';
-import { handleApiError } from './utils';
+import { handleApiNotify } from './utils';
 
 export const loginRequest = async (username: string, password: string) => {
   try {
-    const response = await axios.post(`${config.serverUrl}/Auth/login`, {
+    return await axios.post(`${config.serverUrl}/Auth/login`, {
       username,
       password,
     });
-    console.log('Response from API:', response);
-    return response.data;
   } catch (err) {
-    handleApiError(err);
+    handleApiNotify(err);
   }
 };
 
@@ -21,14 +19,12 @@ export const registerRequest = async (
   password: string,
 ) => {
   try {
-    const response = await axios.post(`${config.serverUrl}/Auth/register`, {
+    return await axios.post(`${config.serverUrl}/Auth/register`, {
       username,
       email,
       password,
     });
-    console.log('Response from API:', response);
-    return response.data;
   } catch (err) {
-    handleApiError(err);
+    handleApiNotify(err);
   }
 };

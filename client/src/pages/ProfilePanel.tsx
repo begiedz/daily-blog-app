@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getUserProfile, updateUserProfile } from '../api/usersApi';
 import FadeLoader from 'react-spinners/FadeLoader';
-import { setApiError } from '../api/utils';
+import { handleApiNotify } from '../api/utils';
 
 const ProfilePanel = () => {
   const [profile, setProfile] = useState({ name: '', email: '', password: '' });
@@ -16,7 +16,7 @@ const ProfilePanel = () => {
         const userProfile = await getUserProfile();
         setProfile(userProfile);
       } catch (err) {
-        setApiError(err);
+        handleApiNotify(err);
       } finally {
         setLoading(false);
       }
@@ -35,10 +35,10 @@ const ProfilePanel = () => {
     }
 
     try {
-      const response = await updateUserProfile(profile.email, profile.password);
-      setApiError({ status: response.status, message: response.message });
+      const res = await updateUserProfile(profile.email, profile.password);
+      handleApiNotify(res);
     } catch (err) {
-      setApiError(err);
+      handleApiNotify(err);
     }
   };
 
