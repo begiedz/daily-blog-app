@@ -13,6 +13,11 @@ const DeleteModal = ({ name, onDelete }: DeleteModalProps) => {
         <h3 className="text-lg font-bold">
           Are you sure you want to delete {name}?
         </h3>
+        <form method="dialog">
+          <button className="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">
+            ✕
+          </button>
+        </form>
         <p className="py-4">
           This is a destructive function. Data will be erased.
         </p>
@@ -23,13 +28,6 @@ const DeleteModal = ({ name, onDelete }: DeleteModalProps) => {
           >
             Delete
           </button>
-          <form method="dialog">
-            <input
-              type="submit"
-              value="Cancel"
-              className="btn"
-            />
-          </form>
         </div>
       </div>
     </dialog>

@@ -48,6 +48,11 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
     >
       <div className="modal-box">
         <h3 className="text-lg font-bold">Editing {post.title}</h3>
+        <form method="dialog">
+          <button className="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">
+            ✕
+          </button>
+        </form>
         <div>
           <form
             onSubmit={handleUpdatePost}

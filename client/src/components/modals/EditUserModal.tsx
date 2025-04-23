@@ -41,6 +41,11 @@ const EditUserModal = ({ user }: EditUserModalProps) => {
     >
       <div className="modal-box">
         <h3 className="text-lg font-bold">Edit {userToUpdate.name}</h3>
+        <form method="dialog">
+          <button className="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">
+            ✕
+          </button>
+        </form>
         <form className="fieldset max-w-full p-10">
           <div>
             <label className="fieldset-label">Name</label>
