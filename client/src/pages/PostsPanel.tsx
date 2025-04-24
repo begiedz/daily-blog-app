@@ -20,14 +20,18 @@ const PostPanel = () => {
 
   const openEditModal = (post: IPost) => {
     setSelectedPost(post);
-    const modal = document.getElementById('edit-post-modal');
-    if (modal) (modal as HTMLDialogElement).showModal();
+    setTimeout(() => {
+      const modal = document.getElementById('edit-post-modal');
+      if (modal) (modal as HTMLDialogElement).showModal();
+    }, 100);
   };
 
   const openDeleteModal = (post: IPost) => {
     setPostToDelete(post);
-    const modal = document.getElementById('delete-modal');
-    if (modal) (modal as HTMLDialogElement).showModal();
+    setTimeout(() => {
+      const modal = document.getElementById('delete-modal');
+      if (modal) (modal as HTMLDialogElement).showModal();
+    }, 100);
   };
 
   const deletePost = async (postId: number) => {
@@ -90,7 +94,7 @@ const PostPanel = () => {
           ))}
         </tbody>
       </table>
-      {selectedPost && <EditPostModal post={selectedPost} />}
+      <EditPostModal post={selectedPost} />
       {postToDelete && (
         <DeleteModal
           name={postToDelete.title}
