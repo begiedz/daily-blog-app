@@ -15,6 +15,7 @@ import MyProfileIcon from '../components/icons/MyProfileIcon';
 import AdminPanelIcon from '../components/icons/AdminPanelIcon';
 
 import { IAppRoute, ERole } from '../types';
+import HomeIcon from '../components/icons/HomeIcon';
 
 const { ADMIN, AUTHOR, USER, GUEST } = ERole;
 
@@ -25,7 +26,7 @@ const AppRoutes: IAppRoute[] = [
     path: '/',
     pageElement: <Home />,
     role: [],
-    includeInMenu: false,
+    icon: <HomeIcon />,
   },
 
   {
