@@ -85,7 +85,7 @@ export const deletePost = async (id: number) => {
       throw new Error(response.data.error || 'Failed to delete the post.');
     }
     console.log(response.data);
-    return response.data;
+    return response;
   } catch (err) {
     handleApiNotify(err);
   }

@@ -39,6 +39,9 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
     try {
       const updatedPost = await updatePost(postToUpdate.id, postToUpdate);
       handleApiNotify({ status: 200, message: updatedPost.message });
+      (
+        document.getElementById('edit-post-modal') as HTMLDialogElement
+      )?.close();
     } catch (err) {
       handleApiNotify(err);
     }
