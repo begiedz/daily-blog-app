@@ -6,14 +6,16 @@ import { createSlug } from '../../utils';
 import { handleApiNotify } from '../../api/utils';
 
 interface EditPostModalProps {
-  post: IPost;
+  post: IPost | null;
 }
 
 const EditPostModal = ({ post }: EditPostModalProps) => {
-  const [postToUpdate, setPostToUpdate] = useState<IPost>(post);
+  const [postToUpdate, setPostToUpdate] = useState<IPost | null>(post);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (!post) return;
+
     const fetchPost = async () => {
       setLoading(true);
       try {
@@ -27,10 +29,12 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
     };
 
     fetchPost();
-  }, [post.slug]);
+  }, [post]);
 
   const handleUpdatePost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!postToUpdate) return;
     try {
       const updatedPost = await updatePost(postToUpdate.id, postToUpdate);
       handleApiNotify({ status: 200, message: updatedPost.message });
@@ -40,7 +44,7 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
   };
 
   if (loading) return <FadeLoader className="mx-auto" />;
-
+  if (!post || !postToUpdate) return null;
   return (
     <dialog
       id="edit-post-modal"
