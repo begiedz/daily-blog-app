@@ -34,7 +34,7 @@ namespace daily_blog_app.Services
         public async Task<bool> RegisterAsync(RegisterRequest request)
         {
             if (_context.Users.Any(u => u.Name == request.Username || u.Email == request.Email))
-                throw new ConflictException("A user with this username or email already exists."); ;
+                throw new ConflictException("A user with this username or email already exists."); 
 
             var user = new User
             {
