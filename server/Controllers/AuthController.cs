@@ -48,7 +48,9 @@ namespace daily_blog_app.Controllers
                 return BadRequest(new { message = "Invalid email format." });
             }
 
-           return Ok(new { message = "User registered successfully." });
+            await _authService.RegisterAsync(request);
+
+            return Ok(new { message = "User registered successfully." });
             
         }
     }
