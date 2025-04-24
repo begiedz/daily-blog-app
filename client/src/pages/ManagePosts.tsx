@@ -4,6 +4,8 @@ import { IPost } from '../types';
 import EditPostModal from '../components/modals/EditPostModal';
 import { Link } from 'react-router-dom';
 import DeleteModal from '../components/modals/DeleteModal';
+import { closeModal, openModal } from '../utils';
+import { handleApiNotify } from '../api/utils';
 
 const ManageAllPosts = () => {
   const [posts, setPosts] = useState<IPost[]>([]);
@@ -18,25 +20,15 @@ const ManageAllPosts = () => {
     fetchPosts();
   }, []);
 
-  const openEditModal = (post: IPost) => {
-    setSelectedPost(post);
-    const modal = document.getElementById('edit-post-modal');
-    if (modal) (modal as HTMLDialogElement).showModal();
-  };
-
-  const openDeleteModal = (post: IPost) => {
-    setPostToDelete(post);
-    const modal = document.getElementById('delete-modal');
-    if (modal) (modal as HTMLDialogElement).showModal();
-  };
-
   const deletePost = async (postId: number) => {
     try {
-      await deletePostApi(postId);
+      const res = await deletePostApi(postId);
       setPosts(posts.filter(post => post.id !== postId));
       setPostToDelete(null);
-    } catch (error) {
-      console.error('Failed to delete post:', error);
+      closeModal('delete-modal');
+      handleApiNotify(res);
+    } catch (err) {
+      handleApiNotify(err);
     }
   };
 
@@ -76,13 +68,17 @@ const ManageAllPosts = () => {
               <td>{new Date(post.createdAt).toLocaleDateString()}</td>
               <td className="flex flex-wrap gap-2">
                 <button
-                  onClick={() => openEditModal(post)}
+                  onClick={() =>
+                    openModal('edit-post-modal', post, setSelectedPost)
+                  }
                   className="btn flex-1"
                 >
                   Edit
                 </button>
                 <button
-                  onClick={() => openDeleteModal(post)}
+                  onClick={() =>
+                    openModal('delete-modal', post, setPostToDelete)
+                  }
                   className="btn btn-error flex-1"
                 >
                   Delete
