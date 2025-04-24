@@ -80,10 +80,10 @@ const Create = () => {
 
   return (
     <main>
-      <h2 className="mb-4 text-center text-3xl font-bold">Create Post</h2>
+      <h2 className="mb-4 text-center text-3xl font-bold">Create New Post</h2>
       <form
         onSubmit={handleSendPost}
-        className="fieldset bg-base-200 border-base-300 rounded-box w-md max-w-full border p-10"
+        className="fieldset bg-base-200 border-base-300 rounded-box w-full max-w-md border p-10"
       >
         <div>
           <label className="fieldset-label">Title</label>
