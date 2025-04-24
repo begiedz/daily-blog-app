@@ -84,7 +84,7 @@ export const deletePost = async (id: number) => {
     if (response.status !== 200 || response.data.error) {
       throw new Error(response.data.error || 'Failed to delete the post.');
     }
-    console.log(response.data);
+    console.log(response);
     return response;
   } catch (err) {
     handleApiNotify(err);
@@ -101,7 +101,7 @@ export const sendPost = async (postToSend: object) => {
         headers: { Authorization: `Bearer ${token}` },
       },
     );
-    return response.data;
+    return response;
   } catch (err) {
     handleApiNotify(err);
   }
@@ -120,7 +120,7 @@ export const updatePost = async (id: number, updatedValues: object) => {
       },
     );
     console.log(response.data);
-    return response.data;
+    return response;
   } catch (err) {
     handleApiNotify(err);
   }

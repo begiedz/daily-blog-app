@@ -30,13 +30,13 @@ const Login = () => {
   };
 
   return (
-    <main>
+    <main className="w-full">
       <h2 className="mb-4 text-center text-3xl font-bold">
         {isRegister ? 'Register' : 'Log in'}
       </h2>
       <form
         onSubmit={handleSubmit}
-        className="fieldset bg-base-200 border-base-300 rounded-box w-md max-w-full border p-8"
+        className="fieldset bg-base-200 border-base-300 rounded-box mx-auto w-full max-w-md border p-8"
       >
         <div>
           <label className="fieldset-label">Username</label>
@@ -83,7 +83,7 @@ const Login = () => {
           {isRegister ? 'Register' : 'Log in'}
         </button>
       </form>
-      <p>
+      <p className="mt-4 text-center">
         {(isRegister ? 'Already have an account?' : "Don't have an account?") +
           ' '}
         <button
