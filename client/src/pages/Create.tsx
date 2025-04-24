@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { sendPost } from '../api/postsApi';
 import { useNavigate } from 'react-router-dom';
 import { arrayFromString, createSlug } from '../utils';
+import { handleApiNotify } from '../api/utils';
+import clsx from 'clsx';
 
 const Create = () => {
   const [title, setTitle] = useState('');
@@ -10,7 +12,9 @@ const Create = () => {
   const [imageFile, setImageFile] = useState<File | null>();
   const [tags, setTags] = useState<string[]>([]);
 
+  const [titleError, setTitleError] = useState('');
   const [tagsError, setTagsError] = useState('');
+
   const navigate = useNavigate();
 
   const handleSetTags = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,8 +40,25 @@ const Create = () => {
     }
   };
 
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setTitle(value);
+
+    const validCharCount = (value.match(/[A-Za-z0-9]/g) || []).length;
+
+    if (validCharCount < 3) {
+      setTitleError('Title must contain at least 3 letters or numbers.');
+    } else if (value.trim().length > 25) {
+      setTitleError('Title must be at most 25 characters long.');
+    } else {
+      setTitleError('');
+    }
+  };
+
   const handleSendPost = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (titleError) return;
 
     const generatedSlug = createSlug(title);
 
@@ -53,7 +74,7 @@ const Create = () => {
       await sendPost(formData);
       navigate('/');
     } catch (err) {
-      console.error(err);
+      handleApiNotify(err);
     }
   };
 
@@ -70,12 +91,16 @@ const Create = () => {
             type="text"
             placeholder="Title of post"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={handleTitleChange}
             required
             minLength={3}
             maxLength={25}
-            className="input validator w-full"
+            className={clsx(
+              'input validator w-full',
+              titleError && 'input-error',
+            )}
           />
+          {titleError && <p className="text-error mt-1">{titleError}</p>}
           <p className="validator-hint hidden">
             Must be between 3 to 25 characters.
           </p>
@@ -110,8 +135,9 @@ const Create = () => {
           <label className="fieldset-label opacity-50">
             Separate tags with commas
           </label>
+          {tagsError && <p className="text-error">{tagsError}</p>}
         </div>
-        {tagsError && <p className="text-red-500">{tagsError}</p>}
+
         <div>
           <label className="fieldset-label">Cover Image</label>
           <input
@@ -121,6 +147,7 @@ const Create = () => {
           />
           <label className="fieldset-label opacity-50">Max size 2MB</label>
         </div>
+
         <div>
           <label className="fieldset-label">Content</label>
           <textarea
