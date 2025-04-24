@@ -8,6 +8,11 @@ import AdminPanel from '../pages/AdminPanel';
 import ProfilePanel from '../pages/ProfilePanel';
 import ManageAllPosts from '../pages/ManagePosts';
 import ManageAllUsers from '../pages/ManageAllUsers';
+import AboutIcon from '../components/icons/AboutIcon';
+import NewPostIcon from '../components/icons/NewPostIcon';
+import MyPostsIcon from '../components/icons/MyPostsIcon';
+import MyProfileIcon from '../components/icons/MyProfileIcon';
+import AdminPanelIcon from '../components/icons/AdminPanelIcon';
 
 import { IAppRoute, ERole } from '../types';
 
@@ -16,11 +21,27 @@ const { ADMIN, AUTHOR, USER, GUEST } = ERole;
 const AppRoutes: IAppRoute[] = [
   // public routes
   {
+    name: 'Home',
+    path: '/',
+    pageElement: <Home />,
+    role: [],
+    includeInMenu: false,
+  },
+
+  {
+    name: 'Post',
+    path: '/post/:slug',
+    pageElement: <PostPage />,
+    role: [],
+    includeInMenu: false,
+  },
+
+  {
     name: 'About',
     path: '/about',
     pageElement: <About />,
     role: [],
-    icon: 'ℹ️',
+    icon: <AboutIcon />,
   },
 
   // routes that you have to be logged in to see
@@ -29,45 +50,31 @@ const AppRoutes: IAppRoute[] = [
     path: '/create',
     pageElement: <Create />,
     role: [ADMIN, AUTHOR],
-    icon: '📝',
+    icon: <NewPostIcon />,
   },
   {
     name: 'My Posts',
     path: '/posts',
     pageElement: <PostsPanel />,
     role: [ADMIN, AUTHOR],
-    icon: '📂',
+    icon: <MyPostsIcon />,
   },
   {
     name: 'My Profile',
     path: '/profile',
     pageElement: <ProfilePanel />,
     role: [AUTHOR, USER],
-    icon: '👤',
+    icon: <MyProfileIcon />,
   },
   {
     name: 'Admin Panel',
     path: '/panel',
     pageElement: <AdminPanel />,
     role: [ADMIN],
-    icon: '⚙️',
+    icon: <AdminPanelIcon />,
   },
 
   // routes that are not included in the menu
-  {
-    name: 'Home',
-    path: '/',
-    pageElement: <Home />,
-    role: [],
-    includeInMenu: false,
-  },
-  {
-    name: 'Post',
-    path: '/post/:slug',
-    pageElement: <PostPage />,
-    role: [],
-    includeInMenu: false,
-  },
   {
     name: 'Log in',
     path: '/login',
