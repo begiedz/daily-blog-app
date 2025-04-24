@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react';
 import { updateUserRole } from '../../api/usersApi';
 import { ERole, IUser } from '../../types';
-import { capitalize } from '../../utils/';
+import { capitalize, closeModal } from '../../utils/';
 import FadeLoader from 'react-spinners/FadeLoader';
 import { handleApiNotify } from '../../api/utils';
 
 interface EditUserModalProps {
   user: IUser | null;
+  onUpdate: (user: IUser) => void;
 }
 
 const roles = Object.values(ERole).filter(role => role !== 'guest');
 
-const EditUserModal = ({ user }: EditUserModalProps) => {
+const EditUserModal = ({ user, onUpdate }: EditUserModalProps) => {
   const [userToUpdate, setUserToUpdate] = useState<IUser | null>(user);
   const [loading, setLoading] = useState(false);
 
@@ -25,17 +26,19 @@ const EditUserModal = ({ user }: EditUserModalProps) => {
     setLoading(true);
     try {
       if (!userToUpdate) return;
-      setUserToUpdate({ ...userToUpdate, role: newRole });
+      const updatedUser = { ...userToUpdate, role: newRole };
+      setUserToUpdate(updatedUser);
       const res = await updateUserRole(userToUpdate.id, newRole);
       handleApiNotify(res);
+      onUpdate(updatedUser);
     } catch (err) {
       handleApiNotify(err);
     } finally {
       setLoading(false);
+      closeModal('edit-user-modal');
     }
   };
 
-  if (loading) return <FadeLoader className="mx-auto" />;
   return (
     <dialog
       id="edit-user-modal"

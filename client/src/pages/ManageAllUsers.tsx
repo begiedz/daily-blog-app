@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { getAllUsers, deleteUser as deleteUserApi } from '../api/usersApi';
 import EditUserModal from '../components/modals/EditUserModal';
 import DeleteModal from '../components/modals/DeleteModal';
-import { capitalize, openModal } from '../utils';
+import { capitalize, closeModal, openModal } from '../utils';
 import { IUser } from '../types';
+import { handleApiNotify } from '../api/utils';
 
 const ManageAllUsers = () => {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -19,20 +20,29 @@ const ManageAllUsers = () => {
     fetchUsers();
   }, []);
 
+  const updateUserInState = (updatedUser: IUser) => {
+    setUsers(prevUsers =>
+      prevUsers.map(user => (user.id === updatedUser.id ? updatedUser : user)),
+    );
+  };
+
   const deleteUser = async (userId: number) => {
     try {
-      await deleteUserApi(userId);
+      const res = await deleteUserApi(userId);
       setUsers(users.filter(user => user.id !== userId));
+      handleApiNotify(res);
       setUserToDelete(null);
-    } catch (error) {
-      console.error('Failed to delete user:', error);
+    } catch (err) {
+      handleApiNotify(err);
+    } finally {
+      closeModal('delete-modal');
     }
   };
 
   return (
     <main>
       <h2 className="mb-4 text-center text-4xl font-bold">Manage Users</h2>
-      <table className="table w-full">
+      <table className="table w-full text-xs md:text-base">
         <thead>
           <tr>
             <th>ID</th>
@@ -59,7 +69,7 @@ const ManageAllUsers = () => {
                 </button>
                 <button
                   onClick={() =>
-                    openModal('edit-user-modal', user, setSelectedUser)
+                    openModal('delete-modal', user, setUserToDelete)
                   }
                   className="btn btn-error flex-1"
                 >
@@ -70,7 +80,10 @@ const ManageAllUsers = () => {
           ))}
         </tbody>
       </table>
-      <EditUserModal user={selectedUser} />
+      <EditUserModal
+        user={selectedUser}
+        onUpdate={updateUserInState}
+      />
 
       <DeleteModal
         name={userToDelete?.name ?? null}
