@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAllUsers, deleteUser as deleteUserApi } from '../api/usersApi';
 import EditUserModal from '../components/modals/EditUserModal';
 import DeleteModal from '../components/modals/DeleteModal';
-import { capitalize } from '../utils';
+import { capitalize, openModal } from '../utils';
 import { IUser } from '../types';
 
 const ManageAllUsers = () => {
@@ -18,18 +18,6 @@ const ManageAllUsers = () => {
     };
     fetchUsers();
   }, []);
-
-  const openEditModal = (user: IUser) => {
-    setSelectedUser(user);
-    const modal = document.getElementById('edit-user-modal');
-    if (modal) (modal as HTMLDialogElement).showModal();
-  };
-
-  const openDeleteModal = (user: IUser) => {
-    setUserToDelete(user);
-    const modal = document.getElementById('delete-modal');
-    if (modal) (modal as HTMLDialogElement).showModal();
-  };
 
   const deleteUser = async (userId: number) => {
     try {
@@ -62,13 +50,17 @@ const ManageAllUsers = () => {
               <td>{capitalize(user.role)}</td>
               <td className="flex flex-wrap gap-2">
                 <button
-                  onClick={() => openEditModal(user)}
+                  onClick={() =>
+                    openModal('edit-user-modal', user, setSelectedUser)
+                  }
                   className="btn flex-1"
                 >
                   Edit
                 </button>
                 <button
-                  onClick={() => openDeleteModal(user)}
+                  onClick={() =>
+                    openModal('edit-user-modal', user, setSelectedUser)
+                  }
                   className="btn btn-error flex-1"
                 >
                   Delete
@@ -78,13 +70,12 @@ const ManageAllUsers = () => {
           ))}
         </tbody>
       </table>
-      {selectedUser && <EditUserModal user={selectedUser} />}
-      {userToDelete && (
-        <DeleteModal
-          name={userToDelete.name}
-          onDelete={() => deleteUser(userToDelete.id)}
-        />
-      )}
+      <EditUserModal user={selectedUser} />
+
+      <DeleteModal
+        name={userToDelete?.name ?? null}
+        onDelete={() => deleteUser(userToDelete!.id)}
+      />
     </main>
   );
 };

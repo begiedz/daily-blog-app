@@ -11,17 +11,21 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-    if (!isRegister) {
-      const res = await handleLogin({ username, password });
-      handleApiNotify(res);
-      navigate('/');
-    } else {
-      const res = await handleRegister({ username, email, password });
-      handleApiNotify(res);
-      window.location.reload();
+    try {
+      if (!isRegister) {
+        const res = await handleLogin({ username, password });
+        handleApiNotify(res);
+        navigate('/');
+      } else {
+        const res = await handleRegister({ username, email, password });
+        handleApiNotify(res);
+        setIsRegister(!isRegister);
+      }
+    } catch (err) {
+      handleApiNotify(err);
     }
   };
 

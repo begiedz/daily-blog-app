@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { getPost, updatePost } from '../../api/postsApi';
 import FadeLoader from 'react-spinners/FadeLoader';
 import { IPost } from '../../types';
-import { createSlug } from '../../utils';
+import { closeModal, createSlug } from '../../utils';
 import { handleApiNotify } from '../../api/utils';
 
 interface EditPostModalProps {
@@ -38,10 +38,8 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
 
     try {
       const updatedPost = await updatePost(postToUpdate.id, postToUpdate);
-      handleApiNotify({ status: 200, message: updatedPost.message });
-      (
-        document.getElementById('edit-post-modal') as HTMLDialogElement
-      )?.close();
+      handleApiNotify(updatedPost);
+      closeModal('ediit-post-modal');
     } catch (err) {
       handleApiNotify(err);
     }

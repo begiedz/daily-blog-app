@@ -20,15 +20,15 @@ export const handleLogin = async ({
   username,
   password,
 }: IHandleLoginProps) => {
-  const response = await loginRequest(username, password);
-  const { token } = response!.data;
+  const res = await loginRequest(username, password);
+  const { token } = res!.data;
   const decoded = jwtDecode<ITokenPayload>(token);
   const newUser = setNewUser(decoded);
 
   setUserState(newUser);
   localStorage.setItem('token', token);
 
-  return response;
+  return res;
 };
 
 export const handleRegister = async ({
@@ -36,7 +36,8 @@ export const handleRegister = async ({
   email,
   password,
 }: IHandleRegisterProps) => {
-  await registerRequest(username, email, password);
+  const res = await registerRequest(username, email, password);
+  return res;
 };
 
 export const authOnEntry = () => {
