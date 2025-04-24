@@ -20,7 +20,7 @@ export const deleteUser = async (id: number) => {
     const response = await axios.delete(`${config.serverUrl}/Users/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
-    return response.data;
+    return response;
   } catch (err) {
     handleApiNotify(err);
   }
