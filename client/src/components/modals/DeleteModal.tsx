@@ -1,5 +1,5 @@
 interface DeleteModalProps {
-  name: string;
+  name: string | null;
   onDelete: () => void;
 }
 
@@ -11,7 +11,7 @@ const DeleteModal = ({ name, onDelete }: DeleteModalProps) => {
     >
       <div className="modal-box">
         <h3 className="text-lg font-bold">
-          Are you sure you want to delete {name}?
+          Are you sure you want to delete {name || '...'}?
         </h3>
         <form method="dialog">
           <button className="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">

@@ -20,18 +20,14 @@ const ManageAllPosts = () => {
 
   const openEditModal = (post: IPost) => {
     setSelectedPost(post);
-    setTimeout(() => {
-      const modal = document.getElementById('edit-post-modal');
-      if (modal) (modal as HTMLDialogElement).showModal();
-    }, 100);
+    const modal = document.getElementById('edit-post-modal');
+    if (modal) (modal as HTMLDialogElement).showModal();
   };
 
   const openDeleteModal = (post: IPost) => {
     setPostToDelete(post);
-    setTimeout(() => {
-      const modal = document.getElementById('delete-modal');
-      if (modal) (modal as HTMLDialogElement).showModal();
-    }, 100);
+    const modal = document.getElementById('delete-modal');
+    if (modal) (modal as HTMLDialogElement).showModal();
   };
 
   const deletePost = async (postId: number) => {
@@ -97,12 +93,10 @@ const ManageAllPosts = () => {
         </tbody>
       </table>
       <EditPostModal post={selectedPost} />
-      {postToDelete && (
-        <DeleteModal
-          name={postToDelete.title}
-          onDelete={() => deletePost(postToDelete.id)}
-        />
-      )}
+      <DeleteModal
+        name={postToDelete?.title ?? null}
+        onDelete={() => deletePost(postToDelete!.id)}
+      />
     </main>
   );
 };
