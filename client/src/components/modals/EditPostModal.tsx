@@ -21,6 +21,7 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
       try {
         const postData = await getPost(post.slug);
         setPostToUpdate(postData);
+        handleApiNotify(postData);
       } catch (err) {
         handleApiNotify(err);
       } finally {
@@ -39,7 +40,7 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
     try {
       const updatedPost = await updatePost(postToUpdate.id, postToUpdate);
       handleApiNotify(updatedPost);
-      closeModal('ediit-post-modal');
+      closeModal('edit-post-modal');
     } catch (err) {
       handleApiNotify(err);
     }

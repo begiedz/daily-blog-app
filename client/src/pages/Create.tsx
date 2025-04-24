@@ -71,7 +71,8 @@ const Create = () => {
     tags.forEach(tag => formData.append('tags', tag));
 
     try {
-      await sendPost(formData);
+      const res = await sendPost(formData);
+      handleApiNotify(res);
       navigate('/');
     } catch (err) {
       handleApiNotify(err);
@@ -80,7 +81,9 @@ const Create = () => {
 
   return (
     <main>
-      <h2 className="mb-4 text-center text-3xl font-bold">Create New Post</h2>
+      <h2 className="mb-4 hidden text-center text-3xl font-bold sm:block">
+        Create New Post
+      </h2>
       <form
         onSubmit={handleSendPost}
         className="fieldset bg-base-200 border-base-300 rounded-box w-full max-w-md border p-10"

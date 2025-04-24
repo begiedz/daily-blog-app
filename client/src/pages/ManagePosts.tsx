@@ -35,10 +35,10 @@ const ManageAllPosts = () => {
   return (
     <main>
       <h2 className="mb-4 text-center text-4xl font-bold">Manage Posts</h2>
-      <table className="table w-full">
+      <table className="table w-full text-xs sm:text-base">
         <thead>
           <tr>
-            <th>Image</th>
+            <th className="hidden sm:block">Image</th>
             <th>Title</th>
             <th>Author</th>
             <th>Date</th>
@@ -48,7 +48,7 @@ const ManageAllPosts = () => {
         <tbody>
           {posts.map((post: IPost, i) => (
             <tr key={i}>
-              <td className="items-center">
+              <td className="hidden items-center sm:block">
                 <img
                   src={post.imageUrl || '/no-image.jpg'}
                   alt={`${post.title || 'Post'} image`}
