@@ -91,12 +91,10 @@ const PostPanel = () => {
         </tbody>
       </table>
       <EditPostModal post={selectedPost} />
-      {postToDelete && (
-        <DeleteModal
-          name={postToDelete.title}
-          onDelete={() => deletePost(postToDelete.id)}
-        />
-      )}
+      <DeleteModal
+        name={postToDelete?.title ?? null}
+        onDelete={() => deletePost(postToDelete!.id)}
+      />
     </main>
   );
 };
