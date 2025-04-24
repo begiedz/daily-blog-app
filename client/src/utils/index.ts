@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { IPost } from '../types';
+import { IPost, IUser } from '../types';
 
 export function capitalize(val: string) {
   return String(val).charAt(0).toUpperCase() + String(val).slice(1);
@@ -22,17 +22,16 @@ export const createSlug = (title: string) => {
   return slug;
 };
 
-export const openModal = (
+type ModalEntity = IPost | IUser;
+
+export const openModal = <T extends ModalEntity>(
   modalId: string,
-  post: IPost,
-  // setSelectedPost only for EditPostModal
-  setter: Dispatch<SetStateAction<IPost | null>>,
+  item: T,
+  setter: Dispatch<SetStateAction<T | null>>,
 ) => {
   const modal = document.getElementById(modalId);
   if (modal) (modal as HTMLDialogElement).showModal();
-  if (setter) {
-    setter(post);
-  }
+  setter(item);
 };
 
 export const closeModal = (name: string) => {

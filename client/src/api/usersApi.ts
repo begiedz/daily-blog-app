@@ -39,7 +39,7 @@ export const updateUserRole = async (id: number, role: string) => {
         },
       },
     );
-    return response.data;
+    return response;
   } catch (err) {
     handleApiNotify(err);
   }

@@ -6,13 +6,13 @@ import FadeLoader from 'react-spinners/FadeLoader';
 import { handleApiNotify } from '../../api/utils';
 
 interface EditUserModalProps {
-  user: IUser;
+  user: IUser | null;
 }
 
 const roles = Object.values(ERole).filter(role => role !== 'guest');
 
 const EditUserModal = ({ user }: EditUserModalProps) => {
-  const [userToUpdate, setUserToUpdate] = useState<IUser>(user);
+  const [userToUpdate, setUserToUpdate] = useState<IUser | null>(user);
   const [loading, setLoading] = useState(false);
 
   // reset userToUpdate whenever the user prop changes
@@ -24,8 +24,10 @@ const EditUserModal = ({ user }: EditUserModalProps) => {
   const handleRoleChange = async (newRole: IUser['role']) => {
     setLoading(true);
     try {
+      if (!userToUpdate) return;
       setUserToUpdate({ ...userToUpdate, role: newRole });
-      await updateUserRole(userToUpdate.id, newRole);
+      const res = await updateUserRole(userToUpdate.id, newRole);
+      handleApiNotify(res);
     } catch (err) {
       handleApiNotify(err);
     } finally {
@@ -40,50 +42,58 @@ const EditUserModal = ({ user }: EditUserModalProps) => {
       className="modal"
     >
       <div className="modal-box">
-        <h3 className="text-lg font-bold">Edit {userToUpdate.name}</h3>
+        <h3 className="text-lg font-bold">
+          Edit {userToUpdate?.name || '...'}
+        </h3>
         <form method="dialog">
           <button className="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">
             ✕
           </button>
         </form>
-        <form className="fieldset max-w-full p-10">
-          <div>
-            <label className="fieldset-label">Name</label>
-            <input
-              type="text"
-              value={userToUpdate.name}
-              disabled
-              className="input w-full"
-            />
+        {loading || !userToUpdate ? (
+          <div className="flex justify-center py-10">
+            <FadeLoader />
           </div>
-          <div>
-            <label className="fieldset-label">Email</label>
-            <input
-              type="email"
-              value={userToUpdate.email || ''}
-              disabled
-              className="input w-full"
-            />
-          </div>
-          <div>
-            <label className="fieldset-label">Role</label>
-            <select
-              value={userToUpdate.role}
-              onChange={e => handleRoleChange(e.target.value as ERole)}
-              required
-              className="select w-full"
-            >
-              {roles.map(role => (
-                <option
-                  key={role}
-                  value={role}
-                >
-                  {capitalize(role)}
-                </option>
-              ))}
-            </select>
-          </div>
-        </form>
+        ) : (
+          <form className="fieldset max-w-full p-10">
+            <div>
+              <label className="fieldset-label">Name</label>
+              <input
+                type="text"
+                value={userToUpdate.name}
+                disabled
+                className="input w-full"
+              />
+            </div>
+            <div>
+              <label className="fieldset-label">Email</label>
+              <input
+                type="email"
+                value={userToUpdate.email || ''}
+                disabled
+                className="input w-full"
+              />
+            </div>
+            <div>
+              <label className="fieldset-label">Role</label>
+              <select
+                value={userToUpdate.role}
+                onChange={e => handleRoleChange(e.target.value as ERole)}
+                required
+                className="select w-full"
+              >
+                {roles.map(role => (
+                  <option
+                    key={role}
+                    value={role}
+                  >
+                    {capitalize(role)}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </form>
+        )}
       </div>
     </dialog>
   );
