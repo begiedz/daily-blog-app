@@ -16,13 +16,6 @@ const { ADMIN, AUTHOR, USER, GUEST } = ERole;
 const AppRoutes: IAppRoute[] = [
   // public routes
   {
-    name: 'Home',
-    path: '/',
-    pageElement: <Home />,
-    role: [],
-    icon: '🏠',
-  },
-  {
     name: 'About',
     path: '/about',
     pageElement: <About />,
@@ -61,6 +54,13 @@ const AppRoutes: IAppRoute[] = [
   },
 
   // routes that are not included in the menu
+  {
+    name: 'Home',
+    path: '/',
+    pageElement: <Home />,
+    role: [],
+    includeInMenu: false,
+  },
   {
     name: 'Post',
     path: '/post/:slug',

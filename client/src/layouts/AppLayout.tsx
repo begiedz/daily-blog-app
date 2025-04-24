@@ -64,8 +64,8 @@ export default function Layout(props: TLayoutProps) {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <div className="menu bg-base-200 text-base-content min-h-full w-80 gap-6 p-4">
-          <Logo />
+        <div className="menu bg-base-200 text-base-content min-h-full w-80 gap-6 p-4 pt-20 lg:pt-4">
+          <Logo className="hidden lg:flex" />
           <ul className="flex flex-1 flex-col gap-1">
             {filteredRoutes({
               routes: AppRoutes,

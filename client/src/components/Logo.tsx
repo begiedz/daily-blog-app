@@ -1,6 +1,12 @@
-export default function Logo() {
+import clsx from 'clsx';
+import { Link } from 'react-router-dom';
+
+export default function Logo({ className }: { className?: string }) {
   return (
-    <div className="flex items-center gap-2">
+    <Link
+      to="/"
+      className={clsx('flex items-center gap-2', className)}
+    >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
@@ -11,6 +17,6 @@ export default function Logo() {
       </svg>
 
       <h1 className="text-xl font-bold">Daily Blog</h1>
-    </div>
+    </Link>
   );
 }

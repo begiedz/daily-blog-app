@@ -1,3 +1,5 @@
+import Logo from '../Logo';
+
 const MenuButton = () => {
   return (
     <label
@@ -25,10 +27,12 @@ const MenuButton = () => {
 export default function Header() {
   return (
     <header className="navbar bg-base-300 sticky top-0 z-10 lg:hidden">
+      <div className="mx-2 flex-1 px-2">
+        <Logo />
+      </div>
       <div className="flex-none lg:hidden">
         <MenuButton />
       </div>
-      <div className="hidden flex-none lg:block"></div>
     </header>
   );
 }
