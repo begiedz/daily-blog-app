@@ -4,6 +4,7 @@ using daily_blog_app.Interfaces;
 using daily_blog_app.Models;
 using Microsoft.EntityFrameworkCore;
 using daily_blog_app.Helpers;
+using System.Text.RegularExpressions;
 
 namespace daily_blog_app.Services
 {
@@ -80,11 +81,16 @@ namespace daily_blog_app.Services
         {
             post.UserId = userId;
             post.CreatedAt = DateTime.UtcNow;
+            post.Slug = "";
 
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
+
+            post.Slug = GenerateSlug(post.Title) + "-" + post.Id;
+            await _context.SaveChangesAsync();
         }
 
+       
         public async Task<List<PostDto>> GetPostsByUserAsync(int userId)
         {
             var posts = await _context.Posts
@@ -118,8 +124,9 @@ namespace daily_blog_app.Services
             if (!AccessHelper.HasAccessToPost(post, userId, role))
                 throw new ForbiddenException("You don't have permission to update this post.");
 
-            post.Slug = request.Slug;
+            
             post.Title = request.Title;
+            post.Slug = GenerateSlug(request.Title) + "-" + post.Id;
             post.Excerpt = request.Excerpt;
             post.Content = request.Content;
             post.Tags = request.Tags;
@@ -142,6 +149,18 @@ namespace daily_blog_app.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task UpdateSlugAsync(Post post)
+        {
+            _context.Posts.Update(post);
+            await _context.SaveChangesAsync();
+        }
 
+        private string GenerateSlug(string title)
+        {
+            return Regex.Replace(title.ToLowerInvariant().Trim(), @"[^\w\s-]", "")
+                .Replace(" ", "-")
+                .Replace("--", "-")
+                .Trim('-');
+        }
     }
 }

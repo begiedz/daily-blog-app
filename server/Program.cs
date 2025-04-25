@@ -2,6 +2,9 @@ using daily_blog_app.Data;
 using daily_blog_app.Interfaces;
 using daily_blog_app.Middleware;
 using daily_blog_app.Services;
+using daily_blog_app.Validators;
+using FluentValidation.AspNetCore;
+using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -22,6 +25,8 @@ builder.Services.AddHttpClient<IAffirmationService, AffirmationService>();
 builder.Services.AddScoped<IBlobService, BlobService>();
 
 
+builder.Services.AddValidatorsFromAssemblyContaining<PostRequestValidator>();
+builder.Services.AddFluentValidationAutoValidation();
 
 
 
