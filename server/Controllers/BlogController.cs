@@ -42,24 +42,6 @@ namespace daily_blog_app.Controllers
         public async Task<IActionResult> CreatePost([FromForm] PostRequest request)
         {
 
-            if (request.Image != null)
-            {
-                //Walidacja rozmiaru (maks. 2 MB)
-                if (request.Image.Length > 2 * 1024 * 1024)
-                {
-                    return BadRequest(new { message = "Image size cannot exceed 2 MB." });
-                }
-
-                // Walidacja rozszerzenia
-                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
-                var extension = Path.GetExtension(request.Image.FileName).ToLowerInvariant();
-
-                if (!allowedExtensions.Contains(extension))
-                {
-                    return BadRequest(new { message = "Only JPG, JPEG, PNG and GIF files are allowed." });
-                }
-            }
-
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
             string? imageUrl = null;
@@ -73,7 +55,7 @@ namespace daily_blog_app.Controllers
 
             var post = new Post
                 {
-                    Slug = request.Slug,
+                    
                     Title = request.Title,
                     Excerpt = request.Excerpt,
                     Content = request.Content,
@@ -84,8 +66,10 @@ namespace daily_blog_app.Controllers
             };
 
                 await _postService.CreatePostAsync(post, userId);
-                return Ok(new { message = "The post has been created successfully." });        
+
+            return Ok(new { message = "The post has been created successfully." });        
         }
+       
 
         [HttpGet("my-posts")]
         [Authorize]
