@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { sendPost } from '../api/postsApi';
 import { useNavigate } from 'react-router-dom';
-import { arrayFromString, createSlug } from '../utils';
+import { arrayFromString } from '../utils';
 import { handleApiNotify } from '../api/utils';
 import clsx from 'clsx';
 
@@ -60,10 +60,7 @@ const Create = () => {
 
     if (titleError) return;
 
-    const generatedSlug = createSlug(title);
-
     const formData = new FormData();
-    formData.append('slug', generatedSlug);
     formData.append('title', title);
     formData.append('excerpt', excerpt);
     formData.append('content', content);
