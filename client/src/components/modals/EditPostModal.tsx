@@ -77,7 +77,6 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
                   setPostToUpdate({
                     ...postToUpdate,
                     title: e.target.value,
-                    slug: createSlug(e.target.value),
                   })
                 }
                 required
@@ -91,7 +90,7 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
               <label className="fieldset-label">Slug</label>
               <input
                 type="text"
-                value={postToUpdate.slug}
+                value={`${createSlug(postToUpdate.title)}-${postToUpdate.id}`}
                 disabled
                 className="input validator w-full"
               />

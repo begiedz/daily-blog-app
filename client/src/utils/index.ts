@@ -12,14 +12,13 @@ export const arrayFromString = (strTags: string) => {
 };
 
 export const createSlug = (title: string) => {
-  const slug = title
+  return title
     .toLowerCase()
     .trim()
     .replace(/[^\w\s.-]/g, '') // delete not allowed chars
     .replace(/\s+/g, '-') // spaces -> hyphens
     .replace(/-+/g, '-') // multi hyphens -> one
     .replace(/^-+|-+$/g, ''); // delete hyphens at the beginning and the end
-  return slug;
 };
 
 type ModalEntity = IPost | IUser;
