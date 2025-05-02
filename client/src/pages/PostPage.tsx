@@ -44,7 +44,7 @@ const PostPage = () => {
           </p>
           {post.modifiedBy && post.modifiedAt ? (
             <p className="text-xs italic opacity-40">
-              Modyfied by: {post.modifiedBy} •{' '}
+              Modified by: {post.modifiedBy} •{' '}
               {new Date(post.modifiedAt).toLocaleDateString()}
             </p>
           ) : null}
