@@ -31,7 +31,9 @@ const NavLink = ({ to, children, className, onClick }: IRouteLink) => {
     <Link
       to={to}
       onClick={() => onClick && onClick()}
-      className={clsx(className, { 'font-bold': isCurrentUrl })}
+      className={clsx(className, {
+        'bg-base-300 font-bold': isCurrentUrl,
+      })}
     >
       {children}
     </Link>
