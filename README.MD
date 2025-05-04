@@ -32,20 +32,18 @@ The **Daily Blog** is a full-stack blogging platform that empowers users to crea
 - **TypeScript**: Strongly typed superset of JavaScript for better code quality.
 - **Tailwind CSS**: Utility-first CSS framework for styling.
 - **React Router**: Library for handling client-side routing.
-
-### API Integration
-
+- **TanStack Store**: Library for managing auth and errors state.
+- **Motion**: Library for animations and transitions.
 - **Axios**: HTTP client for making API requests.
-- **RESTful API**: Backend exposes RESTful endpoints for frontend communication.
+- **jwt-decode**: Utility for decoding JSON Web Tokens.
 
 ### DevOps & Tools
 
 - **Azure**: Cloud platform for hosting the database and image storage.
 - **Swagger**: API documentation and testing tool.
-- **Postman**: API testing and debugging.
 - **Git**: Version control system.
 - **Visual Studio**: IDE for backend development.
-- **VS Code**: Editor for frontend development.
+- **Visual Studio Code**: Editor for frontend development.
 
 ## 🚀 Getting Started
 
