@@ -44,6 +44,7 @@ const Create = () => {
     const value = e.target.value;
     setTitle(value);
 
+    // check if title has at least 3 letters or numbers
     const validCharCount = (value.match(/[A-Za-z0-9]/g) || []).length;
 
     if (validCharCount < 3) {

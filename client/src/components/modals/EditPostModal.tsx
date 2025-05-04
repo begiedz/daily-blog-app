@@ -12,6 +12,10 @@ interface EditPostModalProps {
 const EditPostModal = ({ post }: EditPostModalProps) => {
   const [postToUpdate, setPostToUpdate] = useState<IPost | null>(null);
   const [loading, setLoading] = useState(false);
+  const [tags, setTags] = useState<string>('');
+
+  const [titleError, setTitleError] = useState('');
+  const [tagsError, setTagsError] = useState('');
 
   useEffect(() => {
     if (!post) return;
@@ -20,7 +24,9 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
       setLoading(true);
       try {
         const postData = await getPost(post.slug);
+
         setPostToUpdate(postData);
+        setTags(postData.tags.join(', '));
         handleApiNotify(postData);
       } catch (err) {
         handleApiNotify(err);
@@ -32,13 +38,58 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
     fetchPost();
   }, [post]);
 
-  const handleUpdatePost = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
 
     if (!postToUpdate) return;
 
+    setPostToUpdate({
+      ...postToUpdate,
+      title: value,
+    });
+
+    // check if title has at least 3 letters or numbers
+    const validCharCount = (value.match(/[A-Za-z0-9]/g) || []).length;
+
+    if (validCharCount < 3) {
+      setTitleError('Title must contain at least 3 letters or numbers.');
+    } else if (value.trim().length > 25) {
+      setTitleError('Title must be at most 25 characters long.');
+    } else {
+      setTitleError('');
+    }
+  };
+
+  const handleSetTags = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const input = e.target.value;
+
+    setTags(input);
+
+    const tagsArray = input.split(',').map(tag => tag.trim());
+    if (tagsArray.length === 0) {
+      setTagsError('Add at least 1 tag');
+    } else if (tagsArray.length > 3) {
+      setTagsError('Max 3 tags');
+    } else if (tagsArray.some(tag => tag.length > 20)) {
+      setTagsError("Tags can't have more than 20 characters");
+    } else {
+      setTagsError('');
+    }
+  };
+
+  const handleUpdatePost = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!postToUpdate || titleError || tagsError) return;
+
     try {
-      const updatedPost = await updatePost(postToUpdate.id, postToUpdate);
+      const updatedTags = tags.split(',').map(tag => tag.trim());
+
+      const updatedPost = await updatePost(postToUpdate.id, {
+        ...postToUpdate,
+        tags: updatedTags,
+      });
+
       handleApiNotify(updatedPost);
       closeModal('edit-post-modal');
     } catch (err) {
@@ -73,17 +124,15 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
               <input
                 type="text"
                 value={postToUpdate.title}
-                onChange={e =>
-                  setPostToUpdate({
-                    ...postToUpdate,
-                    title: e.target.value,
-                  })
-                }
+                onChange={handleTitleChange}
                 required
                 minLength={3}
                 maxLength={25}
-                className="input validator w-full"
+                className={`input validator w-full ${
+                  titleError ? 'input-error' : ''
+                }`}
               />
+              {titleError && <p className="text-error mt-1">{titleError}</p>}
             </div>
 
             <div>
@@ -112,22 +161,24 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
                 maxLength={100}
                 className="input validator w-full"
               />
+              <p className="validator-hint hidden">
+                Must be between 3 to 100 characters.
+              </p>
             </div>
 
             <div>
               <label className="fieldset-label">Tags</label>
               <input
                 type="text"
-                value={postToUpdate.tags.join(', ')}
-                onChange={e =>
-                  setPostToUpdate({
-                    ...postToUpdate,
-                    tags: e.target.value.split(',').map(tag => tag.trim()),
-                  })
-                }
+                value={tags}
+                onChange={handleSetTags}
                 required
-                className="input w-full"
+                className={`input w-full ${tagsError ? 'input-error' : ''}`}
               />
+              <label className="fieldset-label opacity-50">
+                Separate tags with commas
+              </label>
+              {tagsError && <p className="text-error">{tagsError}</p>}
             </div>
 
             <div>
@@ -145,6 +196,9 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
                 maxLength={5000}
                 className="input validator h-40 w-full p-2 text-wrap"
               />
+              <p className="validator-hint hidden">
+                Must be at least 3 characters. Max 5000.
+              </p>
             </div>
 
             <input
