@@ -84,15 +84,32 @@ const Home = () => {
     }
   };
 
+  const MarqueeItem = ({ rate }: { rate: Rate }) => {
+    return (
+      <div className="marquee-item flex-center flex-none">
+        {rate.code}: {rate.mid}
+      </div>
+    );
+  };
+
   return (
     <main className="w-[95%] max-w-4xl">
       {rates ? (
-        <div className="my-4 inline-block animate-[ticker_25s_linear_infinite] space-x-4 whitespace-nowrap opacity-60">
-          {rates.map((rate, i) => (
-            <span key={i}>
-              {rate.code}: {rate.mid}
-            </span>
-          ))}
+        <div className="marquee my-4 h-8 opacity-60">
+          <div className="marquee-box w-20 gap-5 overflow-hidden">
+            {rates.map((rate, i) => (
+              <MarqueeItem
+                key={i}
+                rate={rate}
+              />
+            ))}
+            {rates.map((rate, i) => (
+              <MarqueeItem
+                key={i}
+                rate={rate}
+              />
+            ))}
+          </div>
         </div>
       ) : (
         <FadeLoader className="mx-auto" />
