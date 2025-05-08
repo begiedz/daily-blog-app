@@ -15,7 +15,7 @@ export const createSlug = (title: string) => {
   return title
     .toLowerCase()
     .trim()
-    .replace(/[^\w\s.-]/g, '') // delete not allowed chars
+    .replace(/[^\p{L}\p{N}\s.-]/gu, '') // delete not allowed chars
     .replace(/\s+/g, '-') // spaces -> hyphens
     .replace(/-+/g, '-') // multi hyphens -> one
     .replace(/^-+|-+$/g, ''); // delete hyphens at the beginning and the end
