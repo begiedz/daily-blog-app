@@ -4,7 +4,7 @@ import { IPost } from '../types';
 import EditPostModal from '../components/modals/EditPostModal';
 import { Link } from 'react-router-dom';
 import DeleteModal from '../components/modals/DeleteModal';
-import { closeModal, openModal } from '../utils';
+import { closeModal, createSlug, openModal } from '../utils';
 import { handleApiNotify } from '../api/utils';
 
 const ManageAllPosts = () => {
@@ -21,8 +21,13 @@ const ManageAllPosts = () => {
   }, []);
 
   const updatePostInState = (updatedPost: IPost) => {
+    const newSlug = `${createSlug(updatedPost.title)}-${updatedPost.id}`;
+    const postWithNewSlug = { ...updatedPost, slug: newSlug };
+
     setPosts(prevPosts =>
-      prevPosts.map(post => (post.id === updatedPost.id ? updatedPost : post)),
+      prevPosts.map(post =>
+        post.id === updatedPost.id ? postWithNewSlug : post,
+      ),
     );
   };
 
