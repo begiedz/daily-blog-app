@@ -86,14 +86,16 @@ const EditPostModal = ({ post, onUpdate }: EditPostModalProps) => {
     setLoading(true);
     try {
       const updatedTags = tags.split(',').map(tag => tag.trim());
-      const res = await updatePost(postToUpdate.id, {
-        ...postToUpdate,
-        tags: updatedTags,
-      });
+
+      const updatedPost = { ...postToUpdate, tags: updatedTags };
+      setPostToUpdate(updatedPost); // opcjonalne, jak chcesz lokalnie zaktualizować
+      const res = await updatePost(updatedPost.id, updatedPost);
+
+      if (!res) return;
 
       if (!res?.data) return;
 
-      onUpdate(res.data); // zaktualizuj stan w ManageAllPosts
+      onUpdate(updatedPost);
       handleApiNotify(res);
     } catch (err) {
       handleApiNotify(err);
