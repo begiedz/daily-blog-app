@@ -20,6 +20,12 @@ const ManageAllPosts = () => {
     fetchPosts();
   }, []);
 
+  const updatePostInState = (updatedPost: IPost) => {
+    setPosts(prevPosts =>
+      prevPosts.map(post => (post.id === updatedPost.id ? updatedPost : post)),
+    );
+  };
+
   const deletePost = async (postId: number) => {
     try {
       const res = await deletePostApi(postId);
@@ -88,7 +94,12 @@ const ManageAllPosts = () => {
           ))}
         </tbody>
       </table>
-      <EditPostModal post={selectedPost} />
+
+      <EditPostModal
+        post={selectedPost}
+        onUpdate={updatePostInState}
+      />
+
       <DeleteModal
         name={postToDelete?.title ?? null}
         onDelete={() => deletePost(postToDelete!.id)}
