@@ -7,9 +7,10 @@ import { handleApiNotify } from '../../api/utils';
 
 interface EditPostModalProps {
   post: IPost | null;
+  onUpdate: (post: IPost) => void;
 }
 
-const EditPostModal = ({ post }: EditPostModalProps) => {
+const EditPostModal = ({ post, onUpdate }: EditPostModalProps) => {
   const [postToUpdate, setPostToUpdate] = useState<IPost | null>(null);
   const [loading, setLoading] = useState(false);
   const [tags, setTags] = useState<string>('');
@@ -82,18 +83,23 @@ const EditPostModal = ({ post }: EditPostModalProps) => {
 
     if (!postToUpdate || titleError || tagsError) return;
 
+    setLoading(true);
     try {
       const updatedTags = tags.split(',').map(tag => tag.trim());
-
-      const updatedPost = await updatePost(postToUpdate.id, {
+      const res = await updatePost(postToUpdate.id, {
         ...postToUpdate,
         tags: updatedTags,
       });
 
-      handleApiNotify(updatedPost);
-      closeModal('edit-post-modal');
+      if (!res?.data) return;
+
+      onUpdate(res.data); // zaktualizuj stan w ManageAllPosts
+      handleApiNotify(res);
     } catch (err) {
       handleApiNotify(err);
+    } finally {
+      setLoading(false);
+      closeModal('edit-post-modal');
     }
   };
 
