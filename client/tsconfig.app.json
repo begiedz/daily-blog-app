@@ -8,6 +8,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "types": ["jest"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -24,5 +25,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+ "include": ["src", "**/*.test.ts", "**/*.test.tsx"]
 }
