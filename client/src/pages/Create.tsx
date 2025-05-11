@@ -71,7 +71,10 @@ const Create = () => {
     try {
       const res = await sendPost(formData);
       handleApiNotify(res);
-      navigate('/');
+
+      if (res?.status && res.status < 400) {
+        navigate('/');
+      }
     } catch (err) {
       handleApiNotify(err);
     }

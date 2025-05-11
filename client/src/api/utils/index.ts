@@ -3,6 +3,8 @@ import { setNotification } from '../../store/notificationStore';
 
 interface ApiResponse {
   message?: string;
+  title?: string;
+  errors?: Record<string, string[]>;
 }
 
 export const handleApiNotify = (
@@ -12,9 +14,17 @@ export const handleApiNotify = (
     const err = resOrErr as AxiosError;
     const data = err.response?.data as ApiResponse;
 
+    // image error for creating a post
+    const imageError = data?.errors?.Image?.[0];
+
     setNotification({
       status: err.response?.status || 500,
-      message: data?.message || err.message || 'Unexpected error occurred.',
+      message:
+        imageError ||
+        data?.message ||
+        data?.title ||
+        err.message ||
+        'Unexpected error occurred.',
       type: 'error',
     });
   } else if ((resOrErr as AxiosResponse)?.status) {
