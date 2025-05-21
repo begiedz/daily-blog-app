@@ -92,7 +92,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
-        policy => policy.WithOrigins("http://localhost:5173") // Adres frontendu
+        policy => policy.WithOrigins("http://localhost:5173" , "https://daily-blog-app.onrender.com") // Adres frontendu
                         .AllowAnyMethod()
                         .AllowAnyHeader());
 });
