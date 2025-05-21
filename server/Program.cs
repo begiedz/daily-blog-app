@@ -101,6 +101,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.WebHost.UseUrls("http://0.0.0.0:" + (Environment.GetEnvironmentVariable("PORT") ?? "5000"));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -114,7 +116,7 @@ app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 
 app.UseCors("AllowReactApp");
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
