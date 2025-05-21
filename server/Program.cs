@@ -92,10 +92,14 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp",
-        policy => policy.WithOrigins("http://localhost:5173" , "https://daily-blog-app.onrender.com") // Adres frontendu
-                        .AllowAnyMethod()
-                        .AllowAnyHeader());
+        policy => policy.WithOrigins(
+            "http://localhost:5173", // do lokalnych testów
+            "https://bgdz-daily-blog.vercel.app" // produkcyjny frontend
+        )
+        .AllowAnyMethod()
+        .AllowAnyHeader());
 });
+
 
 builder.Services.AddAuthorization();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
