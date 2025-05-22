@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { IPost } from '../types';
-import config from '../appconfig.json';
+import { serverUrl } from '../utils/config';
 import { handleApiNotify } from './utils';
 
 export const getAllPosts = async (): Promise<IPost[]> => {
@@ -11,7 +11,7 @@ export const getAllPosts = async (): Promise<IPost[]> => {
 
     while (pageNumber <= totalPages) {
       const response = await axios.get(
-        `${config.serverUrl}/Blog/all-posts?pageNumber=${pageNumber}`,
+        `${serverUrl}/Blog/all-posts?pageNumber=${pageNumber}`,
       );
       const { posts, pagination } = response.data;
 
@@ -33,7 +33,7 @@ export const getAllPosts = async (): Promise<IPost[]> => {
 export const getMyPosts = async () => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`${config.serverUrl}/Blog/my-posts`, {
+    const response = await axios.get(`${serverUrl}/Blog/my-posts`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -48,7 +48,7 @@ export const getMyPosts = async () => {
 export const getPosts = async (pageNumber = 1, pageSize = 7) => {
   try {
     const response = await axios.get(
-      `${config.serverUrl}/Blog/all-posts?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      `${serverUrl}/Blog/all-posts?pageNumber=${pageNumber}&pageSize=${pageSize}`,
     );
     console.log('getPosts response: ', response.data);
     return {
@@ -63,7 +63,7 @@ export const getPosts = async (pageNumber = 1, pageSize = 7) => {
 
 export const getPost = async (slug: string) => {
   try {
-    const response = await axios.get(`${config.serverUrl}/Blog/${slug}`);
+    const response = await axios.get(`${serverUrl}/Blog/${slug}`);
     return response.data;
   } catch (err) {
     handleApiNotify(err);
@@ -73,14 +73,11 @@ export const getPost = async (slug: string) => {
 export const deletePost = async (id: number) => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.delete(
-      `${config.serverUrl}/Blog/delete-post/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    const response = await axios.delete(`${serverUrl}/Blog/delete-post/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-    );
+    });
     if (response.status !== 200 || response.data.error) {
       throw new Error(response.data.error || 'Failed to delete the post.');
     }
@@ -95,7 +92,7 @@ export const sendPost = async (postToSend: object) => {
   const token = localStorage.getItem('token');
   try {
     const response = await axios.post(
-      `${config.serverUrl}/Blog/create-post`,
+      `${serverUrl}/Blog/create-post`,
       postToSend,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -111,7 +108,7 @@ export const updatePost = async (id: number, updatedValues: object) => {
   const token = localStorage.getItem('token');
   try {
     const response = await axios.put(
-      `${config.serverUrl}/Blog/update-post/${id}`,
+      `${serverUrl}/Blog/update-post/${id}`,
       updatedValues,
       {
         headers: {
