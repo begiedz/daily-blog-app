@@ -1,10 +1,10 @@
 import axios from 'axios';
-import config from '../appconfig.json';
+import { serverUrl } from '../utils/config';
 import { handleApiNotify } from './utils';
 
 export const loginRequest = async (username: string, password: string) => {
   try {
-    return await axios.post(`${config.serverUrl}/Auth/login`, {
+    return await axios.post(`${serverUrl}/Auth/login`, {
       username,
       password,
     });
@@ -19,7 +19,7 @@ export const registerRequest = async (
   password: string,
 ) => {
   try {
-    return await axios.post(`${config.serverUrl}/Auth/register`, {
+    return await axios.post(`${serverUrl}/Auth/register`, {
       username,
       email,
       password,
