@@ -108,7 +108,7 @@ namespace DailyBlogApp.Tests
                 Excerpt = "short"
             };
 
-            await _blogService.UpdatePostAsync(1, request, 1, "user");
+            await _blogService.UpdatePostAsync(1, request, 1, "user", "userName");
 
             var updated = await _context.Posts.FindAsync(1);
             updated.Title.Should().Be("Updated Title");
@@ -127,7 +127,7 @@ namespace DailyBlogApp.Tests
             };
 
             Assert.ThrowsAsync<ForbiddenException>(() =>
-                _blogService.UpdatePostAsync(1, request, 99, "user"));
+                _blogService.UpdatePostAsync(1, request, 99, "user", "userName"));
         }
 
         [Test]
