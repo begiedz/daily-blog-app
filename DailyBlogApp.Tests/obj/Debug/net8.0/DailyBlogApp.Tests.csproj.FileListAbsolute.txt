@@ -1,4 +1,10 @@
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\CoverletSourceRootsMapping_DailyBlogApp.Tests
+C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.csproj.AssemblyReference.cache
+C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.AssemblyInfoInputs.cache
+C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.AssemblyInfo.cs
+C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.csproj.CoreCompileInputs.cache
+C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.sourcelink.json
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\testhost.dll
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\daily-blog-app.deps.json
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\daily-blog-app.runtimeconfig.json
@@ -21,6 +27,7 @@ C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\Azure.Storage.Blobs.dll
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\Azure.Storage.Common.dll
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\FluentAssertions.dll
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\FluentValidation.dll
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
@@ -161,16 +168,9 @@ C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\daily-blog-app.dll
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\daily-blog-app.pdb
-C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.csproj.AssemblyReference.cache
-C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.AssemblyInfoInputs.cache
-C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.AssemblyInfo.cs
-C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.csproj.CoreCompileInputs.cache
-C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.sourcelink.json
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlo.08EC1B52.Up2Date
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.dll
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\refint\DailyBlogApp.Tests.dll
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.pdb
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\DailyBlogApp.Tests.genruntimeconfig.cache
 C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\obj\Debug\net8.0\ref\DailyBlogApp.Tests.dll
-C:\Users\48734\source\repos\daily-blog-app3\DailyBlogApp.Tests\bin\Debug\net8.0\FluentAssertions.dll

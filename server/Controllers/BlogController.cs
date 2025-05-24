@@ -90,8 +90,8 @@ namespace daily_blog_app.Controllers
 
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
             var role = User.FindFirstValue(ClaimTypes.Role)!;
-
-            await _postService.UpdatePostAsync(id, request, userId, role);
+            var userName = HttpContext.User.Identity.Name;
+            await _postService.UpdatePostAsync(id, request, userId, role, userName);
 
             return Ok(new { message = "Post updated successfully." });
         }

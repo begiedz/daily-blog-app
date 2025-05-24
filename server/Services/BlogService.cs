@@ -116,7 +116,7 @@ namespace daily_blog_app.Services
             .ToList();
         }
 
-        public async Task UpdatePostAsync(int postId, PostRequest request, int userId, string role)
+        public async Task UpdatePostAsync(int postId, PostRequest request, int userId, string role, string userName)
         {
             var post = await _context.Posts.FindAsync(postId);
             if (post == null) throw new NotFoundException("Post not found.");
@@ -131,7 +131,7 @@ namespace daily_blog_app.Services
             post.Content = request.Content;
             post.Tags = request.Tags;
             post.ModifiedAt = DateTime.UtcNow;
-            post.ModifiedBy = role == "admin" ? "admin" : post.User.Name;
+            post.ModifiedBy = role == "admin" ? "admin" : userName;
 
             await _context.SaveChangesAsync();
         }
