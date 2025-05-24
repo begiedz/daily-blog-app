@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { authStore } from '../store/authStore';
 import { handleLogout } from '../auth';
 
@@ -7,6 +7,7 @@ interface IProfileProps {
 }
 
 const Profile = ({ setIsChecked }: IProfileProps) => {
+  const navigate = useNavigate();
   const { user } = authStore.state;
 
   return (
@@ -17,7 +18,7 @@ const Profile = ({ setIsChecked }: IProfileProps) => {
             Logged in as <span className="font-bold">{user.name}</span>
           </p>
           <button
-            onClick={handleLogout}
+            onClick={() => handleLogout(navigate)}
             className="btn bg-base-content text-base-100"
           >
             Log out
