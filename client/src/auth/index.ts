@@ -1,6 +1,7 @@
 import { jwtDecode } from 'jwt-decode';
 import { loginRequest, registerRequest } from '../api/authApi';
 import { authStore, setUserState } from '../store/authStore';
+import { NavigateFunction } from 'react-router-dom';
 import {
   IHandleLoginProps,
   IHandleRegisterProps,
@@ -67,12 +68,12 @@ export const authOnEntry = () => {
   }
 };
 
-export const handleLogout = () => {
+export const handleLogout = (navigate: NavigateFunction) => {
   authStore.setState(prevState => ({
     ...prevState,
     user: null,
     isAuthenticated: false,
   }));
   localStorage.removeItem('token');
-  window.location.reload();
+  navigate('/', { replace: true });
 };
